@@ -1,0 +1,21 @@
+package com.task.service;
+
+import com.task.model.TaskVO;
+import com.common.framework.base.BaseService;
+import com.common.framework.util.PageBean;
+import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
+
+/**
+ * 任务service
+ *
+ * @author BoSongsh
+ * @create 2018-04-23 14:52
+ **/
+public interface ITaskService extends BaseService<TaskVO> {
+
+    ResponseJson edit(TaskVO task);
+
+    PagedResult<TaskVO> query(PageBean pageBean, TaskVO task);
+
+}
