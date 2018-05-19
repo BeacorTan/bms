@@ -4,7 +4,7 @@ import com.common.framework.base.BaseModel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 /**
- * 才米客服系统配置
+ * 系统配置
  * @author XingyuLi
  *
  */
