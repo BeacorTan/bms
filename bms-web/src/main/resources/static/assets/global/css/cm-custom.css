@@ -1,0 +1,229 @@
+.home-affair, .home-affair tr {
+    width: 100%;
+}
+
+.home-affair tr > td {
+    width: 50%;
+    padding: 5px;
+    color: #82949a;
+}
+
+.home-affair tr {
+    border-bottom: 1px solid #e7ecf1;
+    height: 45px;
+}
+
+.home-affair tr > td a {
+    margin-left: 15px;
+}
+
+.call-item {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    border-radius: 50px !important;
+    font-size: 20px;
+    color: #FFF;
+}
+
+.call-item-blue {
+    background-color: #3598dc;
+}
+
+.call-item-red {
+    background-color: #e35b5a;
+}
+
+.call-item-green {
+    background-color: #44b6ae;
+}
+
+.call-item-purple {
+    background-color: #8775a7;
+}
+
+.circular-icon {
+    color: #FFF;
+    position: absolute;
+    font-size: 50px;
+    z-index: 1;
+    opacity: .1;
+    filter: alpha(opacity=10);
+}
+
+.call-item h6 {
+    color: #333;
+}
+
+.form-unit {
+    font-size: 15px;
+    font-style: oblique;
+    color: #6379bb;
+    border-bottom: 1px solid #ddd;
+    margin: 8px 10px 25px 10px;
+    padding-bottom: 5px;
+}
+
+.table-bordered td > .row-btn:hover {
+    /*元素放大*/
+    transform: scale(1.3, 1.3);
+}
+
+.table-bordered a {
+    font-size: 15px;
+    margin: 2px 8px 2px 6px;
+    display: block;
+    float: left;
+}
+
+.table-bordered a > .fa-pencil {
+    color: #69aa46;
+}
+
+.form-buttons {
+    padding-bottom: 15px;
+    padding-bop: 5px;
+}
+
+.table-bordered a > .fa-trash-o {
+    color: #dd5a43;
+}
+
+.sms-template > span {
+    width: 14px;
+    display: block;
+    height: 16px;
+    position: absolute;
+    right: -20px;
+    top: 7px;
+    cursor: pointer;
+}
+
+.sms-template-collapse {
+    background-image: url(../img/portlet-collapse-icon.png) !important;
+}
+
+.sms-template-expand {
+    background-image: url(../img/portlet-expand-icon.png) !important;
+}
+
+.cmmp_circle_btn, .cmmp_circle_wechat_btn, .cmmp_circle_sms_btn {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border: 2px solid #c3b1b1;
+    border-radius: 25px !important;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+}
+
+.cmmp_circle_btn {
+    background-image: url("../img/icons/mobile.png");
+}
+
+.cmmp_circle_wechat_btn {
+    background-image: url("../img/icons/weChat.png");
+}
+
+.cmmp_circle_sms_btn {
+    background-image: url("../img/icons/sms.png");
+}
+
+.cmmg_flag {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    background-color: #cef593;
+    /*background-image: url("../img/icons/sms.png");*/
+    border-radius: 20px !important;
+    position: absolute;
+}
+
+.cmmg_list_right {
+    list-style-image: url("../img/icons/right.png");
+}
+
+.cmmg_list_circular_red {
+    list-style-image: url("../img/icons/circular_red.png");
+}
+
+.cmmg_list_circular_yellow {
+    list-style-image: url("../img/icons/circular_yellow.png");
+    /*border-bottom: 1px solid #e8e6e6;
+    width: 97%;
+    padding: 10px 0px;*/
+}
+
+/*sweet-alert边框圆角设置*/
+
+.sweet-alert {
+    border-radius: 6px !important;
+}
+
+/*bootstrap-input样式优化开始*/
+.file-drop-zone {
+    border: 1px dashed #36C6D3;
+}
+
+.file-preview {
+    border: 1px solid #eee;
+}
+
+.kv-fileinput-caption {
+    border: 1px solid #eee;
+}
+
+.file-caption-name {
+    color: #32c5d2;
+}
+
+/*bootstrap-input样式优化结束*/
+
+/**添加部门底部按钮位置*/
+.cm-footer-style {
+    right: 70px;
+    bottom: 20px;
+    position: fixed;
+}
+
+/* 类似部门管理左右结构这样的样式开始 */
+.todo-sidebar {
+    float: left;
+    width: 230px;
+    margin-right: 20px;
+}
+
+.todo-content {
+    overflow: hidden;
+}
+
+.todo-text-color {
+    color: #45535b;
+}
+
+/* END TASK BODY */
+/* RESPONSIVE MODE */
+@media (max-width: 991px) {
+    /* 991px */
+    .todo-sidebar {
+        float: none;
+        width: 100%;
+        margin: 0;
+    }
+
+    .todo-sidebar > .portlet {
+        margin-bottom: 20px;
+    }
+
+    .todo-sidebar > .portlet .portlet-title .tools {
+        margin-left: 5px;
+    }
+
+    .todo-content {
+        overflow: visible;
+    }
+}
+
+/* 类似部门管理左右结构这样的样式开始 */

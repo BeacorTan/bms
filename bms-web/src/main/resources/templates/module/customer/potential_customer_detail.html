@@ -1,0 +1,195 @@
+<form class="form-horizontal" style="margin-top: 13px;">
+    <div class="container row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label col-md-4">姓名&nbsp;<i class="fa fa-user"></i>&nbsp;</label>
+                <label class="control-label col-md-5" style="font-weight:bold;"
+                       th:text="${customerNotNo.customerName}"></label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label col-md-4">手机&nbsp;<i class="fa fa-mobile-phone"></i>&nbsp;</label>
+                <label class="control-label col-md-5" style="font-weight:bold;"
+                       th:text="${customerNotNo.customerMobile}"></label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-sm btn-success"
+                    th:attr="id='potential_call_btn'+${customerNotNo.customerMobile}">呼叫
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="container" style="width: 100%;">
+    <div class="row">
+        <div class="col-md-4">
+            <p th:attr="id='potential_customer_addOperateRecord'+${customerNotNo.customerMobile}"
+               style="color: #a7a1a1;font-size: 15px;cursor: default;"><i
+                    class="fa fa-plus-square"></i>&nbsp;&nbsp;点击添加备注</p>
+        </div>
+    </div>
+    <form th:attr="id='potential_customer_OperateForm'+${customerNotNo.customerMobile}" style="display: none;">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" name="marks" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <select name="operateStatus" class="form-control" style="font-size: .9em;">
+                    <option value="">选择</option>
+                    <option value="关机">关机</option>
+                    <option value="停机">停机</option>
+                    <option value="无人接听">无人接听</option>
+                    <option value="拒接">拒接</option>
+                    <option value="已接通">已接通</option>
+                    <option value="空号">空号</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-sm btn-circle green btn-outline sbold"
+                   th:attr="id='potential_customer_submit_btn'+${customerNotNo.customerMobile}">
+                    <i class="fa fa-search"></i> 提交 </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table th:attr="id='potential_customer_operate_record_table'+${customerNotNo.customerMobile}"
+       data-click-to-select="true"
+       class="table table-bordered"
+       data-page-size="20">
+    <thead>
+    <tr>
+        <th data-field="marks">跟进内容</th>
+        <th data-field="createDate">记录时间</th>
+        <th data-field="operateStatus">状态</th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    jQuery(document).ready(function () {
+
+        /*<![CDATA[*/
+        var mobile = '[[${customerNotNo.customerMobile}]]';
+        /*]]>*/
+
+
+        $("#potential_call_btn" + mobile).click(function () {
+            var $that = $(this);
+            console.info("潜在客户呼叫，mobile:" + mobile);
+            if ($that.html() === "呼叫") {
+                $that.html("挂断");
+                $that.removeClass("green");
+                $that.addClass("red");
+                //呼叫外线
+                if (mobile) {
+                    try {
+//                        var groups = wincall.fn_get_que();
+//                        var callers = wincall.fn_get_caller();
+                        var callParams=CommonUtils.getCallParams();
+                        wincall.fn_dialouter(mobile, callParams["call"], callParams["group"]);
+                    } catch (err) {
+                        console.error(err);
+                        CM_Components.layerMsg("呼叫失败，请检查电话配置");
+                        $that.html("呼叫");
+                        $that.removeClass("red");
+                        $that.addClass("green");
+                    }
+                } else {
+                    console.error("手机号码为空！")
+                }
+            } else {
+                $that.html("呼叫");
+                $that.removeClass("red");
+                $that.addClass("green");
+                wincall.fn_hangup();
+            }
+        });
+
+        var $potential_customer_OperateForm_id="potential_customer_OperateForm" + mobile;
+
+        var $potential_customer_OperateForm = $("#"+$potential_customer_OperateForm_id);
+        $("#potential_customer_addOperateRecord" + mobile).click(function () {
+            var c = $potential_customer_OperateForm.css("display");
+            if ("none" === c) {
+                $potential_customer_OperateForm.css("display", "block");
+            } else {
+                $potential_customer_OperateForm.css("display", "none");
+            }
+        });
+
+        var $potential_customer_operate_record_table = $("#potential_customer_operate_record_table" + mobile);
+
+        $("#potential_customer_submit_btn" + mobile).click(function () {
+
+            var params = CommonUtils.getFormData($potential_customer_OperateForm_id);
+            if (!params) {
+                CM_Components.layerMsg("请输入跟进信息！");
+                return;
+            }
+            params["mobile"] = mobile;
+            console.info("添加跟进", params);
+            $.ajax({
+                url: CM_Components.getContextAll("/operate/operateRecord"),
+                type: "POST",
+                async: false,
+                data: JSON.stringify(params),
+                contentType: 'application/json',
+                success: function (result) {
+                    $potential_customer_operate_record_table.bootstrapTable('refresh');
+                    $potential_customer_OperateForm.css("display", "none");
+                    CommonUtils.reset($potential_customer_OperateForm_id);
+                    CM_Components.layerMsg("添加成功");
+                },
+                error: function (xhr, status, error) {
+                    CM_Components.layerMsg("添加失败！");
+                }
+            });
+
+        });
+
+        // 数据网格框架：bootstrap table
+        $potential_customer_operate_record_table.bootstrapTable({
+            // search: true,
+            method: 'get',
+            url: CM_Components.getContextAll("/operate/queryOperate?mobile=" + mobile),
+            cache: false,
+            dataType: "json",
+            striped: false,	 //使表格带有条纹
+            sortable: true,
+            pagination: true, //在表格底部显示分页工具栏
+            pageSize: 10,
+            pageNumber: 1,
+            pageList: [10, 15, 20],
+            idField: "id",
+            showToggle: false,   //名片格式
+            cardView: false,//设置为True时显示名片（card）布局
+            singleSelect: false,//复选框只能选择一条记录
+            search: false,//是否显示右上角的搜索框
+            clickToSelect: true,//点击行即可选中单选/复选框
+            sidePagination: "server",//表格分页的位置
+            queryParamsType: "",
+            strictSearch: true,
+            showColumns: false,     //是否显示所有的列
+            showRefresh: false,     //是否显示刷新按钮
+            minimumCountColumns: 2,    //最少允许的列数
+            responseHandler: function (res) {
+                return {
+                    "rows": res.dataList,
+                    "total": res.total
+                };
+            },
+            silent: true,  //刷新事件必须设置
+            formatNoMatches: function () {  //没有匹配的结果
+                return '无符合条件的记录';
+            },
+            rowStyle: function (row, index) {
+                return {classes: "cursorHand"}
+            }
+        });
+    });
+</script>

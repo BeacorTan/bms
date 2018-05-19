@@ -1,0 +1,207 @@
+<link th:href="@{/assets/global/plugins/layDate/theme/default/laydate.css}" rel="stylesheet" type="text/css"/>
+
+<style type="text/css">
+    .input-line {
+        border-bottom: 1px solid #e7ecf1;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        height: 30px;
+        padding: 5px;
+        outline: none;
+        width: 100%;
+    }
+
+    .form-item {
+        margin-top: 30px;
+        color: #757575;
+    }
+
+    .form-item-label {
+        color: #73879C;
+        font-weight: bold;
+    }
+
+    .form-item > .btn {
+        margin: 0px 10%;
+    }
+
+    .task-item {
+        width: 100%;
+        border-bottom: 2px solid #e7ecf1;
+        font-size: 22px;
+        font-weight: bold;
+        color: #73879C;
+        padding-bottom: 5px;
+    }
+
+    .customer-name {
+        font-size: 17px;
+        cursor: default;
+        color: #32c5d2;
+        font-weight: bold;
+        border-top: 1px solid #dddddd;
+        padding-top: 15px;
+    }
+
+</style>
+
+<div class="container" style="width: 100%;">
+    <div class="row">
+        <div class="col-md-2">
+            <form id="task_query_search_form">
+                <div class="form-item">
+                    <input name="taskName" type="text" class="input-line" placeholder="任务标题">
+                </div>
+                <!-- <div class="form-item">
+                     <label class="form-item-label">任务类型</label>
+                     <select name="taskType" class="input-line">
+                         <option value="">全部</option>
+                         <option value="">1</option>
+                         <option value="">2</option>
+                     </select>
+                 </div>-->
+                <div class="form-item">
+                    <label class="form-item-label">任务状态</label>
+                    <select id="task_query_status_selector" code="TASK_STATUS" name="taskStatus" class="input-line"/>
+                </div>
+                <div class="form-item">
+                    <label class="form-item-label">开始时间</label>
+                    <input name="beginDate" type="text" class="input-line" placeholder="请选择日期" id="test1">
+                </div>
+                <div class="form-item">
+                    <label class="form-item-label">结束时间</label>
+                    <input name="endDate" type="text" class="input-line" placeholder="请选择日期" id="test2">
+                </div>
+            </form>
+            <div class="form-item">
+                <button id="task_user_search_btn" type="button" class="btn btn-success btn-sm">查询</button>
+                <button onclick="CommonUtils.reset('task_query_search_form')" type="button" class="btn btn-default btn-sm">重置
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <table  data-classes="table table-no-bordered" data-form="task_query_search_form"
+                   id="cmmg_task_user_table">
+                <thead>
+                <tr>
+                    <th data-field="userNo" data-visible="false">id</th>
+                    <th data-field="userName">客户姓名</th>
+                    <th data-field="updateDate" data-sortable="true">最近联系</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-7">
+            <div class="task-item">任务项</div>
+
+            <table  data-classes="table table-no-bordered"data-pagination="false"
+                   id="cmmg_task_list_table">
+                <thead>
+                <tr>
+                    <th data-field="taskName">任务名称</th>
+                    <th data-field="remarks">任务描述</th>
+                    <th data-field="beginDate" data-sortable="true">任务开始时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-md-offset-5">
+            <input id="task_query_user_no" type="hidden">
+            <div class="customer-name" title="点击查看客户详情" id="customer-name"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    laydate.render({
+        elem: '#test1'
+        , range: true
+    });
+    laydate.render({
+        elem: '#test2'
+        , range: true
+    });
+
+    var $task_query_user_no = $("#task_query_user_no");
+    var $customer_name = $("#customer-name");
+
+    $customer_name.click(function () {
+        var userNo = $task_query_user_no.val();
+        var userName = $(this).html();
+
+        var t = "客户";
+        if (userName && userName !== 'null') {
+            t = t + "<span style='font-weight: bolder;color: #27a4b0;'>【" + userName + "】</span>"
+        }
+        $.addtabs.add({
+            'id': userNo,
+            'title': t,
+//            'content': userNo,
+            'url': CM_Components.getContextAll("/customer/mobile/detail?userNo=" + userNo),
+            'ajax': true
+        });
+    });
+
+    CM_Components.dictDataBinding("task_query_status_selector");
+    var $cmmg_task_user_table = $("#cmmg_task_user_table");
+    var tabUrl = CM_Components.getContextAll("/task/query/queryUser");
+    CM_Components.initBootStrapTable($cmmg_task_user_table, tabUrl);
+
+    var $cmmg_task_list_table = $("#cmmg_task_list_table");
+
+    $cmmg_task_list_table.bootstrapTable({
+        method: 'get',
+        cache: false,
+        dataType: "json",
+        sortable: true,
+        pagination: false,
+        pageSize: 20,
+        pageNumber: 1,
+        pageList: [10, 15, 20],
+        idField: "id",
+        showToggle: false,   //名片格式
+        cardView: false,//设置为True时显示名片（card）布局
+        singleSelect: false,//复选框只能选择一条记录
+        search: false,//是否显示右上角的搜索框
+        sidePagination: "server",//表格分页的位置
+        queryParamsType: "", //参数格式,发送标准的RESTFul类型的参数请求
+        strictSearch: true,
+        showColumns: false,     //是否显示所有的列
+        showRefresh: false,     //是否显示刷新按钮
+        minimumCountColumns: 2,    //最少允许的列数
+        checkbox: true,
+        responseHandler: function (res) {
+            return {
+                "rows": res.dataList,
+                "total": res.total
+            };
+        }
+    });
+
+
+    $cmmg_task_user_table.on('click-row.bs.table', function (e, row, element) {
+        var userNo = row.userNo;
+        $task_query_user_no.val(userNo);
+        $customer_name.html(row.userName);
+//        $(element).css({"background-color":"#e7ecf19e"});
+        $cmmg_task_list_table.bootstrapTable('refresh', {
+            url: CM_Components.getContextAll("/task/distribution/query?userNo=" + userNo)/*,
+            query: CommonUtils.getFormData("dictDataSearchForm")*/
+        });
+    });
+
+    $("#task_user_search_btn").click(function () {
+        $cmmg_task_user_table.bootstrapTable("refresh", {
+            query: CM_Components.getFormData("task_query_search_form")
+        });
+    });
+</script>

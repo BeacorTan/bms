@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cl.cm.base.role.mapper.RoleMapper">
+    <resultMap type="com.cl.cm.base.role.model.Role" id="roleResultMap">
+        <id column="ID" property="id"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="ROLE_NAME" property="roleName"/>
+        <result column="ROLE_CODE" property="roleCode"/>
+        <result column="REMARKS" property="remarks"/>
+    </resultMap>
+
+    <sql id="querySql">
+        ID,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE,ROLE_NAME,ROLE_CODE,REMARKS
+    </sql>
+
+    <select id="selectListByRole" parameterType="com.cl.cm.base.role.model.Role" resultMap="roleResultMap">
+        select
+        <include refid="querySql"/>
+        From T_SYS_role r
+        WHERE
+        r.ACTIVE_FLAG=1
+        <if test="roleName != null and roleName !='' ">
+            and r.role_name = #{roleName}
+        </if>
+        <if test="roleCode != null and roleCode != '' ">
+            and r.role_code = #{roleCode}
+        </if>
+    </select>
+
+    <resultMap type="com.cl.cm.base.user.model.UserRoleVO" id="UserRoleResultMap">
+        <result column="ROLE_NAME" property="roleName"/>
+        <result column="ROLE_CODE" property="roleCode"/>
+        <result column="STATE" property="state"/>
+    </resultMap>
+
+
+    <select id="selectListByLoginName" resultMap="UserRoleResultMap">
+        select r.ROLE_NAME,r.ROLE_CODE
+        <if test="loginName!=null and loginName.length()>0">
+            ,NVL2(ur.role_code,1,0) STATE
+        </if>
+        From T_SYS_role r
+        <if test="loginName!=null and loginName.length()>0">
+            left join (
+            select role_code From T_SYS_user_role where login_name=#{loginName} and ACTIVE_FLAG = 1) ur
+            on ur.role_code = r.role_code
+        </if>
+        WHERE
+        r.ACTIVE_FLAG=1
+    </select>
+
+</mapper>

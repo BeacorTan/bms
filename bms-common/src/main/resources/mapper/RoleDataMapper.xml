@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cl.cm.base.role.mapper.RoleDataMapper">
+
+    <resultMap id="RoleDataResultMap" type="com.cl.cm.base.role.model.RoleData">
+        <id column="ID" property="id"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="ROLE_CODE" property="roleCode"/>
+        <result column="CTRL_TYPE" property="ctrlType"/>
+        <result column="CTRL_DATA" property="ctrlData"/>
+    </resultMap>
+
+    <select id="selectByLoginName" resultMap="RoleDataResultMap">
+        SELECT RD.CTRL_TYPE,RD.CTRL_DATA
+        FROM T_SYS_ROLE_DATA RD
+        INNER JOIN T_SYS_USER_ROLE UR
+        ON UR.ROLE_CODE = RD.ROLE_CODE
+        WHERE UR.LOGIN_NAME = #{loginName}
+        AND RD.ACTIVE_FLAG = 1
+        AND UR.ACTIVE_FLAG = 1
+    </select>
+
+</mapper>

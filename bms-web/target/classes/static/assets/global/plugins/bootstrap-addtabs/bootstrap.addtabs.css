@@ -1,0 +1,61 @@
+/*
+    Created on : 2015-8-11, 16:18:09
+    Author     : joe
+*/
+
+.close-tab {
+    font-size: 10px;
+    position:absolute;
+    right: 5px;
+    top: 5px;
+    padding-left: 7px;
+    z-index: 100;
+    cursor: hand;
+    cursor: pointer;
+    color: #94A6B0;
+}
+
+.nav-tabs {position: relative;border-bottom:0px;}
+.nav-tabs li{position: relative;margin-bottom:0px;}
+.nav-tabs li>a:hover{background-color: white;color: #32c5d2;}
+.nav-tabs>li.active>a{
+    color: #32c5d2!important;
+    font-weight: bold;
+    border-bottom: 2px solid #32c5d2!important;
+}
+.nav-tabs li>a{border:0px!important;cursor:pointer!important;color: #888;
+    font-size:13px!important;}
+
+.iframeClass {
+    z-index: 1;
+    visibility: inherit;
+    width: 100%;
+    frameborder: 'no';
+    border: 0;
+    marginwidth: 0;
+    marginheight: 0;
+    scrolling-x: 'no';
+    scrolling-y: auto;
+    allowtransparency: true;
+}
+
+.tab-drop {
+    margin-right: 30px;
+}
+
+.rightMenu {
+    position: absolute;
+    width: 150px;
+    z-index: 99;
+    display: none;
+}
+
+.dragBack {
+    background-color: #ddd;
+}
+.cm-addtabas-custom{
+    border:0px;
+}
+.cm-addtabs-vertical-line{
+    margin-left:-18px;margin-right: 12px;
+}

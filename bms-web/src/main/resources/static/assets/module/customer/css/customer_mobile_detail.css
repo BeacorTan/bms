@@ -1,0 +1,155 @@
+.cmmp_customer_mobile_detail_container {
+    position: relative;
+    margin: 10px 0px 0px 0px;
+}
+
+.cmmp_customer_mobile_detail_call {
+   /* margin-top: 100px;*/
+    position: absolute;
+    top: 0px;
+   /* right: -97px;*/
+    /*height: 400px;*/
+    /*width: 24%;*/
+}
+
+.cmmp_customer_mobile_detail_grade {
+    border-radius: 10px !important;
+    background-color: #65d095;
+    width: 30px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cmmp_add_marks {
+    font-size: 25px;
+    border: 1px solid #a7a1a1;
+    width: 25px;
+    text-align: center;
+    height: 25px;
+    line-height: 23px;
+    border-radius: 22px !important;
+    color: #a7a1a1;
+    cursor: pointer;
+}
+
+.customer_mobile_detail_marks_submit {
+    padding: 4px 6px;
+    border: 1px solid green;
+    margin-left: 15px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    cursor: pointer
+}
+
+.cmmp_customer_mobile_detail_data_table {
+    text-align: left;
+}
+
+.customer_mobile_detail_data table td {
+    height: 30px;
+}
+
+.cmmp_customer_mobile_detail_data_table_title {
+    color: #98999c;
+}
+
+.cmmp_customer_mobile_detail_data_table_content {
+    color: #424040;
+}
+
+/*    #cmmp_customer_mobile_follow_up_info {
+        border: 1px solid #eaeaea;
+        width: 1px;
+    }*/
+
+.task_content {
+    border-bottom: 1px solid #e8e6e6;
+    width: 97%;
+    padding: 20px 0px;
+}
+
+.cmmg_money {
+    font-weight: bolder;
+    font-size: 14px;
+    color: black;
+}
+
+.cmmg_money_1 {
+    font-weight: bolder;
+    font-size: 14px;
+    color: #5d5656;
+}
+
+.customer_mobile_detail_invest .row table tr {
+    border-bottom: 1px solid #e8e6e6;
+}
+
+.customer_mobile_detail_invest .row table tr td, .customer_mobile_detail_invest .row table tr th {
+    padding-bottom: 12px;
+    padding-top: 12px;
+}
+
+.customer_mobile_detail_invest form table tr td {
+    padding: 8px 0px;
+}
+
+.customer_mobile_detail_invest {
+    color: #98999c;
+}
+
+.cmmg-common-table {
+    color: black;
+}
+
+.customer_mobile_detail_invest p {
+    margin: 10px 0;
+}
+
+.sms-send tr td {
+    padding: 10px 13px;
+}
+
+.sms-template {
+    border-bottom: 1px solid #bad1e4;
+    position: relative;
+}
+
+.sms-template > p {
+    margin: 6px 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+
+.sms-template input {
+    border: 0px;
+    padding: 2px 2px;
+}
+
+.sms-template-content {
+    z-index: 20;
+    width: 200px;
+    position: absolute;
+    background-color: white;
+    border-left: 1px solid #dad6d6;
+    /*border-bottom: 1px solid #dad6d6;*/
+    border-right: 1px solid #dad6d6;
+    top: 26px;
+}
+
+.sms-template-content > p {
+    margin: 0px 0px;
+    padding: 8px 2px;
+    border-bottom: 1px solid #dad6d6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.sms-template-content > p:hover {
+    background-color: #65d095;
+}

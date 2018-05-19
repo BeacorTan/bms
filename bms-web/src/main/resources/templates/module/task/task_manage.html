@@ -1,0 +1,244 @@
+<div class="container row">
+    <div class="col-md-1 col-xs-2">
+        <button id="cmmg_task_add_btn" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+        </button>
+    </div>
+    <div class="col-md-1 col-xs-2">
+        <button id="cmmg_task_update_btn" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+        </button>
+    </div>
+    <div class="col-md-1 col-xs-2">
+        <button id="cmmg_task_import_btn" type="button" class="btn btn-default btn-sm"><i class="fa fa-upload"></i>&nbsp;导入
+        </button>
+    </div>
+    <div class="col-md-1 col-xs-2">
+        <button id="cmmg_task_remove_btn" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+        </button>
+    </div>
+</div>
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <div id="task_import_form" class="row" hidden>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input id="task_file_name" type="file" name="fileName">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button id="task_file_upload_btn" type="button" class="btn btn-primary btn-sm"><i
+                        class="fa fa-upload"></i>&nbsp;提交
+                </button>
+            </div>
+        </div>
+        <form class="form-horizontal" id="cmmg_task_search_form">
+            <input type="hidden" name="id" th:value="${task!=null?task.id:''}"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">任务名称&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" name="taskName" class="form-control"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">任务类型&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" name="taskType" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3" style="text-align: right;">
+                        <label class="control-label">任务起止时间&nbsp;:</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="input-group date form_datetime search-date">
+                            <input class="form-control" name="beginDate" type="text" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="control-label">至</label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="input-group date form_datetime search-date">
+                            <input class="form-control" type="text" name="endDate" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-6 col-lg-offset-10 col-md-offset-10 col-md-offset-6">
+                    <div class="actions pull-left">
+                        <a id="cmmg_task_searchBtn" class="btn btn-circle green btn-outline sbold btn-sm">
+                            <i class="fa fa-search"></i> 搜索 </a>
+                        <a onclick="CommonUtils.reset('cmmg_task_search_form')"
+                           class="btn btn-circle green btn-outline sbold btn-sm">
+                            <i class="fa fa-print"></i> 重置 </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="portlet light portlet-fit">
+    <div class="portlet-body">
+        <table class="table table-striped table-bordered table-hover" data-form="cmmg_task_search_form"
+               id="cmmg_task_table">
+            <thead>
+            <tr>
+                <th data-id-field="id" data-checkbox="true">id</th>
+                <th data-field="taskName">任务名称</th>
+                <th data-field="taskType">任务类型</th>
+                <th data-field="realName" data-formatter="taskDate">任务起止时间</th>
+                <th data-field="createDate">创建时间</th>
+                <th data-field="updateDate">更新时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+
+    function taskDate(val, record, index) {
+
+        if (record) {
+            if (record.beginDate && record.endDate) {
+                var r = '';
+                try {
+                    var beginDate = new Date(Date.parse(record.beginDate.replace(/-/g, "/"))).format("yyyy年MM月dd日");
+                    var endDate = new Date(Date.parse(record.endDate.replace(/-/g, "/"))).format("yyyy年MM月dd日");
+                    r = beginDate + "&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;" + endDate;
+                } catch (e) {
+                    console.error(e);
+                }
+                return r;
+            }
+        }
+        return '';
+    }
+
+    jQuery(document).ready(function () {
+
+        var $cmmg_task_table = $("#cmmg_task_table");
+        var tabUrl = CM_Components.getContextAll("/task/manage/query");
+
+
+        var importBtn = false;// 默认不显示
+        var $task_import_form=$("#task_import_form");
+        $("#cmmg_task_import_btn").click(function () {
+            var $that = $(this);
+            if (importBtn) {
+                $task_import_form.hide();
+                $that.html("<i class=\"fa fa-upload\"></i>&nbsp;导入");
+                importBtn = false;
+            } else {
+                $task_import_form.show();
+                $that.html("<i class=\"fa fa-upload\"></i>&nbsp;隐藏");
+                importBtn = true;
+            }
+        });
+
+
+        CM_Components.initBootStrapTable($cmmg_task_table, tabUrl);
+
+
+        $("#task_file_upload_btn").click(function () {
+
+            var fileObj = document.getElementById("task_file_name").files[0]; // js 获取文件对象
+
+            if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+                CM_Components.layerMsg("请选择要导入excel文件");
+                return;
+            }
+
+            var rows = CM_Components.getTableSelections($cmmg_task_table);
+
+            if (!rows || rows.length == 0) {
+                CM_Components.layerMsg("请选择你要分配的任务");
+                return;
+            }
+
+            if (rows.length > 1) {
+                CM_Components.layerMsg("只能选择一个任务");
+                return;
+            }
+            var formFile = new FormData();
+            formFile.append("file", fileObj); //加入文件对象
+            formFile.append("taskID", rows[0].id);
+
+            $.ajax({
+                url: CM_Components.getContextAll("/task/distribution/upload"),
+                data: formFile,
+                type: "Post",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    $("#task_file_name").val("");
+                    if (result) {
+                        CM_Components.layerMsg(result.msg);
+                    }
+                },
+                error: function (xhr, status, errorMsg) {
+                    console.error(errorMsg);
+                    CM_Components.layerMsg("导入失败");
+                }
+            });
+        });
+
+
+        $("#cmmg_task_add_btn").click(function () {
+            var tabUrl = CM_Components.getContextAll("/task/manage/profile");
+            CommonUtils.addTab("task_edit", "任务编辑", tabUrl);
+
+        });
+
+
+        $("#cmmg_task_searchBtn").click(function () {
+            $cmmg_task_table.bootstrapTable("refresh", {
+                query: CM_Components.getFormData("cmmg_task_search_form")
+            });
+        });
+
+
+        $("#cmmg_task_update_btn").click(function () {
+
+            var rows = CM_Components.getTableSelections($cmmg_task_table);
+
+            if (!rows || rows.length == 0) {
+                CM_Components.layerMsg("请选中一行数据");
+                return;
+            }
+            if (rows.length !== 1) {
+                CM_Components.layerMsg("只能选择一条数据");
+                return;
+            }
+
+            var tabUrl = CM_Components.getContextAll("/task/manage/profile?id=" + rows[0].id);
+            CommonUtils.addTab("task_edit", "任务编辑", tabUrl);
+        });
+
+
+        $("#cmmg_task_remove_btn").click(function () {
+            var delUrl = CM_Components.getContextAll("/task/manage/del");
+            CM_Components.ajaxDeleteTable(delUrl, $cmmg_task_table);
+        });
+
+
+        $('.search-date').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            autoclose: true,
+            minView: 2
+        });
+    });
+</script>
