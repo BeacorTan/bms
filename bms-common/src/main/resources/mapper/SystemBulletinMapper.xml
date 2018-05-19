@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.bulletin.mapper.SystemBulletinMapper">
+<mapper namespace="com.base.bulletin.mapper.SystemBulletinMapper">
 
-    <resultMap type="com.cl.cm.base.bulletin.model.SystemBulletin" id="systemBulletinMap">
+    <resultMap type="com.base.bulletin.model.SystemBulletin" id="systemBulletinMap">
         <id column="ID" property="id"/>
         <result column="BULLETIN_TITLE" property="bulletinTitle"/>
         <result column="RELEASE_CHANNEL" property="releaseChannel"/>
@@ -14,7 +14,7 @@
         <result column="UPDATE_DATE" property="updateDate"/>
     </resultMap>
 
-        <resultMap id="BulletinReadRecordMap" type="com.cl.cm.base.bulletin.model.BulletinReadRecord" extends="systemBulletinMap">
+        <resultMap id="BulletinReadRecordMap" type="com.base.bulletin.model.BulletinReadRecord" extends="systemBulletinMap">
         </resultMap>
 
     <sql id="querySql">
@@ -39,7 +39,7 @@
     </select>
 
 
-    <select id="selectListBySystemBulletin" parameterType="com.cl.cm.base.bulletin.model.SystemBulletin"
+    <select id="selectListBySystemBulletin" parameterType="com.base.bulletin.model.SystemBulletin"
             resultMap="systemBulletinMap">
         select
         <include refid="querySql"/>

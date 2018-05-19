@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.dept.mapper.DepMapper">
+<mapper namespace="com.base.dept.mapper.DepMapper">
 
-    <resultMap id="depResultMap" type="com.cl.cm.base.dept.model.DepartmentVO">
+    <resultMap id="depResultMap" type="com.base.dept.model.DepartmentVO">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
         <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>

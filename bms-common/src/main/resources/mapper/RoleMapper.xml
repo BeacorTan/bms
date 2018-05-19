@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.role.mapper.RoleMapper">
-    <resultMap type="com.cl.cm.base.role.model.Role" id="roleResultMap">
+<mapper namespace="com.base.role.mapper.RoleMapper">
+    <resultMap type="com.base.role.model.Role" id="roleResultMap">
         <id column="ID" property="id"/>
         <result column="ACTIVE_FLAG" property="activeFlag"/>
         <result column="CREATE_BY" property="createBy"/>
@@ -16,7 +16,7 @@
         ID,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE,ROLE_NAME,ROLE_CODE,REMARKS
     </sql>
 
-    <select id="selectListByRole" parameterType="com.cl.cm.base.role.model.Role" resultMap="roleResultMap">
+    <select id="selectListByRole" parameterType="com.base.role.model.Role" resultMap="roleResultMap">
         select
         <include refid="querySql"/>
         From T_SYS_role r
@@ -30,7 +30,7 @@
         </if>
     </select>
 
-    <resultMap type="com.cl.cm.base.user.model.UserRoleVO" id="UserRoleResultMap">
+    <resultMap type="com.base.user.model.UserRoleVO" id="UserRoleResultMap">
         <result column="ROLE_NAME" property="roleName"/>
         <result column="ROLE_CODE" property="roleCode"/>
         <result column="STATE" property="state"/>

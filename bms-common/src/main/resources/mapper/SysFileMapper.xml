@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.common.mapper.SysFileMapper">
+<mapper namespace="com.common.mapper.SysFileMapper">
 
-    <resultMap type="com.cl.common.model.SysFile" id="sysFileResultMap">
+    <resultMap type="com.common.model.SysFile" id="sysFileResultMap">
         <id column="parentId" property="PARENT_ID" jdbcType="VARCHAR" />
         <result column="NAME" property="name"  />
         <result column="TYPE" property="type"  />

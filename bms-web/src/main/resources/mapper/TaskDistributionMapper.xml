@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.task.mapper.TaskDistributionMapper">
+<mapper namespace="com.task.mapper.TaskDistributionMapper">
 
 
-    <resultMap id="TaskDistributionRecordResultMap" type="com.cl.cm.task.model.TaskDistributionRecordVO">
+    <resultMap id="TaskDistributionRecordResultMap" type="com.task.model.TaskDistributionRecordVO">
         <result column="USER_NO" property="userNo" jdbcType="VARCHAR"/>
         <result column="REAL_NAME" property="empName" jdbcType="VARCHAR"/>
         <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
@@ -15,7 +15,7 @@
         <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <resultMap id="TaskCustomerResultMap" type="com.cl.cm.task.model.TaskCustomer">
+    <resultMap id="TaskCustomerResultMap" type="com.task.model.TaskCustomer">
         <result column="USER_NO" property="userNo" jdbcType="VARCHAR"/>
         <result column="identification_owner_name" property="userName" jdbcType="VARCHAR"/>
         <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
@@ -23,7 +23,7 @@
 
 
     <select id="selectCondition" resultMap="TaskDistributionRecordResultMap"
-            parameterType="com.cl.cm.task.model.TaskDistributionRecordVO">
+            parameterType="com.task.model.TaskDistributionRecordVO">
         select td.id,
         td.user_no,
         ub.real_name,
@@ -66,7 +66,7 @@
         </trim>
     </select>
 
-    <select id="countTask" resultType="int" parameterType="com.cl.cm.task.model.TaskSearchConditionVO">
+    <select id="countTask" resultType="int" parameterType="com.task.model.TaskSearchConditionVO">
         select count(1) from t_task_distribution td
         <if test="loginName == null or loginName.length()==0">
             inner join t_user_basic ub on ub.login_name=td.emp_code
@@ -99,7 +99,7 @@
     </select>
 
     <select id="selectUserByCondition" resultMap="TaskCustomerResultMap"
-            parameterType="com.cl.cm.task.model.TaskSearchConditionVO">
+            parameterType="com.task.model.TaskSearchConditionVO">
         select td.user_no,u.identification_owner_name,td.update_date from t_task_distribution td
         <if test="loginName == null or loginName.length()==0">
             inner join t_user_basic ub on ub.login_name=td.emp_code

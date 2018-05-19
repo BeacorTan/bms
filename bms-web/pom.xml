@@ -48,7 +48,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.cl.Application</mainClass>
+                            <mainClass>com.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

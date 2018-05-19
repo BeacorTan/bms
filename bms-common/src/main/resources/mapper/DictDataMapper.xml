@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.dict.mapper.DictDataMapper">
-    <resultMap id="DictDataResultMap" type="com.cl.cm.base.dict.model.DictVO">
+<mapper namespace="com.base.dict.mapper.DictDataMapper">
+    <resultMap id="DictDataResultMap" type="com.base.dict.model.DictVO">
         <id column="ID" property="id"/>
         <id column="code" property="code"/>
         <id column="name" property="name"/>
@@ -12,7 +12,7 @@
       select dd.ID,dd.code,dd.name from T_SYS_DATA_DICTIONARY dd where dd.dict_code=#{dictCode} and  dd.active_flag=1
     </select>
 
-    <select id="selectByDict" resultMap="DictDataResultMap" parameterType="com.cl.cm.base.dict.model.DictDataVO">
+    <select id="selectByDict" resultMap="DictDataResultMap" parameterType="com.base.dict.model.DictDataVO">
         select dd.ID,dd.code,dd.name,dd.update_date from T_SYS_DATA_DICTIONARY dd
         <trim prefix="where" prefixOverrides="or||and">
             dd.dict_code=#{dictCode} and dd.active_flag=1
@@ -26,7 +26,7 @@
     </select>
 
 
-    <update id="updateById" parameterType="com.cl.cm.base.dict.model.DictVO">
+    <update id="updateById" parameterType="com.base.dict.model.DictVO">
         UPDATE T_SYS_DATA_DICTIONARY
         <trim prefix="set" prefixOverrides=",">
             <if test="code!=null and code.length()>0">,CODE=#{code}</if>

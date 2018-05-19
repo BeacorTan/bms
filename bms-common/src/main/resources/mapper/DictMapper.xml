@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.dict.mapper.DictMapper">
-    <resultMap id="BaseResultMap" type="com.cl.cm.base.dict.model.DictVO">
+<mapper namespace="com.base.dict.mapper.DictMapper">
+    <resultMap id="BaseResultMap" type="com.base.dict.model.DictVO">
         <id column="ID" property="id"/>
         <id column="code" property="code"/>
         <id column="name" property="name"/>
@@ -19,7 +19,7 @@
     </select>
 
 
-    <select id="selectByDict" resultMap="BaseResultMap" parameterType="com.cl.cm.base.dict.model.DictVO">
+    <select id="selectByDict" resultMap="BaseResultMap" parameterType="com.base.dict.model.DictVO">
         select dd.ID,dd.code,dd.name,dd.update_date from T_SYS_DICTIONARY dd
         <trim prefix="where" prefixOverrides="or||and">
             dd.active_flag=1
@@ -33,7 +33,7 @@
     </select>
 
 
-    <update id="updateById" parameterType="com.cl.cm.base.dict.model.DictVO">
+    <update id="updateById" parameterType="com.base.dict.model.DictVO">
         UPDATE T_SYS_DICTIONARY
         <trim prefix="set" prefixOverrides=",">
             <if test="code!=null and code.length()>0">,CODE=#{code}</if>

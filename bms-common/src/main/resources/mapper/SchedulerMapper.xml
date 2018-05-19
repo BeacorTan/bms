@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.common.mapper.SchedulerMapper" >
-  <resultMap id="BaseResultMap" type="com.cl.common.model.SystemScheduler" >
+<mapper namespace="com.common.mapper.SchedulerMapper" >
+  <resultMap id="BaseResultMap" type="com.common.model.SystemScheduler" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />

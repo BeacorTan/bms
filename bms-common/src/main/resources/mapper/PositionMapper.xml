@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cl.cm.base.position.mapper.PositionMapper">
-    <resultMap id="PositionResultMap" type="com.cl.cm.base.position.model.Position">
+<mapper namespace="com.base.position.mapper.PositionMapper">
+    <resultMap id="PositionResultMap" type="com.base.position.model.Position">
         <id column="ID" property="id"/>
         <id column="POSITION_CODE" property="positionCode"/>
         <id column="POSITION_NAME" property="positionName"/>
@@ -11,7 +11,7 @@
     </resultMap>
 
 
-    <select id="selectPageList" parameterType="com.cl.cm.base.position.model.Position" resultMap="PositionResultMap">
+    <select id="selectPageList" parameterType="com.base.position.model.Position" resultMap="PositionResultMap">
         SELECT ID,POSITION_CODE,POSITION_NAME,MARKS,CREATE_DATE,UPDATE_DATE from T_SYS_POSITION
         <trim prefix="where" prefixOverrides="and|or">
             ACTIVE_FLAG = 1
@@ -24,7 +24,7 @@
         </trim>
     </select>
 
-    <delete id="delete" parameterType="com.cl.cm.base.position.model.Position">
+    <delete id="delete" parameterType="com.base.position.model.Position">
         UPDATE T_SYS_POSITION set UPDATE_DATE=#{updateDate},UPDATE_BY=#{updateBy},ACTIVE_FLAG=#{activeFlag}
         where id=#{id}
     </delete>
@@ -34,7 +34,7 @@
         WHERE ID=#{id}
     </select>
 
-    <update id="updateById" parameterType="com.cl.cm.base.position.model.Position">
+    <update id="updateById" parameterType="com.base.position.model.Position">
         UPDATE T_SYS_POSITION set UPDATE_DATE=#{updateDate},UPDATE_BY=#{updateBy}
         <if test="positionName!=null and positionName!=''">
             ,POSITION_NAME=#{positionName}
