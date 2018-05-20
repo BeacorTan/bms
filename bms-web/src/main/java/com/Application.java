@@ -30,11 +30,6 @@ public class Application extends SpringBootServletInitializer {
         return application.sources(Application.class);
     }
 
-    /**
-     * 整个项目的唯一入口
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "|{}");
         SpringApplication.run(Application.class, args);
