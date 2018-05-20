@@ -12,7 +12,7 @@ import com.common.framework.base.BaseModel;
 /**
  * 系统公告
  *
- * @author XingyuLi
+ *
  */
 @Table(name = "T_SYSTEM_BULLETIN")
 public class SystemBulletin extends BaseModel {

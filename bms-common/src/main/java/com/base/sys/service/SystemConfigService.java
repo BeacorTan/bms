@@ -8,7 +8,7 @@ import com.common.framework.util.ResponseJson;
 
 public interface SystemConfigService extends BaseService<SystemConfig>
 {
-	PagedResult<SystemConfig> selectCrmSysConfigPageList(PageBean pageBean, SystemConfig crmSysConfig);
+	PagedResult<SystemConfig> selectSysConfigPageList(PageBean pageBean, SystemConfig sysConfig);
 	
-	ResponseJson sysConfigEditService(SystemConfig crmSysConfig);
+	ResponseJson updateSysConfig(SystemConfig sysConfig);
 }

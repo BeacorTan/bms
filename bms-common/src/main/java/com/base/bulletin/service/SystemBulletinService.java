@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 系统公告Service
- * @author XingyuLi
+ *
  *
  */
 public interface SystemBulletinService extends BaseService<SystemBulletin>

@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.base.sys.mapper.SystemConfigMapper">
 
-    <resultMap type="com.base.sys.model.SystemConfig" id="crmSysConfigMap">
+    <resultMap type="com.base.sys.model.SystemConfig" id="SysConfigMap">
         <id column="ID" property="id"/>
         <result column="CONFIG_CODE" property="configCode"/>
         <result column="CONFIG_NAME" property="configName"/>
@@ -17,10 +17,10 @@
         ID,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE,CONFIG_CODE,CONFIG_NAME,CONFIG_DESC,CONFIG_VALUE
     </sql>
     
-    <select id="selectListByCrmSysConfig" parameterType="com.base.sys.model.SystemConfig" resultMap="crmSysConfigMap">
+    <select id="selectListBySysConfig" parameterType="com.base.sys.model.SystemConfig" resultMap="SysConfigMap">
         select
         <include refid="querySql"/>
-        From t_crm_T_SYS_config config
+        From T_SYS_config config
         WHERE
         config.ACTIVE_FLAG=1
         <if test="configCode != null and configCode !='' ">

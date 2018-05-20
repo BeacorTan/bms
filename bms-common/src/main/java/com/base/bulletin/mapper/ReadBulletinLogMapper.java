@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 系统公告Dao
  *
- * @author XingyuLi
+ *
  */
 public interface ReadBulletinLogMapper extends BaseMapper<ReadBulletinLog> {
 

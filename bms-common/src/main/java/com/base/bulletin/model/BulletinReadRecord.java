@@ -5,7 +5,7 @@ import javax.persistence.Table;
 /**
  * 系统公告
  *
- * @author XingyuLi
+ *
  */
 @Table(name = "T_SYSTEM_BULLETIN")
 public class BulletinReadRecord extends SystemBulletin {

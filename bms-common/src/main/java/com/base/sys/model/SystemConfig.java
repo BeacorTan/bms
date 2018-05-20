@@ -5,10 +5,10 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 /**
  * 系统配置
- * @author XingyuLi
+ *
  *
  */
-@Table(name="T_CRM_SYS_CONFIG")
+@Table(name="T_SYS_CONFIG")
 public class SystemConfig extends BaseModel
 {
 	private static final long serialVersionUID = 1L;

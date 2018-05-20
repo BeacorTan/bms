@@ -8,7 +8,7 @@ import javax.persistence.Table;
 /**
  * 公告阅读记录
  *
- * @author XingyuLi
+ *
  */
 @Table(name = "T_READ_LOG")
 public class ReadBulletinLog extends BaseModel {

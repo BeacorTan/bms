@@ -105,7 +105,7 @@ public class BulletinController {
         try {
             isSuccess = systemBulletinService.updateActiveFlagByPrimaryKeyList(idList, systemBulletin);
         } catch (Exception e) {
-            LOGGER.error("CrmSysConfigController.del()异常：{}", e);
+            LOGGER.error("sysConfigController.del()异常：{}", e);
         }
         if (isSuccess) {
             return ServiceUtil.getResponseJson("删除成功", isSuccess);

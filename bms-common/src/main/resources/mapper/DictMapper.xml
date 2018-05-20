@@ -27,7 +27,7 @@
                 and dd.code=#{code}
             </if>
             <if test="name!=null and name.length()>0">
-                and dd.name=#{name}
+                and dd.name like '%${name}%'
             </if>
         </trim>
     </select>

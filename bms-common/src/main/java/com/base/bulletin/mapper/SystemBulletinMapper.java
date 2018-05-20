@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 系统公告Dao
  *
- * @author XingyuLi
+ *
  */
 public interface SystemBulletinMapper extends BaseMapper<SystemBulletin> {
     List<SystemBulletin> selectListBySystemBulletin(SystemBulletin systemBulletin);

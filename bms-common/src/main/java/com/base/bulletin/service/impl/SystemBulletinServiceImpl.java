@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 公告Service
  *
- * @author XingyuLi
+ *
  */
 @Service
 public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> implements SystemBulletinService {
