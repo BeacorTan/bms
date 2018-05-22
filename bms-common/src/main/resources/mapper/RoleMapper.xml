@@ -40,7 +40,8 @@
     <select id="selectListByLoginName" resultMap="UserRoleResultMap">
         select r.ROLE_NAME,r.ROLE_CODE
         <if test="loginName!=null and loginName.length()>0">
-            ,NVL2(ur.role_code,1,0) STATE
+            /*,NVL2(ur.role_code,1,0) STATE*/
+            ,if(ur.role_code is not null,1,0) STATE
         </if>
         From T_SYS_role r
         <if test="loginName!=null and loginName.length()>0">

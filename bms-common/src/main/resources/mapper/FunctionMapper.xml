@@ -34,7 +34,8 @@
     <select id="selectFunctionZtreeData" resultMap="FunctionTreeResultMap">
         SELECT f.ID, f.PARENT_ID, f.FUN_NAME, f.FUN_CODE, f.ORDER_NUMBER
         <if test="roleCode!=null and roleCode!=''">
-            ,NVL2(r.function_code,1,0) checked
+            /*,NVL2(r.function_code,1,0) checked*/
+            ,if(r.function_code is not null,1,0) checked
         </if>
         FROM T_SYS_FUNCTION F
         <if test="roleCode!=null and roleCode!=''">

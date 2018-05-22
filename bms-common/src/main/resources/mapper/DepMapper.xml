@@ -27,7 +27,8 @@
     <select id="selectDepZtreeData" resultMap="depResultMap">
         SELECT id,PARENT_ID,DEP_NAME,DEP_CODE,DEP_TYPE
         <if test="roleCode!=null and roleCode.length()>0">
-            ,NVL2(r.ctrl_data,1,0) checked
+            /*,NVL2(r.ctrl_data,1,0) checked*/
+            ,if(r.ctrl_data is not null,1,0) checked
         </if>
         FROM T_SYS_DEPT d
         <if test="roleCode!=null and roleCode.length()>0">
@@ -36,7 +37,7 @@
             where role_code = #{roleCode} and ACTIVE_FLAG = 1) r
             on d.DEP_CODE = r.ctrl_data
         </if>
-        WHERE  d.ACTIVE_FLAG = 1 ORDER BY d.ORDER_NUMBER ASC
+        WHERE d.ACTIVE_FLAG = 1 ORDER BY d.ORDER_NUMBER ASC
     </select>
 
 </mapper>

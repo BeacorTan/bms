@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+bms-common/bms-common.iml
+bms-common/target/
+bms-web/bms-web.iml
+bms-web/target/
+bms.iml
+application-prd.properties

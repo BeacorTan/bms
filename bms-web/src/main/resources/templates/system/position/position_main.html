@@ -1,18 +1,24 @@
-<div class="portlet light common-search-form">
+<style type="text/css">
+    .table-bordered a {
+        font-size: 15px;
+        margin: 0px 5px;
+    }
 
+    .table-bordered a > .fa-pencil {
+        color: #69aa46;
+    }
+
+    .table-bordered a > .fa-trash-o {
+        color: #dd5a43;
+    }
+
+</style>
+<div class="portlet light common-search-form">
     <div class="row">
         <div class="col-md-1 col-xs-2">
             <button id="cmmg_add_position_view" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
             </button>
         </div>
-        <!--<div class="col-md-1 col-xs-2">
-            <button id="cmmg_task_update_btn" type="button" class="btn btn-info"><i class="fa fa-edit"></i>&nbsp;修改
-            </button>
-        </div>
-        <div class="col-md-1 col-xs-2">
-            <button id="cmmg_task_import_btn" type="button" class="btn btn-default"><i class="fa fa-upload"></i>&nbsp;导入
-            </button>
-        </div>-->
         <div class="col-md-1 col-xs-2">
             <button  type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
             </button>
@@ -36,13 +42,6 @@
                             <input type="text" name="positionName" class="form-control"></div>
                     </div>
                 </div>
-                <!--<div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label col-md-5">状态&nbsp;<i class="fa fa-mobile"></i>&nbsp;：</label>
-                        <div class="col-md-7">
-                            <input type="text" name="phone" class="form-control"></div>
-                    </div>
-                </div>-->
                 <div class="col-md-3">
                     <a class="btn btn-circle purple btn-outline sbold btn-sm" id="positionSearchBtn">
                         <i class="fa fa-print"></i> 搜索 </a>
@@ -54,26 +53,9 @@
         </form>
     </div>
 </div>
-
-<style type="text/css">
-    .table-bordered a {
-        font-size: 15px;
-        margin: 0px 5px;
-    }
-
-    .table-bordered a > .fa-pencil {
-        color: #69aa46;
-    }
-
-    .table-bordered a > .fa-trash-o {
-        color: #dd5a43;
-    }
-
-</style>
-
 <div class="portlet light portlet-fit">
     <div class="portlet-body">
-        <table id="position_table" data-click-to-select="true" class="table table-bordered"
+        <table id="position_table" data-click-to-select="true" data-classes="table table-no-bordered"
                data-page-size="20">
             <thead>
             <tr>
