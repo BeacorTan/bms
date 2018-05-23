@@ -108,7 +108,7 @@
         }).on("success.form.bv", function (e) {
             // Get the form instance
             var params = $(e.target).serialize();
-            var reqUrl = CM_Components.getContextAll("/sysConfig/sysConfigEdit");
+            var reqUrl = CM_Components.getContextAll("/systemConfig/sysConfigEdit");
 
             $.post(reqUrl, params, function (result) {
                 CommonUtils.closeTab('sysConfig_edit');

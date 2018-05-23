@@ -29,6 +29,9 @@
         <if test="configName != null and configName != '' ">
             and config.CONFIG_NAME like '%${configName}%'
         </if>
+        <if test="configValue != null and configValue != '' ">
+            and config.CONFIG_VALUE like '%${configValue}%'
+        </if>
     </select>
 
 </mapper>
