@@ -42,13 +42,13 @@ public class BulletinController {
 
     @RequestMapping("main")
     public ModelAndView manage() {
-        return new ModelAndView("system/bulletin/systemBulletinList");
+        return new ModelAndView("bulletin/systemBulletinList");
     }
 
 
     @RequestMapping("readRecord")
     public ModelAndView readRecord() {
-        return new ModelAndView("system/bulletin/bulletin");
+        return new ModelAndView("bulletin/bulletin");
     }
 
 
@@ -62,7 +62,7 @@ public class BulletinController {
             e.printStackTrace();
             LOGGER.error("BulletinController.bulletinDetail()异常：", e);
         }
-        return new ModelAndView("system/bulletin/bulletin_detail");
+        return new ModelAndView("bulletin/bulletin_detail");
     }
 
     @RequestMapping(value = "queryReadList")
@@ -124,9 +124,9 @@ public class BulletinController {
                 LOGGER.error("BulletinController.sysBulletinEdit()异常：{}", e);
             }
             modelMap.put("systemBulletin", systemBulletin);
-            return new ModelAndView("system/bulletin/systemBulletinForm", modelMap);
+            return new ModelAndView("bulletin/systemBulletinForm", modelMap);
         }
-        return new ModelAndView("system/bulletin/systemBulletinForm");
+        return new ModelAndView("bulletin/systemBulletinForm");
     }
 
     @RequestMapping(value = "bulletinEdit", method = RequestMethod.POST)

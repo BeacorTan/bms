@@ -28,14 +28,14 @@ public class SchedulerController {
 
     @RequestMapping(value = "/main",method = RequestMethod.GET)
     public ModelAndView schedulerMain(){
-        ModelAndView modelAndView = new ModelAndView("system/scheduler/scheduler_main");
+        ModelAndView modelAndView = new ModelAndView("scheduler/scheduler_main");
         return modelAndView;
     }
     @RequestMapping(value = "/update/view/{schedulerId}",method = RequestMethod.GET)
     public ModelAndView schedulerUpdateView(@PathVariable(value = "schedulerId")String schedulerId, ModelMap modelMap) throws Exception{
         SystemScheduler systemScheduler =  schedulerService.selectByPrimaryKey(schedulerId);
         modelMap.addAttribute("schedulerInfo",systemScheduler);
-        ModelAndView modelAndView = new ModelAndView("system/scheduler/scheduler_update");
+        ModelAndView modelAndView = new ModelAndView("scheduler/scheduler_update");
         return modelAndView;
     }
 

@@ -57,13 +57,13 @@ public class DepController {
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView depMain() {
-        return new ModelAndView("system/dep/dept_main");
+        return new ModelAndView("dep/dept_main");
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView addView(String depId, ModelMap modelMap) {
         modelMap.addAttribute("parentId", depId);
-        return new ModelAndView("system/dep/dept_profile");
+        return new ModelAndView("dep/dept_profile");
     }
 
 }

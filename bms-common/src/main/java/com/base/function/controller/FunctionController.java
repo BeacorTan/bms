@@ -33,7 +33,7 @@ public class FunctionController {
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView funMain() {
-        ModelAndView modelAndView = new ModelAndView("system/function/function_main");
+        ModelAndView modelAndView = new ModelAndView("function/function_main");
         return modelAndView;
     }
 
@@ -41,7 +41,7 @@ public class FunctionController {
     public ModelAndView addView(String funId, ModelMap modelMap) {
         modelMap.addAttribute("parentId", funId);
         modelMap.addAttribute("icons", IConUtils.getIcons());
-        ModelAndView modelAndView = new ModelAndView("system/function/function_add");
+        ModelAndView modelAndView = new ModelAndView("function/function_add");
         return modelAndView;
     }
 
@@ -49,7 +49,7 @@ public class FunctionController {
     public ModelAndView getIcons(String parentWinName, ModelMap modelMap) {
         modelMap.addAttribute("icons", IConUtils.getIcons());
         modelMap.addAttribute("parentWinName", parentWinName);
-        ModelAndView modelAndView = new ModelAndView("system/function/function_icon");
+        ModelAndView modelAndView = new ModelAndView("function/function_icon");
         return modelAndView;
     }
 
@@ -64,7 +64,7 @@ public class FunctionController {
     @RequestMapping(value = "/update/view", method = RequestMethod.GET)
     public ModelAndView functionUpdatView(String functionId, ModelMap modelMap) throws Exception {
         modelMap.addAttribute("funInfo", functionService.selectByPrimaryKey(functionId));
-        ModelAndView modelAndView = new ModelAndView("system/function/function_update", modelMap);
+        ModelAndView modelAndView = new ModelAndView("function/function_update", modelMap);
         return modelAndView;
     }
 

@@ -44,7 +44,7 @@ public class PositionController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView userMain() {
-        return new ModelAndView("system/position/position_main");
+        return new ModelAndView("position/position_main");
     }
 
 
@@ -53,7 +53,7 @@ public class PositionController {
         if (!StringUtils.isEmpty(id)) {
             modelMap.put("position", positionService.queryById(id));
         }
-        return new ModelAndView("system/position/position_profile", modelMap);
+        return new ModelAndView("position/position_profile", modelMap);
     }
 
     /**

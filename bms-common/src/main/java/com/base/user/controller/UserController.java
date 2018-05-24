@@ -60,7 +60,7 @@ public class UserController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView userMain() {
-        return new ModelAndView("system/user/user_list");
+        return new ModelAndView("user/user_list");
     }
 
     /**
@@ -95,7 +95,7 @@ public class UserController {
             }
             modelMap.put("operator", operator);
             modelMap.put("userInfo", userInfo);
-            return new ModelAndView("system/user/user_profile", modelMap);
+            return new ModelAndView("user/user_profile", modelMap);
         } else {
             modelMap.put("status", SystemConstant.ERROR_CODE_500);
             modelMap.put("error", "请填写准确的参数!");
@@ -111,7 +111,7 @@ public class UserController {
             modelMap.put("user", user);
         }
         //modelMap.put("roles", roles);
-        return new ModelAndView("system/user/user_add", modelMap);
+        return new ModelAndView("user/user_add", modelMap);
     }
 
 

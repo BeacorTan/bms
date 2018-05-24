@@ -45,7 +45,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView userMain() {
-        return new ModelAndView("system/role/role_list");
+        return new ModelAndView("role/role_list");
     }
 
     @RequestMapping(value = "/page/list", method = RequestMethod.GET)
@@ -72,14 +72,14 @@ public class RoleController {
             Role role = roleService.selectByPrimaryKey(roleId);
             if (HelpUtils.isNotEmpty(role)) {
                 modelMap.put("roleInfo", role);
-                return new ModelAndView("system/role/role_add", modelMap);
+                return new ModelAndView("role/role_add", modelMap);
             } else {
                 modelMap.put("status", SystemConstant.ERROR_CODE_500);
                 modelMap.put("error", "请填写准确的参数!");
                 return new ModelAndView(SystemConstant.ERROR_PAGE, modelMap);
             }
         } else {
-            return new ModelAndView("system/role/role_add");
+            return new ModelAndView("role/role_add");
         }
 
     }

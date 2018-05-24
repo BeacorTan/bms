@@ -40,7 +40,7 @@ public class DictDataController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView dictMain(String code, ModelMap modelMap) {
         modelMap.put("code", code);
-        return new ModelAndView("system/dict/dict_data_list");
+        return new ModelAndView("dict/dict_data_list");
     }
 
 
@@ -56,7 +56,7 @@ public class DictDataController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, String dictCode, ModelMap modelMap) {
-        ModelAndView modelAndView = new ModelAndView("system/dict/dict_data_profile");
+        ModelAndView modelAndView = new ModelAndView("dict/dict_data_profile");
         if (StringUtils.isNotBlank(id)) {
             modelMap.put("dictVO", dictDataService.selectById(id));
             modelAndView.getModelMap().addAllAttributes(modelMap);

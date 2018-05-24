@@ -22,7 +22,7 @@ public class SessionController {
 
     @RequestMapping(value = "/view")
     public ModelAndView sessionListView() {
-        return new ModelAndView("system/session/session_list");
+        return new ModelAndView("session/session_list");
     }
 
 
