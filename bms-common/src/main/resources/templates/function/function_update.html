@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/simple-line-icons/simple-line-icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link th:href="@{/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/bootstrapvalidator/css/bootstrapValidator.min.css}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link th:href="@{/assets/global/css/components.min.css}" rel="stylesheet" id="style_components" type="text/css" />
+    <link th:href="@{/assets/global/css/plugins.min.css}" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link th:href="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.css}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL STYLES -->
+    <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="portlet-body form">
+    <!-- BEGIN FORM-->
+    <form action="#" id="functionUpdateForm" class="form-horizontal">
+        <input type="hidden" name="parentId" th:value="${funInfo.parentId}">
+        <input type="hidden" name="id" th:value="${funInfo.id}">
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">资源名称&nbsp;<i class="fa fa-connectdevelop"></i></label>
+                        <div class="col-md-8 col-sm-8">
+                            <input type="text" class="form-control" name="funName" th:value="${funInfo.funName}" placeholder="请输入资源名称">
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">资源编码&nbsp;<i class="fa fa-code"></i></label>
+                        <div class="col-md-7 col-sm-7">
+                            <input type="text"  class="form-control" name="funCode" th:value="${funInfo.funCode}" placeholder="请输入资源编码">
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6 col-sm-5">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">资源类型&nbsp;<i class="fa fa-building"></i></label>
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control" name="type" >
+                                <option value="1" th:selected="${funInfo.type==1}">菜单</option>
+                                <option value="0" th:selected="${funInfo.type==0}">按钮</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">资源地址&nbsp;<i class="fa fa-address-card-o"></i></label>
+                        <div class="col-md-7 col-sm-7">
+                            <input type="text" class="form-control" name="url" th:value="${funInfo.url}" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <div class="row">
+                <!--/span-->
+                <div class="col-md-5 col-sm-5">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">资源图标&nbsp;<i class="fa fa-file-photo-o"></i></label>
+                        <div class="col-md-7 col-sm-7" style="border-bottom:1px solid #e6dddd;">
+                            <!--<input name="icon" class="form-control" th:value="${funInfo.icon}"></input>-->
+                            <i id="cmmp-funcion-icon-show" th:class="${funInfo.icon}" style="margin:0px 20px;"></i>
+                            <a  class="btn btn-sm btn-circle green btn-outline sbold" id="cmmp-function-icons"  style="margin-bottom: 2px;"><i class="fa fa-share-alt-square"></i>&nbsp;选择图标&nbsp;</a>
+                            <input type="hidden"  id="cmmp-funcion-icon-input"  name="icon" >
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">排序&nbsp;<i class="fa fa-connectdevelop"></i></label>
+                        <div class="col-md-7 col-sm-7">
+                            <input type="text" class="form-control" name="orderNumber" th:value="${funInfo.orderNumber}" placeholder="请输入排序">
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <!--/row-->
+            </div>
+            <footer>
+                <div class="cm-footer-style">
+                    <a href="javascript:;" id="updateFunctionBtn" class="btn btn-sm green btn-outline sbold ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <a onclick="CM_Components.layerClose()" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                </div>
+            </footer>
+        </div>
+    </form>
+    <!-- END FORM-->
+</div>
+
+
+<!-- END CONTENT BODY -->
+<!--[if lt IE 9]>
+<script th:src="@{/assets/global/plugins/respond.min.js}"></script>
+<script th:src="@{/assets/global/plugins/excanvas.min.js}"></script>
+<script th:src="@{/assets/global/plugins/ie8.fix.min.js}"></script>
+<![endif]-->
+<!-- BEGIN CORE PLUGINS -->
+<script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/js.cookie.min.js}" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script th:src="@{/assets/global/plugins/bootstrapvalidator/js/bootstrapValidator.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/jquery.blockui.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/app.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
+<script th:src="@{/assets/system/function/function.js}" type="text/javascript"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    jQuery(document).ready(function() {
+        CM_Function.initFunctionUpdate();
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

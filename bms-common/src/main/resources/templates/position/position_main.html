@@ -1,0 +1,222 @@
+<style type="text/css">
+    .table-bordered a {
+        font-size: 15px;
+        margin: 0px 5px;
+    }
+
+    .table-bordered a > .fa-pencil {
+        color: #69aa46;
+    }
+
+    .table-bordered a > .fa-trash-o {
+        color: #dd5a43;
+    }
+
+</style>
+<div class="portlet light common-search-form">
+    <div class="row">
+        <div class="col-md-1 col-xs-2">
+            <button id="cmmg_add_position_view" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button  type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            </button>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <form class="form-horizontal" id="positionSearchForm">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5 col-sm-5">职位编码&nbsp;<i class="fa fa-user-circle"></i>&nbsp;：</label>
+                        <div class="col-md-7 col-sm-7">
+                            <input type="text" name="positionCode" class="form-control"></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5 col-sm-5">职位名称&nbsp;<i
+                                class="fa fa-address-card"></i>&nbsp;：</label>
+                        <div class="col-md-7 col-sm-7">
+                            <input type="text" name="positionName" class="form-control"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-circle purple btn-outline sbold btn-sm" id="positionSearchBtn">
+                        <i class="fa fa-print"></i> 搜索 </a>
+                    <a class="btn btn-circle red btn-outline sbold btn-sm"
+                       onclick="CommonUtils.reset('positionSearchForm')">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="portlet light portlet-fit">
+    <div class="portlet-body">
+        <table id="position_table" data-click-to-select="true" data-classes="table table-no-bordered"
+               data-page-size="20">
+            <thead>
+            <tr>
+                <th data-field="id" data-visible="false">id</th>
+                <th data-field="positionName">职位名称</th>
+                <th data-field="positionCode">职位编码</th>
+                <th data-field="createDate">新增时间</th>
+                <th data-field="updateDate">更新时间</th>
+                <th data-field="marks">备注</th>
+                <th data-formatter="positionOperate">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <!--<th data-field="rayStatus" data-formatter="tradingState">交易状态</th>-->
+        </table>
+    </div>
+</div>
+
+<script>
+
+    function positionOperate(val, record, index) {
+        var id = record.id;
+        return "<a title='编辑' onclick='openPositionEditWin(\"" + id + "\")' class='row-btn'><i class=\"fa fa-pencil\"></i></a>" +
+            "<a title=\"删除职位\" onclick='delPosition(\"" + id + "\")' class='row-btn'><i class=\"fa fa-trash-o\"></i></a>";
+    }
+
+    function delPosition(id) {
+        if (!id) {
+            console.error("id为空");
+            return;
+        }
+        swal({
+                title: "确定删除吗？",
+                text: "你将无法恢复该虚拟文件！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定删除！",
+                cancelButtonText: "取消删除！"
+            },
+            function () {
+                $.ajax({
+                    url: CM_Components.getContextAll("/position/del?id=" + id),
+                    type: "GET",
+                    success: function (result) {
+                        CM_Components.layerMsg("删除成功！");
+                        $("#position_table").bootstrapTable('refresh');
+                    }
+                });
+            });
+    }
+
+
+    function openPositionEditWin(id) {
+        var reqUrl;
+        if (id) {
+            reqUrl = CM_Components.getContextAll("/position/profileView?id=" + id);
+        } else {
+            reqUrl = CM_Components.getContextAll("/position/profileView");
+        }
+        layer.open({
+            type: 2,
+            skin: "cm-custom-layer",
+            title: "编辑",
+            area: ['450px', '340px'],
+            fix: false, //不固定
+            shadeClose: false,
+            shade: 0.5,
+            scrollbar: false,
+            btn: ["确定", "取消"],
+            content: reqUrl,
+            success: function (layero, index) {
+                // layui-layer-iframe2
+                var loginPage;
+                // js获取ifram中的元素
+                loginPage = window.frames["layui-layer-iframe" + index].document.getElementById("cpmg-login");
+
+                // jq获取iframe中的元素
+                // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
+                // 如果会话失效，重定向只登陆页面
+                if (loginPage) {
+                    window.location = CM_Components.getContextAll("/login");
+                }
+            },
+            yes: function (index, layero) {
+                var $position_edit_form = layer.getChildFrame('#position_edit_form', index);
+                var $positionName = $position_edit_form.find("input[name='positionName']").val()
+                var $id = $position_edit_form.find("input[name='id']").val()
+                var $marks = $position_edit_form.find("textarea[name='marks']").val();
+                console.info("positionName:" + $positionName + "\tid:" + $id + "\tmarks:" + $marks);
+                var params = {"positionName": $positionName, "marks": $marks, "id": $id};
+                $.ajax({
+                    url: CM_Components.getContextAll("/position/edit"),
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(params),
+                    success: function (result) {
+                        CM_Components.layerMsg("编辑成功");
+                        // 添加成功，刷新表格
+                        $("#position_table").bootstrapTable('refresh');
+                    }
+                });
+                layer.close(index);
+            }
+        });
+    }
+
+
+    $(function () {
+
+        var $position_table = $("#position_table");
+        $position_table.bootstrapTable({
+            // search: true,
+            method: 'get',
+            url: CM_Components.getContextAll("/position/page/list"),
+            cache: false,
+            dataType: "json",
+            striped: false,	 //使表格带有条纹
+            sortable: true,
+            pagination: true, //在表格底部显示分页工具栏
+            pageSize: 10,
+            pageNumber: 1,
+            pageList: [10, 15, 20],
+            idField: "id",  //标识哪个字段为id主键
+            showToggle: false,   //名片格式
+            cardView: false,//设置为True时显示名片（card）布局
+            singleSelect: false,//复选框只能选择一条记录
+            search: false,//是否显示右上角的搜索框
+            clickToSelect: true,//点击行即可选中单选/复选框
+            sidePagination: "server",//表格分页的位置
+            // height: 350,
+            queryParamsType: "",
+            strictSearch: true,
+            showColumns: false,     //是否显示所有的列
+            showRefresh: false,     //是否显示刷新按钮
+            minimumCountColumns: 2,    //最少允许的列数
+            responseHandler: function (res) { //请求返回结果后的回调函数
+                return {
+                    "rows": res.dataList,
+                    "total": res.total
+                };
+            },
+            silent: true,  //刷新事件必须设置
+            formatNoMatches: function () {  //没有匹配的结果
+                return '无符合条件的记录';
+            },
+            rowStyle: function (row, index) {
+                return {classes: "cursorHand"}
+            }
+        });
+
+        $("#cmmg_add_position_view").click(function () {
+            openPositionEditWin();
+        });
+
+        // 查询
+        $("#positionSearchBtn").click(function () {
+            $position_table.bootstrapTable('refresh', {
+                query: CM_Components.getFormData("positionSearchForm")
+            });
+        });
+    });
+</script>

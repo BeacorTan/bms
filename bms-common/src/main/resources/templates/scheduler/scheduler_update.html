@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/simple-line-icons/simple-line-icons.min.css}" rel="stylesheet" type="text/css" />
+    <!--<link th:href="@{/assets/global/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />-->
+    <link th:href="@{/assets/global/plugins/bootstrap/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link th:href="@{/assets/global/plugins/bootstrapvalidator/css/bootstrapValidator.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.css}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link th:href="@{/assets/global/css/components.min.css}" rel="stylesheet" id="style_components" type="text/css" />
+    <link th:href="@{/assets/global/css/plugins.min.css}" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL STYLES -->
+    <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="portlet-body form">
+
+
+    <form action="#" class="form-horizontal" id="schedulerUpdateForm">
+        <input type="hidden" name="id" th:value="${schedulerInfo.id}">
+        <div class="form-body">
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 col-sm-2 control-label">任务名称
+                </label>
+                <div class="col-md-10 col-sm-10">
+                    <input type="text" class="form-control" th:value="${schedulerInfo.jobName}" name="jobName" placeholder="">
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 col-sm-2 control-label">类名
+                </label>
+                <div class="col-md-10 col-sm-10">
+                    <input type="text" class="form-control" readonly th:value="${schedulerInfo.jobClass}" name="jobClass" placeholder="">
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 col-sm-2 control-label">cron表达式
+                </label>
+                <div class="col-md-10 col-sm-10">
+                    <input type="text" class="form-control" readonly th:value="${schedulerInfo.cron}" name="cron" placeholder="">
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+            <div class="form-group form-md-line-input">
+                <label class="col-md-2 col-sm-2 control-label">描述
+                </label>
+                <div class="col-md-10 col-sm-10">
+                    <input type="text" class="form-control" th:value="${schedulerInfo.notes}" name="notes" placeholder="">
+                    <div class="form-control-focus"> </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="cm-footer-style">
+                <a href="javascript:;" id="updateSchedulerBtn" class="btn green btn-outline sbold ">
+                    &nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a class="btn purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            </div>
+        </footer>
+    </form>
+</div>
+
+
+<!-- END CONTENT BODY -->
+<!--[if lt IE 9]>
+<script th:src="@{/assets/global/plugins/respond.min.js}"></script>
+<script th:src="@{/assets/global/plugins/excanvas.min.js}"></script>
+<script th:src="@{/assets/global/plugins/ie8.fix.min.js}"></script>
+<![endif]-->
+<!-- BEGIN CORE PLUGINS -->
+<script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/js.cookie.min.js}" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script th:src="@{/assets/global/plugins/bootstrapvalidator/js/bootstrapValidator.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/jquery.blockui.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/app.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
+<script th:src="@{/assets/system/scheduler/scheduler.js}" type="text/javascript"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    jQuery(document).ready(function() {
+        CM_Scheduler.initSchedulerUpdate();
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

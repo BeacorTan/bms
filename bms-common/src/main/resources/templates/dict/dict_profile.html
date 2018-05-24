@@ -1,0 +1,85 @@
+<div class="container row" style="margin-top: 18px;width: 100%;">
+    <div class="form-unit">基本信息</div>
+    <form class="form-horizontal" id="addDictForm">
+        <input type="hidden" name="id" th:value="${dictVO}==null?'':${dictVO.id}"/>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4"><span
+                            class="required">*</span>字典名称&nbsp;：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" name="name"
+                               th:value="${dictVO}==null?'':${dictVO.name}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4"><span
+                            class="required">*</span>字典类型&nbsp;：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" name="code"
+                               th:value="${dictVO}==null?'':${dictVO.code}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">备注信息&nbsp;：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <textarea name="marks" class="form-control"
+                                  th:text="${dictVO}==null?'':${dictVO.marks}"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container row form-buttons">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <a id="addDictBtn"
+           class="btn btn-sm btn-circle green btn-outline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a onclick="CommonUtils.reset('addDictForm')"
+           class="btn btn-sm btn-circle purple btn-outline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a onclick="CommonUtils.closeTab('dict_profile_tab')"
+           class="btn btn-sm btn-circle red btn-outline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    </div>
+</div>
+
+<script th:src="@{/assets/global/plugins/bootstrapvalidator/js/bootstrapValidator.min.js}"
+        type="text/javascript"></script>
+<script>
+
+    (function () {
+        $("#addDictBtn").click(function () {
+            var params = CommonUtils.getFormData("addDictForm"), reqUrl;
+            if (params && params.id) {
+                reqUrl = "/dict/update";
+            } else {
+                reqUrl = "/dict/add";
+            }
+
+            $.ajax({
+                url: CM_Components.getContextAll(reqUrl),
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(params),
+                dataType: "json",
+                success: function (result) {
+                    if (result == 1) {
+                        CM_Components.layerMsg("编辑成功");
+                        CommonUtils.closeTab('dict_profile_tab')
+                        CM_Components.refreshTable($("#cpmg_dict_table"));
+                    } else {
+                        CM_Components.layerMsg("编辑失败!");
+                    }
+                }
+            });
+        });
+    })();
+</script>
