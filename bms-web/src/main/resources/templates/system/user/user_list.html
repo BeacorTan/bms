@@ -1,33 +1,48 @@
 <div class="portlet light common-search-form">
     <div class="portlet-body">
         <form class="form-horizontal" id="searchUserFormId">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-md-1 col-xs-2">
+                    <button id="addUserView" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+                <div class="col-md-1 col-xs-2">
+                    <button id="updateUserView" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+                    </button>
+                </div>
+                <div class="col-md-1 col-xs-2">
+                    <button id="deleteUsers" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+                    </button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label col-md-4">姓名&nbsp;<i class="fa fa-user-circle"></i>&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" name="realName" class="form-control"> </div>
+                            <input type="text" name="realName" class="form-control"></div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label col-md-4">账号&nbsp;<i class="fa fa-address-card"></i>&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" name="loginName" class="form-control"> </div>
+                            <input type="text" name="loginName" class="form-control"></div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label col-md-4">手机号码&nbsp;<i class="fa fa-mobile"></i>&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" name="phone" class="form-control"> </div>
+                            <input type="text" name="mobile" class="form-control"></div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="actions pull-left">
-                        <a  id="user_searchUsers" class="btn btn-circle green btn-outline sbold">
+                        <a id="user_searchUsers" class="btn btn-circle green btn-outline sbold">
                             <i class="fa fa-search"></i> 搜索 </a>
-                        <a onclick="CommonUtils.reset('searchUserFormId')"  class="btn btn-circle green btn-outline sbold">
+                        <a onclick="CommonUtils.reset('searchUserFormId')"
+                           class="btn btn-circle green btn-outline sbold">
                             <i class="fa fa-print"></i> 重置 </a>
                     </div>
                 </div>
@@ -37,27 +52,15 @@
 </div>
 
 <div class="portlet light portlet-fit">
-    <div class="portlet-title">
-        <div class="actions pull-left">
-            <a  id="addUserView"  class="btn btn-circle green btn-outline sbold">
-                <i class="fa fa-plus"></i> 增加 </a>
-            <a  id="updateUserView" class="btn btn-circle purple btn-outline sbold">
-                <i class="fa fa-print"></i> 修改 </a>
-            <a  id="deleteUsers" class="btn btn-circle red btn-outline sbold">
-                <i class="fa fa-print"></i> 删除 </a>
-        </div>
-    </div>
     <div class="portlet-body">
-        <table data-classes="table table-no-bordered"  id="userTable">
+        <table data-classes="table table-no-bordered" id="userTable">
         </table>
     </div>
 </div>
 
 <script th:src="@{/assets/auth/user.js}" type="text/javascript"></script>
 <script>
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         CM_User.initUserMain();
     });
 </script>
-
-

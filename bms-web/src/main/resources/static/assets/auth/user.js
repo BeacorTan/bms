@@ -9,9 +9,9 @@ var CM_User = function () {
     var tableAjaxUrl = "user/page/list";
     var userTableColum = [{checkbox: true}
         , {title: 'id', field: 'id', align: 'center', valign: 'middle', visible: false}
-        , {title: '坐席工号', field: 'loginName', align: 'center', valign: 'middle'}
-        , {title: '分机号', field: 'channelCode', align: 'center'}
-        , {title: '员工姓名', field: 'realName', align: 'center', valign: 'middle'}
+        , {title: '登录账号', field: 'loginName', align: 'center', valign: 'middle'}
+        , {title: '姓名', field: 'realName', align: 'center', valign: 'middle'}
+        , {title: '电话', field: 'mobile', align: 'center'}
         , {title: '手机号', field: 'phone', align: 'center'}
         , {title: '邮箱', field: 'email', align: 'center'}];
     var $deleteUsers = $("#deleteUsers");

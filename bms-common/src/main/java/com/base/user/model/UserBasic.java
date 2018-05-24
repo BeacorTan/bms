@@ -5,6 +5,7 @@ import com.common.framework.base.BaseModel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author beson
@@ -12,9 +13,6 @@ import java.io.Serializable;
 @Table(name = "T_SYS_USER")
 public class UserBasic extends BaseModel implements Serializable {
 
-    // 控台做分机号使用
-    @Column(name = "CHANNEL_CODE", length = 30)
-    private String channelCode;
 
     // 登录账号||坐席工号
     @Column(name = "LOGIN_NAME")
@@ -27,11 +25,11 @@ public class UserBasic extends BaseModel implements Serializable {
     @Column(name = "SEX")
     private String sex;
 
-    @Column(name = "TEL")
-    private String tel;
-
-    @Column(name = "PHONE")
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "MOBILE")
+    private String mobile;
 
     @Column(name = "EMAIL")
     private String email;
@@ -39,21 +37,36 @@ public class UserBasic extends BaseModel implements Serializable {
     @Column(name = "PASSWORD")
     private String password;
 
-    // 公司编码
-    @Column(name = "COMPANY_CODE")
-    private String companyCode;
 
     // 部门编码
     @Column(name = "DEPT_CODE")
     private String deptCode;
 
-    // 组编码
-    @Column(name = "GROUP_CODE")
-    private String groupCode;
+    // 部门编码
+    @Column(name = "DEPT_NAME")
+    private String deptName;
 
     // 职位编码
-    @Column(name = "position_code")
+    @Column(name = "POSITION_CODE")
     private String positionCode;
+
+    @Column(name = "AVATAR")
+    private String avatar;
+
+    @Column(name = "LAST_LOGIN_IP")
+    private String lastLoginIP;
+
+    @Column(name = "LAST_LOGIN_DATE")
+    private Date lastLoginDate;
+
+    @Column(name = "NICK_NAME")
+    private String nickName;
+
+    @Column(name = "SIGN")
+    private String sign;
+
+    @Column(name = "REMARKS")
+    private String remarks;
 
     /**
      * 密码加密盐值
@@ -86,15 +99,6 @@ public class UserBasic extends BaseModel implements Serializable {
         this.salt = salt;
     }
 
-
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
-
     public String getDeptCode() {
         return deptCode;
     }
@@ -103,13 +107,6 @@ public class UserBasic extends BaseModel implements Serializable {
         this.deptCode = deptCode;
     }
 
-    public String getGroupCode() {
-        return groupCode;
-    }
-
-    public void setGroupCode(String groupCode) {
-        this.groupCode = groupCode;
-    }
 
     /**
      * 密码盐.
@@ -128,13 +125,6 @@ public class UserBasic extends BaseModel implements Serializable {
         this.id = id;
     }
 
-    public String getChannelCode() {
-        return channelCode;
-    }
-
-    public void setChannelCode(String channelCode) {
-        this.channelCode = channelCode;
-    }
 
     public String getLoginName() {
         return loginName;
@@ -160,13 +150,6 @@ public class UserBasic extends BaseModel implements Serializable {
         this.sex = sex;
     }
 
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
 
     public String getPhone() {
         return phone;
@@ -192,4 +175,67 @@ public class UserBasic extends BaseModel implements Serializable {
         this.password = password;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getLastLoginIP() {
+        return lastLoginIP;
+    }
+
+    public void setLastLoginIP(String lastLoginIP) {
+        this.lastLoginIP = lastLoginIP;
+    }
+
+    public Date getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 }

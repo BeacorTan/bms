@@ -80,7 +80,6 @@ public class HomeController {
         List<FunctionExt> functions = functionService.getFuntions(ShiroManager.getLoginName());
         modelMap.addAttribute("functions", functions);
 
-        modelMap.addAttribute("loginName", user.getChannelCode());
 
         /*modelMap.addAttribute("onlineCount", sessionService.selectOnlineCount());*/
         return "index";
