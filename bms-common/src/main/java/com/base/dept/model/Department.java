@@ -8,48 +8,72 @@ import javax.persistence.Table;
 
 @Table(name = "T_SYS_DEPT")
 public class Department extends BaseModel{
+
     /**部门领导*/
-    @Column(name="DEP_LEADER")
-    private String depLeader;
+    @Column(name="LEADER")
+    private String leader;
 
     /**部门名称*/
     @Column(name="DEP_NAME")
     private String depName;
 
+    /**部门编码*/
+    @Column(name = "DEPT_CODE")
+    private String deptCode;
+
+
     /**部门类型*/
     @Column(name="DEP_TYPE")
     private String depType;
 
-    /**描述*/
-    @Column(name="DESCRIPTION")
-    private String description;
+    /**部门类型*/
+    @Column(name="TREE_NAMES")
+    private String treeNames;
+
+    /**备注信息*/
+    @Column(name="REMARKS")
+    private String remarks;
+
+    @Column(name="TREE_LEAF")
+    private String treeLeaf;
+
+    @Column(name="TREE_LEVEL")
+    private String treeLevel;
+
+    @Column(name="PARENT_CODES")
+    private String parentCodes;
 
     /**排序号*/
-    @Column(name="ORDER_NUMBER")
-    private Integer orderNumber;
+    @Column(name="TREE_SORT")
+    private Integer treeSort;
 
     /**父部门*/
-    @Column(name="PARENT_ID")
-    private String parentId;
+    @Column(name="PARENT_CODE")
+    private String parentCode;
 
-    /**部门编码*/
-    @Column(name = "DEP_CODE")
-    private String depCode;
 
-    public String getDepCode() {
-        return depCode;
+    /**电话*/
+    @Column(name = "PHONE")
+    private String phone;
+
+    /**地址*/
+    @Column(name = "ADDRESS")
+    private String address;
+
+    /**邮编*/
+    @Column(name = "ZIP_CODE")
+    private String zipCode;
+
+    /**邮箱*/
+    @Column(name = "EMAIL")
+    private String email;
+
+    public String getLeader() {
+        return leader;
     }
 
-    public void setDepCode(String depCode) {
-        this.depCode = depCode;
-    }
-
-    public String getDepLeader() {
-        return depLeader;
-    }
-
-    public void setDepLeader(String depLeader) {
-        this.depLeader = depLeader == null ? null : depLeader.trim();
+    public void setLeader(String leader) {
+        this.leader = leader;
     }
 
     public String getDepName() {
@@ -57,7 +81,7 @@ public class Department extends BaseModel{
     }
 
     public void setDepName(String depName) {
-        this.depName = depName == null ? null : depName.trim();
+        this.depName = depName;
     }
 
     public String getDepType() {
@@ -65,30 +89,102 @@ public class Department extends BaseModel{
     }
 
     public void setDepType(String depType) {
-        this.depType = depType == null ? null : depType.trim();
+        this.depType = depType;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTreeNames() {
+        return treeNames;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setTreeNames(String treeNames) {
+        this.treeNames = treeNames;
     }
 
-    public Integer getOrderNumber() {
-        return orderNumber;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
-    public String getParentId() {
-        return parentId;
+    public String getTreeLeaf() {
+        return treeLeaf;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId == null ? null : parentId.trim();
+    public void setTreeLeaf(String treeLeaf) {
+        this.treeLeaf = treeLeaf;
+    }
+
+    public String getTreeLevel() {
+        return treeLevel;
+    }
+
+    public void setTreeLevel(String treeLevel) {
+        this.treeLevel = treeLevel;
+    }
+
+    public String getParentCodes() {
+        return parentCodes;
+    }
+
+    public void setParentCodes(String parentCodes) {
+        this.parentCodes = parentCodes;
+    }
+
+    public Integer getTreeSort() {
+        return treeSort;
+    }
+
+    public void setTreeSort(Integer treeSort) {
+        this.treeSort = treeSort;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

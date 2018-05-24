@@ -35,7 +35,7 @@ public class DepController {
         Department resultDep = depService.insertSelective(department);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", resultDep.getId());
-        jsonObject.put("parentId", resultDep.getParentId());
+        jsonObject.put("parentCode", resultDep.getParentCode());
         jsonObject.put("depName", resultDep.getDepName());
         return ServiceUtil.getResponseJson("部门添加成功", true, jsonObject);
     }

@@ -9,7 +9,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">上级部门</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depName"
+                            <input type="text" class="form-control" name="parentCode"
                                    placeholder="请输入部门名称">
                         </div>
                     </div>
@@ -25,12 +25,11 @@
                         </div>
                     </div>
                 </div>
-                <!--/span-->
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门编码</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depCode"
+                            <input type="text" class="form-control" name="deptCode"
                                    placeholder="请输入部门编码">
                         </div>
                     </div>
@@ -51,7 +50,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">排序</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="number" class="form-control" name="depLeader">
+                            <input type="number" class="form-control" name="treeSort">
                         </div>
                     </div>
                 </div>
@@ -63,7 +62,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">负责人</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
+                            <input type="text" class="form-control" name="leader">
                         </div>
                     </div>
                 </div>
@@ -71,7 +70,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">办公电话</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
+                            <input type="text" class="form-control" name="phone">
                         </div>
                     </div>
                 </div>
@@ -79,7 +78,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">联系地址</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
+                            <input type="text" class="form-control" name="address">
                         </div>
                     </div>
                 </div>
@@ -87,7 +86,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">邮政编码</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
+                            <input type="text" class="form-control" name="zipCode">
                         </div>
                     </div>
                 </div>
@@ -95,24 +94,17 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">电子邮箱</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
+                            <input type="email" class="form-control" name="email">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">邮政编码</label>
-                        <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depLeader">
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+            <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">备注信息</label>
                         <div class="col-md-7 col-sm-7">
-                            <textarea name="description" class="form-control" rows="2"
+                            <textarea name="remarks" class="form-control" rows="2"
                             ></textarea>
                         </div>
                     </div>
@@ -121,15 +113,14 @@
         </div>
         <footer>
             <div class="cm-footer-style">
-                <a id="bms-dept-submit" class="btn btn-sm green btn-outline sbold ">
+                <a id="bms-dept-edit-submit" class="btn btn-sm green btn-outline sbold ">
                     &nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <a onclick="CommonUtils.reset('bms-dept-edit-form')"
                    class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <a onclick="CommonUtils.closeTab('dept_edit')" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
             </div>
         </footer>
-</div>
-</form>
+    </form>
 </div>
 
 
