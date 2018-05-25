@@ -50,10 +50,10 @@
                 UB.PHONE,
                 UB.EMAIL,
                 UB.DEPT_CODE,
-                D2.DEP_NAME AS DEPT_NAME,
+                D2.DEPT_NAME AS DEPT_NAME,
            FROM T_SYS_USER UB
            LEFT JOIN T_SYS_DEPT D2
-             ON D2.DEP_CODE = UB.DEPT_CODE
+             ON D2.DEPT_CODE = UB.DEPT_CODE
           WHERE UB.ID = #{id} AND UB.ACTIVE_FLAG = 1
     </select>
 

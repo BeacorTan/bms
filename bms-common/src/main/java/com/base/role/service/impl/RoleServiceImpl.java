@@ -79,7 +79,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         RoleData roleData = null;
         for (Department dept : authData) {
             roleData = new RoleData(roleCode, dept.getDeptCode());
-            roleData.setCtrlType(dept.getDepType());
+            roleData.setCtrlType(dept.getDeptType());
             ModelUtil.insertInit(roleData);
             roleDataMapper.insert(roleData);
         }
@@ -106,7 +106,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         List<Department> authData = roleVO.getAuthData();
         for (Department dept : authData) {
             roleData = new RoleData(roleCode, dept.getDeptCode());
-            roleData.setCtrlType(dept.getDepType());
+            roleData.setCtrlType(dept.getDeptType());
             ModelUtil.insertInit(roleData);
             roleDataMapper.insert(roleData);
         }

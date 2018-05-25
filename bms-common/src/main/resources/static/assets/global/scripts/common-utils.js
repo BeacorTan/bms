@@ -59,7 +59,7 @@ var CommonUtils = function () {
         var params = getFormData(formId);
         var result = "?";
         for (var var1 in params) {
-            if (params[var1]!== null && params[var1]!== ''  && params[var1]!== 'undefined') {
+            if (params[var1] !== null && params[var1] !== '' && params[var1] !== 'undefined') {
                 result += ( var1 + "=" + params[var1] + "&");
             }
         }
@@ -129,32 +129,18 @@ var CommonUtils = function () {
         $.addtabs.close({"id": id});
     }
 
-    var groupIndex = 0;
-
-    var callIndex = 0;
-
-    var getCallParams = function () {
-
-        var groups = wincall.fn_get_que();
-        var group, call;
-        if (groupIndex < groups.length) {
-            group = groups[groupIndex];
-            groupIndex++;
-        } else {
-            groupIndex = 0;
-            group = groups[groupIndex];
+    var updateTab = function (bootstrapTable, tabId, reqUrl, tabTitle) {
+        var rows = bootstrapTable.bootstrapTable('getSelections');
+        if (!rows || rows.length == 0) {
+            CM_Components.layerMsg("请选择您要编辑的数据");
+            return;
         }
-        var callers = wincall.fn_get_caller();
-
-        if (callIndex < callers.length) {
-            call = callers[callIndex];
-            callIndex++;
-        } else {
-            callIndex = 0;
-            call = callers[callIndex];
+        if (rows.length > 1) {
+            CM_Components.layerMsg("一次只能修改一行数据");
+            return;
         }
-        return {"group": group, "call": call};
-
+        var $reqUrl = reqUrl + "?id=" + rows[0].id;
+        CommonUtils.addTab(tabId, tabTitle, $reqUrl);
     }
 
     return {
@@ -171,11 +157,11 @@ var CommonUtils = function () {
         reset: function (formID) {
             formReset(formID);
         },
-        getCallParams: function () {
-            return getCallParams();
-        },
-        getRequestParams:function (formId) {
+        getRequestParams: function (formId) {
             return getRequestParams(formId);
+        },
+        updateTab: function (bootstrapTable, tabId, reqUrl,tabTitle) {
+            return updateTab(bootstrapTable, tabId, reqUrl,tabTitle);
         }
 
     };

@@ -71,7 +71,6 @@ public class UserController {
     @RequestMapping(value = "/page/list", method = RequestMethod.GET)
     @ResponseBody
     public PagedResult<UserBasic> getUserPageList(PageBean pageBean, UserBasicVO user) throws Exception {
-//        return userService.selectPageList(pageBean.getPageNumber(), pageBean.getPageSize(), user);
         return userBasiccService.selectPageList(pageBean, user);
     }
 

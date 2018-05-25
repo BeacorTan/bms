@@ -14,8 +14,8 @@ public class Department extends BaseModel{
     private String leader;
 
     /**部门名称*/
-    @Column(name="DEP_NAME")
-    private String depName;
+    @Column(name="DEPT_NAME")
+    private String deptName;
 
     /**部门编码*/
     @Column(name = "DEPT_CODE")
@@ -23,8 +23,8 @@ public class Department extends BaseModel{
 
 
     /**部门类型*/
-    @Column(name="DEP_TYPE")
-    private String depType;
+    @Column(name="DEPT_TYPE")
+    private String deptType;
 
     /**部门类型*/
     @Column(name="TREE_NAMES")
@@ -34,9 +34,11 @@ public class Department extends BaseModel{
     @Column(name="REMARKS")
     private String remarks;
 
+    // 是否最末级
     @Column(name="TREE_LEAF")
     private String treeLeaf;
 
+    // 层次级别
     @Column(name="TREE_LEVEL")
     private String treeLevel;
 
@@ -76,20 +78,20 @@ public class Department extends BaseModel{
         this.leader = leader;
     }
 
-    public String getDepName() {
-        return depName;
+    public String getDeptName() {
+        return deptName;
     }
 
-    public void setDepName(String depName) {
-        this.depName = depName;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
-    public String getDepType() {
-        return depType;
+    public String getDeptType() {
+        return deptType;
     }
 
-    public void setDepType(String depType) {
-        this.depType = depType;
+    public void setDeptType(String deptType) {
+        this.deptType = deptType;
     }
 
     public String getTreeNames() {

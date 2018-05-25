@@ -1,31 +1,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.base.dept.mapper.DepMapper">
+<mapper namespace="com.base.dept.mapper.DeptMapper">
 
     <resultMap id="depResultMap" type="com.base.dept.model.DepartmentVO">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR"/>
+        <result column="DEPT_TYPE" property="deptType" jdbcType="VARCHAR"/>
+        <result column="LEADER" property="leader" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
+        <result column="PARENT_CODE" property="parentId" jdbcType="VARCHAR"/>
+        <result column="DEPT_CODE" property="depCode" jdbcType="VARCHAR"/>
+        <result column="CHECKED" property="checked"/>
         <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
         <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
         <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
         <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
         <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
-        <result column="DEP_LEADER" property="depLeader" jdbcType="VARCHAR"/>
-        <result column="DEP_NAME" property="depName" jdbcType="VARCHAR"/>
-        <result column="DEP_TYPE" property="depType" jdbcType="VARCHAR"/>
-        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
-        <result column="ORDER_NUMBER" property="orderNumber" jdbcType="INTEGER"/>
-        <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR"/>
-        <result column="DEP_CODE" property="depCode" jdbcType="VARCHAR"/>
-        <result column="CHECKED" property="checked"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE,DEP_LEADER, DEP_NAME,
-    DEP_TYPE, DESCRIPTION, ORDER_NUMBER, PARENT_ID,DEP_CODE
+    ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE,DEPT_LEADER, DEPT_NAME,
+    DEPT_TYPE, DESCRIPTION, TREE_SORT, PARENT_CODE,DEPT_CODE
     </sql>
 
 
     <select id="selectDepZtreeData" resultMap="depResultMap">
-        SELECT id,PARENT_ID,DEP_NAME,DEP_CODE,DEP_TYPE
+        SELECT id,PARENT_CODE,DEPT_NAME,DEPT_CODE,DEPT_TYPE
         <if test="roleCode!=null and roleCode.length()>0">
             /*,NVL2(r.ctrl_data,1,0) checked*/
             ,if(r.ctrl_data is not null,1,0) checked
@@ -35,9 +35,9 @@
             left join (select ctrl_data
             From T_SYS_ROLE_DATA
             where role_code = #{roleCode} and ACTIVE_FLAG = 1) r
-            on d.DEP_CODE = r.ctrl_data
+            on d.DEPT_CODE = r.ctrl_data
         </if>
-        WHERE d.ACTIVE_FLAG = 1 ORDER BY d.ORDER_NUMBER ASC
+        WHERE d.ACTIVE_FLAG = 1 ORDER BY d.TREE_SORT ASC
     </select>
 
 </mapper>

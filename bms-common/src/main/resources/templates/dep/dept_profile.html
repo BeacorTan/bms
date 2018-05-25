@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门名称</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="depName"
+                            <input type="text" class="form-control" name="deptName"
                                    placeholder="请输入部门名称">
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门类型</label>
                         <div class="col-md-7 col-sm-7">
-                            <select class="form-control" name="depType">
+                            <select class="form-control" name="deptType">
                                 <option value="company">公司</option>
                                 <option value="dept">部门</option>
                                 <option value="group">组</option>
@@ -123,9 +123,9 @@
     </form>
 </div>
 
-
+<script th:src="@{/assets/system/dep/dep.js}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
-//        Dep.initDepUpdate();
+        Dep.initDeptProfile();
     });
 </script>
