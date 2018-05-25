@@ -12,31 +12,34 @@
         </button>
     </div>
 </div>
-
 <div class="portlet light">
     <div class="portlet-body">
         <form class="form-horizontal" id="bms-dept-search-form">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <label class="control-label col-md-4">部门名称&nbsp;:</label>
-                        <div class="col-md-8">
+                        <label class="control-label col-md-6">部门名称&nbsp;:</label>
+                        <div class="col-md-6">
                             <input type="text" name="deptName" class="form-control"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <label class="control-label col-md-4">部门编码&nbsp;:</label>
-                        <div class="col-md-8">
+                        <label class="control-label col-md-6">部门编码&nbsp;:</label>
+                        <div class="col-md-6">
                             <input type="text" name="deptCode" class="form-control">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <label class="control-label col-md-4">部门类型&nbsp;:</label>
-                        <div class="col-md-8">
-                            <input type="text" name="deptType" class="form-control">
+                        <label class="control-label col-md-6">部门类型&nbsp;:</label>
+                        <div class="col-md-6">
+                            <select class="form-control" name="deptType">
+                                <option value="company">公司</option>
+                                <option value="dept">部门</option>
+                                <option value="group">组</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -45,10 +48,10 @@
                         <label class="control-label">创建时间&nbsp;:</label>
                     </div>
                     <div class="form-group col-md-8">
-                            <input class="form-control" type="text" name="endDate" id="bms-dept-create">
+                        <input class="form-control" type="text" name="endDate" id="bms-dept-create">
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-6 col-lg-offset-10 col-md-offset-10 col-md-offset-6">
+                <div class="col-lg-2 col-md-2 col-sm-6">
                     <div class="actions pull-left">
                         <a id="bms-dept-search-btn" class="btn  green btn-outline sbold btn-sm">
                             <i class="fa fa-search"></i> 搜索 </a>
@@ -83,8 +86,6 @@
         </table>
     </div>
 </div>
-
-
 <script th:src="@{/assets/system/dep/dep.js}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
@@ -92,8 +93,8 @@
         //日期时间范围
         laydate.render({
             elem: '#bms-dept-create'
-            ,type: 'datetime'
-            ,range: true
+            , type: 'datetime'
+            , range: true
         });
     });
 </script>

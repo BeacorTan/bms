@@ -9,8 +9,6 @@ import javax.persistence.Table;
 @Table(name = "T_SYS_DEPT")
 public class Department extends BaseModel {
 
-
-
     /**
      * 部门名称
      */
