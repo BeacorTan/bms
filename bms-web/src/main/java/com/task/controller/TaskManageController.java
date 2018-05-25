@@ -53,9 +53,6 @@ public class TaskManageController {
             } catch (Exception e) {
                 LOGGER.error("TaskManageController.profile()异常：{}", e);
             }
-//            if (task == null) {
-//                task = new TaskVO();
-//            }
             modelMap.put("task", task);
             return new ModelAndView("module/task/task_profile", modelMap);
         }

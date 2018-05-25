@@ -28,6 +28,7 @@ import java.util.List;
 @Service
 public class DeptServiceImpl extends BaseServiceImpl<Department> implements DeptService {
 
+
     @Resource
     private DeptMapper depMapper;
 

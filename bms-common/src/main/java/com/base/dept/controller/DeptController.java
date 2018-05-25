@@ -1,17 +1,17 @@
 package com.base.dept.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.base.dept.model.Department;
 import com.base.dept.service.DeptService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
-import com.common.framework.util.ServiceUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +25,7 @@ import java.util.List;
 @RequestMapping(value = "dept")
 public class DeptController {
 
+    private Logger LOGGER = LoggerFactory.getLogger(DeptController.class);
 
     @Resource
     private DeptService depService;
@@ -54,7 +55,13 @@ public class DeptController {
 
     @RequestMapping(value = "/profile")
     public ModelAndView profile(String id, ModelMap modelMap) {
-        modelMap.addAttribute("parentId", id);
+        if (StringUtils.isNotBlank(id)) {
+            try {
+                modelMap.addAttribute("dept", depService.selectByPrimaryKey(id));
+            } catch (Exception e) {
+                LOGGER.error("DeptController.profile()异常：{}", e);
+            }
+        }
         return new ModelAndView("dep/dept_profile");
     }
 
