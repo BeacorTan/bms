@@ -1,11 +1,10 @@
 package com.base.dept.service.impl;
 
-import com.alibaba.druid.sql.PagerUtils;
 import com.base.dept.mapper.DeptMapper;
 import com.base.dept.model.Department;
-import com.base.dept.model.DepartmentVO;
 import com.base.dept.service.DeptService;
 import com.common.framework.base.BaseMapper;
+import com.common.framework.base.BaseModel;
 import com.common.framework.base.BaseServiceImpl;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
@@ -16,15 +15,11 @@ import com.common.framework.util.ServiceUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * 部门接口类
- *
- * @date 2017年04月03日
- */
 @Service
 public class DeptServiceImpl extends BaseServiceImpl<Department> implements DeptService {
 
@@ -44,11 +39,23 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
         return BeanUtil.toPagedResult(depMapper.select(department));
     }
 
+    @Transactional
     @Override
     public ResponseJson edit(Department department) {
 
         if (department == null) {
             return ServiceUtil.getResponseJson("编辑失败", false);
+        }
+        String parentCode = department.getParentCode();
+
+        if (StringUtils.isNotBlank(parentCode)) {
+            Department parentDept = depMapper.selectOne(new Department(parentCode, BaseModel.ACTIVE_FLAG_YES));
+            if (parentCode != null) {
+                depMapper.updateByDeptCode(new Department(parentCode, "0"));
+                department.setParentCodes(parentDept.getParentCodes() + "," + parentCode);
+                department.setTreeNames(parentDept.getTreeNames() + "/" + department.getDeptName());
+                department.setTreeLevel(parentDept.getTreeLevel() + 1);
+            }
         }
         if (StringUtils.isNotBlank(department.getId())) {
             // update
@@ -57,9 +64,8 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
         } else {
             // insert
             ModelUtil.insertInit(department);
-//            String parentCodes;
-//            department.setParentCodes(parentCodes);
-            department.setTreeLeaf("0");
+            // 默认是末级
+            department.setTreeLeaf("1");
             depMapper.insertSelective(department);
         }
         return ServiceUtil.getResponseJson("编辑成功", true);

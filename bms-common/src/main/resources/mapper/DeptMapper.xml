@@ -40,4 +40,9 @@
         WHERE d.ACTIVE_FLAG = 1 ORDER BY d.TREE_SORT ASC
     </select>
 
+
+    <update id="updateByDeptCode" parameterType="com.base.dept.model.Department">
+        UPDATE T_SYS_DEPT SET TREE_LEAF=#{treeLeaf,jdbcType=VARCHAR} WHERE DEPT_CODE=#{deptCode,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

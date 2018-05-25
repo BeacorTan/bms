@@ -40,24 +40,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="col-md-3" style="text-align: right;">
-                        <label class="control-label">任务起止时间&nbsp;:</label>
+                <div class="col-md-3">
+                    <div class="col-md-4" style="text-align: right;">
+                        <label class="control-label">创建时间&nbsp;:</label>
                     </div>
-                    <div class="form-group col-md-4">
-                        <div class="input-group date form_datetime search-date">
-                            <input class="form-control" name="beginDate" type="text">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <label class="control-label">至</label>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <div class="input-group date form_datetime search-date">
-                            <input class="form-control" type="text" name="endDate">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
+                    <div class="form-group col-md-8">
+                            <input class="form-control" type="text" name="endDate" id="bms-dept-create">
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-lg-offset-10 col-md-offset-10 col-md-offset-6">
@@ -101,5 +89,11 @@
 <script>
     jQuery(document).ready(function () {
         Dep.initDeptMain();
+        //日期时间范围
+        laydate.render({
+            elem: '#bms-dept-create'
+            ,type: 'datetime'
+            ,range: true
+        });
     });
 </script>

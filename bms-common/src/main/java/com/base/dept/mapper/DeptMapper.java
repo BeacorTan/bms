@@ -11,4 +11,6 @@ import java.util.List;
 public interface DeptMapper extends BaseMapper<Department> {
 
     List<DepartmentVO> selectDepZtreeData(@Param("roleCode") String roleCode);
+
+    int updateByDeptCode(Department department);
 }

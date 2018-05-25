@@ -7,68 +7,105 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 
 @Table(name = "T_SYS_DEPT")
-public class Department extends BaseModel{
+public class Department extends BaseModel {
 
-    /**部门领导*/
-    @Column(name="LEADER")
-    private String leader;
 
-    /**部门名称*/
-    @Column(name="DEPT_NAME")
+
+    /**
+     * 部门名称
+     */
+    @Column(name = "DEPT_NAME")
     private String deptName;
 
-    /**部门编码*/
+    /**
+     * 部门编码
+     */
     @Column(name = "DEPT_CODE")
     private String deptCode;
 
 
-    /**部门类型*/
-    @Column(name="DEPT_TYPE")
+    /**
+     * 部门类型
+     */
+    @Column(name = "DEPT_TYPE")
     private String deptType;
 
-    /**部门类型*/
-    @Column(name="TREE_NAMES")
+    // 全节点名
+    @Column(name = "TREE_NAMES")
     private String treeNames;
 
-    /**备注信息*/
-    @Column(name="REMARKS")
+    /**
+     * 备注信息
+     */
+    @Column(name = "REMARKS")
     private String remarks;
 
-    // 是否最末级
-    @Column(name="TREE_LEAF")
+    // 是否最末级 0:否 1：是
+    @Column(name = "TREE_LEAF")
     private String treeLeaf;
 
-    // 层次级别
-    @Column(name="TREE_LEVEL")
-    private String treeLevel;
+    /**
+     * 部门领导
+     */
+    @Column(name = "LEADER")
+    private String leader;
 
-    @Column(name="PARENT_CODES")
+    // 层次级别
+    @Column(name = "TREE_LEVEL")
+    private Integer treeLevel;
+
+    @Column(name = "PARENT_CODES")
     private String parentCodes;
 
-    /**排序号*/
-    @Column(name="TREE_SORT")
+    /**
+     * 排序号
+     */
+    @Column(name = "TREE_SORT")
     private Integer treeSort;
 
-    /**父部门*/
-    @Column(name="PARENT_CODE")
+    /**
+     * 父部门
+     */
+    @Column(name = "PARENT_CODE")
     private String parentCode;
 
 
-    /**电话*/
+    /**
+     * 电话
+     */
     @Column(name = "PHONE")
     private String phone;
 
-    /**地址*/
+    /**
+     * 地址
+     */
     @Column(name = "ADDRESS")
     private String address;
 
-    /**邮编*/
+    /**
+     * 邮编
+     */
     @Column(name = "ZIP_CODE")
     private String zipCode;
 
-    /**邮箱*/
+    /**
+     * 邮箱
+     */
     @Column(name = "EMAIL")
     private String email;
+
+    public Department(String deptCode, Integer activeFlag) {
+        this.activeFlag = activeFlag;
+        this.deptCode = deptCode;
+    }
+
+    public Department(String deptCode, String treeLeaf) {
+        this.treeLeaf = treeLeaf;
+        this.deptCode = deptCode;
+    }
+
+    public Department() {
+    }
 
     public String getLeader() {
         return leader;
@@ -118,11 +155,11 @@ public class Department extends BaseModel{
         this.treeLeaf = treeLeaf;
     }
 
-    public String getTreeLevel() {
+    public Integer getTreeLevel() {
         return treeLevel;
     }
 
-    public void setTreeLevel(String treeLevel) {
+    public void setTreeLevel(Integer treeLevel) {
         this.treeLevel = treeLevel;
     }
 
