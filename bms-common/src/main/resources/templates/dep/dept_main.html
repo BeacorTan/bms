@@ -1,73 +1,69 @@
-<div class="container row">
-    <div class="col-md-1 col-xs-2">
-        <button id="bms-dept-add-btn" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
-        </button>
+<div class="container" style="width: 100%;">
+    <div class="row">
+        <div class="col-md-1 col-xs-2">
+            <button id="bms-dept-add-btn" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button id="bms-dept-update-btn" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button id="bms-dept-remove-btn" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            </button>
+        </div>
     </div>
-    <div class="col-md-1 col-xs-2">
-        <button id="bms-dept-update-btn" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
-        </button>
-    </div>
-    <div class="col-md-1 col-xs-2">
-        <button id="bms-dept-remove-btn" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
-        </button>
-    </div>
-</div>
-<div class="portlet light">
-    <div class="portlet-body">
-        <form class="form-horizontal" id="bms-dept-search-form">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="control-label col-md-6">部门名称&nbsp;:</label>
-                        <div class="col-md-6">
-                            <input type="text" name="deptName" class="form-control"></div>
-                    </div>
+    <form class="form-horizontal" id="bms-dept-search-form">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label col-md-6">部门名称&nbsp;:</label>
+                    <div class="col-md-6">
+                        <input type="text" name="deptName" class="form-control"></div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="control-label col-md-6">部门编码&nbsp;:</label>
-                        <div class="col-md-6">
-                            <input type="text" name="deptCode" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label class="control-label col-md-6">部门类型&nbsp;:</label>
-                        <div class="col-md-6">
-                            <select class="form-control" name="deptType">
-                                <option value="company">公司</option>
-                                <option value="dept">部门</option>
-                                <option value="group">组</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="col-md-4" style="text-align: right;">
-                        <label class="control-label">创建时间&nbsp;:</label>
-                    </div>
-                    <div class="form-group col-md-8">
-                        <input class="form-control" type="text" name="endDate" id="bms-dept-create">
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-6">
-                    <div class="actions pull-left">
-                        <a id="bms-dept-search-btn" class="btn  green btn-outline sbold btn-sm">
-                            <i class="fa fa-search"></i> 搜索 </a>
-                        <a onclick="CommonUtils.reset('bms-dept-search-form')"
-                           class="btn  green btn-outline sbold btn-sm">
-                            <i class="fa fa-print"></i> 重置 </a>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label col-md-6">部门编码&nbsp;:</label>
+                    <div class="col-md-6">
+                        <input type="text" name="deptCode" class="form-control">
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
-
-
-<div class="portlet light portlet-fit">
-    <div class="portlet-body">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label col-md-6">部门类型&nbsp;:</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="deptType">
+                            <option value="company">公司</option>
+                            <option value="dept">部门</option>
+                            <option value="group">组</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">创建时间&nbsp;:</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="endDate" id="bms-dept-create">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a id="bms-dept-search-btn" class="btn  green btn-outline sbold btn-sm">
+                        <i class="fa fa-search"></i> 搜索 </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a onclick="CommonUtils.reset('bms-dept-search-form')"
+                       class="btn  green btn-outline sbold btn-sm">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
         <table data-classes="table table-no-bordered" id="bms-dept-table" data-form="bms-dept-search-form">
             <thead>
             <tr>
