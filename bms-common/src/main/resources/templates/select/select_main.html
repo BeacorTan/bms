@@ -1,0 +1,96 @@
+<link th:href="@{/assets/global/plugins/select/css/select.css}" rel="stylesheet" type="text/css"/>
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <form class="form-horizontal" id="cmmg_sysConfig_search_form" style="height: 500px;">
+            <input type="hidden" name="id" th:value="${task!=null?task.id:''}"/>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">公司&nbsp;:</label>
+                        <div class="col-md-8">
+                            <div class="form-control select-container" arrow="down" data-url="/systemConfig/page/list"
+                                 data-code="configCode" data-value="configValue">
+                                <span class="item-name">全部</span>
+                                <input type="text" name="configCode" hidden="hidden"/>
+                                <span class="select-container-arrow"><i class="fa fa-sort-desc"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <style>
+
+                </style>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label col-md-6">部门&nbsp;:</label>
+                        <div class="col-md-6">
+                            <div class="input-group select-linkage" data-parent="false" data-children="true">
+                                <input type="text" class="form-control select-linkage-show" placeholder="请选择">
+                                <input type="hidden" name="deptCode">
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-sm btn-primary">Go</button>
+                               </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    jQuery(document).ready(function () {
+
+                        $(".select-linkage-show").on("keypress", function (event) {
+                            // 回车
+                            if (event.which === 13) {
+                                bandingSelectData($(this).parent());
+                            }
+                        });
+
+                        $(".select-linkage>.input-group-btn").click(function () {
+                            console.log("click");
+                            bandingSelectData($(this).parent());
+                        });
+
+                        function bandingSelectData(selectLinkage) {
+                            var $selectContainerList = $("<div></div>");
+                            $selectContainerList.addClass("select-container-list");
+                            var $selectContainerItem = $("<div></div>");
+                            $selectContainerItem.addClass("select-container-item");
+                            var $ul = $("<ul></ul>");
+
+                            var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
+                            var $li;
+                            for (let index of $data) {
+                                $li = $("<li></li>");
+                                $li.attr("data-code",index["code"]);
+                                $li.html(index["name"]);
+                                $li.click(function () {
+                                    console.log($(this).html());
+                                });
+                                $ul.append($li);
+                            }
+                            $selectContainerItem.append($ul);
+                            $selectContainerList.append($selectContainerItem);
+                            selectLinkage.after($selectContainerList);
+                        }
+                    });
+                </script>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-3">
+                    <div class="actions pull-left">
+                        <a id="cmmg_sysConfig_searchBtn" class="btn btn-sm btn-circle green sbold">
+                            <i class="fa fa-search"></i> 搜索 </a>
+                        <a onclick="CommonUtils.reset('cmmg_sysConfig_search_form')"
+                           class="btn btn-sm btn-circle green btn-outline sbold">
+                            <i class="fa fa-print"></i> 重置 </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/assets/global/plugins/select/js/select.js}" type="text/javascript"></script>

@@ -17,6 +17,7 @@ import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ServiceUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,6 @@ import java.util.List;
 
 /**
  * 部门接口类
- *
  *
  * @date 2017年04月03日
  */
@@ -94,21 +94,25 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         String roleCode = roleVO.getRoleCode();
         RoleFunctionMap roleFunctionMap = new RoleFunctionMap(roleCode);
         roleFunctionMapper.delete(roleFunctionMap);
-        for (String functionCode : functionCodes) {
-            roleFunctionMap = new RoleFunctionMap(roleCode, functionCode);
-            ModelUtil.insertInit(roleFunctionMap);
-            roleFunctionMapper.insert(roleFunctionMap);
+        if (CollectionUtils.isNotEmpty(functionCodes)) {
+            for (String functionCode : functionCodes) {
+                roleFunctionMap = new RoleFunctionMap(roleCode, functionCode);
+                ModelUtil.insertInit(roleFunctionMap);
+                roleFunctionMapper.insert(roleFunctionMap);
+            }
         }
 
         RoleData roleData = new RoleData();
         roleData.setRoleCode(roleCode);
         roleDataMapper.delete(roleData);
         List<Department> authData = roleVO.getAuthData();
-        for (Department dept : authData) {
-            roleData = new RoleData(roleCode, dept.getDeptCode());
-            roleData.setCtrlType(dept.getDeptType());
-            ModelUtil.insertInit(roleData);
-            roleDataMapper.insert(roleData);
+        if (CollectionUtils.isNotEmpty(authData)) {
+            for (Department dept : authData) {
+                roleData = new RoleData(roleCode, dept.getDeptCode());
+                roleData.setCtrlType(dept.getDeptType());
+                ModelUtil.insertInit(roleData);
+                roleDataMapper.insert(roleData);
+            }
         }
 
     }

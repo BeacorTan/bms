@@ -70,15 +70,17 @@ var CPMG_ROLE = function () {
                 params["functionCodes"] = functionCodes;
                 // 数据权限
                 var deptTree = $.fn.zTree.getZTreeObj("role_dept_Tree");
-                var deptTreeNodes = deptTree.getCheckedNodes(true);
-                var authData = [];
-                if (deptTreeNodes) {
-                    var deptTreeNodesSize = deptTreeNodes.length;
-                    for (var i = 0; i < deptTreeNodesSize; i++) {
-                        authData.push(deptTreeNodes[i]);
+                if(deptTree){
+                    var deptTreeNodes = deptTree.getCheckedNodes(true);
+                    var authData = [];
+                    if (deptTreeNodes) {
+                        var deptTreeNodesSize = deptTreeNodes.length;
+                        for (var i = 0; i < deptTreeNodesSize; i++) {
+                            authData.push(deptTreeNodes[i]);
+                        }
                     }
+                    params["authData"] = authData;
                 }
-                params["authData"] = authData;
 
                 var url;
                 if (roleID) {
