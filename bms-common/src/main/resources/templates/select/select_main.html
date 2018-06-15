@@ -73,11 +73,11 @@
 
                             var $showLabel = this.$el.find("span.select-linkage-show");
                             this.showLabel = $showLabel;
-                            console.log($showLabel.attr("class"));
 
                             var $childrenId = this.$el.attr("children-id");
                             if ($childrenId) {
                                 this.childrenId = $childrenId;
+                                this.childrenSelect = $("#"+$childrenId);
                             }
 
                             var $selectInput = this.$el.find("input[type=hidden]");
@@ -101,6 +101,7 @@
                                     }
                                 });
                             });
+
 
                             $that.$el.find("span.input-group-btn").click(function () {
                                 var $searchInput = this.searchInput;
@@ -152,9 +153,13 @@
                                     $that.showLabel.show().prev().remove();
                                     $that.searchInput = undefined;
                                     $that.showLabel.text($(this).html());
-                                    $that.selectInput.val($(this).attr("data-code"));
+                                    var $currCode = $(this).attr("data-code");
+                                    $that.selectInput.val($currCode);
                                     $selectContainerList.remove();
                                     $that.selectContainerList = undefined;
+                                    if($that.childrenSelect){
+                                        $that.childrenSelect.data("parentCode", $currCode);
+                                    }
                                 });
                                 $ul.append($li);
                             }
@@ -221,7 +226,7 @@
 
                 <script>
                     jQuery(document).ready(function () {
-                        $("#select-dept").selectLinkage({"url": "/test"});
+                        $("#select-dept").selectLinkage({"url": "/dept/linkage"});
                     });
                 </script>
             </div>

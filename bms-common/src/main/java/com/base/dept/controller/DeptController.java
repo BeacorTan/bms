@@ -47,6 +47,11 @@ public class DeptController {
         return depService.query(department, pageBean);
     }
 
+    @RequestMapping(value = "/linkage", method = RequestMethod.GET)
+    public PagedResult<Department> linkage(Department department, PageBean pageBean) throws Exception {
+        return depService.linkage(department, pageBean);
+    }
+
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView depMain() {

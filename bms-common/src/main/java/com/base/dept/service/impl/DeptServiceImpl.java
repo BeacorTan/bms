@@ -36,7 +36,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     @Override
     public PagedResult<Department> query(Department department, PageBean pageBean) {
         ServiceUtil.startPage(pageBean);
-        return BeanUtil.toPagedResult(depMapper.select(department));
+        return BeanUtil.toPagedResult(depMapper.selectByDepartment(department));
     }
 
     @Transactional
@@ -83,6 +83,20 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             depMapper.updateByPrimaryKeySelective(department);
         });
         return ServiceUtil.getResponseJson("删除成功", true);
+    }
+
+    @Override
+    public PagedResult<Department> linkage(Department department, PageBean pageBean) {
+        if (department == null) {
+            department = new Department();
+            department.setParentCode("0");
+        } else {
+            String parentCode = department.getParentCode();
+            if (parentCode == null || "".equals(parentCode)) {
+                department.setParentCode("0");
+            }
+        }
+        return this.query(department, pageBean);
     }
 
 

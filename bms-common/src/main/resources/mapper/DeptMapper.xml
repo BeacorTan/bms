@@ -40,6 +40,21 @@
         WHERE d.ACTIVE_FLAG = 1 ORDER BY d.TREE_SORT ASC
     </select>
 
+    <select id="selectByDepartment" resultMap="depResultMap" parameterType="com.base.dept.model.Department">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SYS_DEPT d
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="deptName!=null and deptName.length()>0">
+                d.DEPT_NAME like '%${deptName}%'
+            </if>
+            <if test="deptCode!=null and deptCode.length()>0">
+                d.DEPT_CODE like '%${deptCode}%'
+            </if>
+            d.ACTIVE_FLAG = 1
+        </trim>
+    </select>
+
 
     <update id="updateByDeptCode" parameterType="com.base.dept.model.Department">
         UPDATE T_SYS_DEPT SET TREE_LEAF=#{treeLeaf,jdbcType=VARCHAR} WHERE DEPT_CODE=#{deptCode,jdbcType=VARCHAR}

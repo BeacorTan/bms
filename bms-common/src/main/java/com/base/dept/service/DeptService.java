@@ -27,5 +27,5 @@ public interface DeptService extends BaseService<Department> {
 
     ResponseJson remove(List<String> ids);
 
-
+    PagedResult<Department> linkage(Department department, PageBean pageBean);
 }
