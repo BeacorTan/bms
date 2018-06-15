@@ -28,8 +28,23 @@
                     <div class="form-group">
                         <label class="control-label col-md-6">部门&nbsp;:</label>
                         <div class="col-md-6">
-                            <div class="input-group select-linkage" data-parent="false" data-children="true">
-                                <input type="text" class="form-control select-linkage-show" placeholder="请选择">
+                            <div class="input-group select-linkage" id="select-dept" children-id="select-group">
+                                <span type="text" class="form-control select-linkage-show"></span>
+                                <input type="hidden" name="deptCode">
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-sm btn-primary">Go</button>
+                               </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label col-md-6">&nbsp;组:</label>
+                        <div class="col-md-6">
+                            <div class="input-group select-linkage" id="select-group">
+                                <span class="form-control select-linkage-show"></span>
                                 <input type="hidden" name="deptCode">
                                 <span class="input-group-btn">
                                   <button type="button" class="btn btn-sm btn-primary">Go</button>
@@ -41,40 +56,61 @@
                 <script>
                     jQuery(document).ready(function () {
 
-                        $(".select-linkage-show").on("keypress", function (event) {
-                            // 回车
-                            if (event.which === 13) {
-                                bandingSelectData($(this).parent());
-                            }
-                        });
+                        $.fn.selectLinkage = function (ops) {
 
-                        $(".select-linkage>.input-group-btn").click(function () {
-                            console.log("click");
-                            bandingSelectData($(this).parent());
-                        });
+                            var $that = $(this);
+                            var $showName = $that.find("span.select-linkage-show");
+                            var $input = $("<input class='form-control'>");
 
-                        function bandingSelectData(selectLinkage) {
-                            var $selectContainerList = $("<div></div>");
-                            $selectContainerList.addClass("select-container-list");
-                            var $selectContainerItem = $("<div></div>");
-                            $selectContainerItem.addClass("select-container-item");
-                            var $ul = $("<ul></ul>");
+                            var $childrenId=$that.attr("children-id");
 
-                            var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
-                            var $li;
-                            for (let index of $data) {
-                                $li = $("<li></li>");
-                                $li.attr("data-code",index["code"]);
-                                $li.html(index["name"]);
-                                $li.click(function () {
-                                    console.log($(this).html());
+                            var $selectInput=$that.find("input[type=hidden]");
+                            $showName.click(function () {
+                                $(this).hide();
+                                $(this).parent().prepend($input);
+                                $input.focus();
+                                $input.on("keypress", function (event) {
+                                    // 回车
+                                    if (event.which === 13) {
+                                        bandingSelectData($that, $showName,$selectInput);
+                                    }
                                 });
-                                $ul.append($li);
+                            });
+
+                            $that.find("span.input-group-btn").click(function () {
+                                bandingSelectData($that, $showName,$selectInput);
+                            });
+
+                            function bandingSelectData(selectLinkage, showName,selectInput) {
+
+                                var $selectContainerList = $("<div></div>");
+                                $selectContainerList.addClass("select-container-list");
+                                var $selectContainerItem = $("<div></div>");
+                                $selectContainerItem.addClass("select-container-item");
+                                var $ul = $("<ul></ul>");
+
+                                var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
+                                var $li;
+                                for (let index of $data) {
+                                    $li = $("<li></li>");
+                                    $li.attr("data-code", index["code"]);
+                                    $li.html(index["name"]);
+                                    $li.click(function () {
+                                        showName.show().prev().remove();
+                                        showName.text($(this).html());
+                                        selectInput.val($(this).attr("data-code"));
+                                        $selectContainerList.remove();
+                                    });
+                                    $ul.append($li);
+                                }
+                                $selectContainerItem.append($ul);
+                                $selectContainerList.append($selectContainerItem);
+                                selectLinkage.after($selectContainerList);
                             }
-                            $selectContainerItem.append($ul);
-                            $selectContainerList.append($selectContainerItem);
-                            selectLinkage.after($selectContainerList);
                         }
+
+
+                        $("#select-dept").selectLinkage({"url": "/test"});
                     });
                 </script>
             </div>
