@@ -29,7 +29,7 @@
                         <label class="control-label col-md-6">部门&nbsp;:</label>
                         <div class="col-md-6">
                             <div class="input-group select-linkage" id="select-dept" children-id="select-group">
-                                <span type="text" class="form-control select-linkage-show"></span>
+                                <span class="form-control select-linkage-show"></span>
                                 <input type="hidden" name="deptCode">
                                 <span class="input-group-btn">
                                   <button type="button" class="btn btn-sm btn-primary">Go</button>
@@ -53,63 +53,174 @@
                         </div>
                     </div>
                 </div>
+
                 <script>
-                    jQuery(document).ready(function () {
+                    !function ($) {
 
-                        $.fn.selectLinkage = function (ops) {
+                        var SelectLinkage = function (el, options) {
+                            this.options = options;
+                            this.$el = $(el);
+                            this.$el_ = this.$el.clone();
+                            this.init();
+                        };
 
-                            var $that = $(this);
-                            var $showName = $that.find("span.select-linkage-show");
-                            var $input = $("<input class='form-control'>");
+                        SelectLinkage.prototype.init = function () {
+                            this.initOptions();
+                            this.bandingEvent();
+                        }
 
-                            var $childrenId=$that.attr("children-id");
+                        SelectLinkage.prototype.initOptions = function () {
 
-                            var $selectInput=$that.find("input[type=hidden]");
-                            $showName.click(function () {
-                                $(this).hide();
-                                $(this).parent().prepend($input);
-                                $input.focus();
-                                $input.on("keypress", function (event) {
+                            var $showLabel = this.$el.find("span.select-linkage-show");
+                            this.showLabel = $showLabel;
+                            console.log($showLabel.attr("class"));
+
+                            var $childrenId = this.$el.attr("children-id");
+                            if ($childrenId) {
+                                this.childrenId = $childrenId;
+                            }
+
+                            var $selectInput = this.$el.find("input[type=hidden]");
+                            this.selectInput = $selectInput;
+                        }
+
+                        SelectLinkage.prototype.bandingEvent = function () {
+                            var $that = this;
+                            var $searchInput = $("<input class='form-control'>");
+
+                            $that.showLabel.click(function () {
+                                var $showLabel = $(this);
+                                $showLabel.hide();
+                                $showLabel.parent().prepend($searchInput);
+                                $searchInput.focus();
+                                $that.searchInput = $searchInput;
+                                $that.searchInput.on("keypress", function (event) {
                                     // 回车
                                     if (event.which === 13) {
-                                        bandingSelectData($that, $showName,$selectInput);
+                                        $that.bandingData($(this).val());
                                     }
                                 });
                             });
 
-                            $that.find("span.input-group-btn").click(function () {
-                                bandingSelectData($that, $showName,$selectInput);
-                            });
-
-                            function bandingSelectData(selectLinkage, showName,selectInput) {
-
-                                var $selectContainerList = $("<div></div>");
-                                $selectContainerList.addClass("select-container-list");
-                                var $selectContainerItem = $("<div></div>");
-                                $selectContainerItem.addClass("select-container-item");
-                                var $ul = $("<ul></ul>");
-
-                                var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
-                                var $li;
-                                for (let index of $data) {
-                                    $li = $("<li></li>");
-                                    $li.attr("data-code", index["code"]);
-                                    $li.html(index["name"]);
-                                    $li.click(function () {
-                                        showName.show().prev().remove();
-                                        showName.text($(this).html());
-                                        selectInput.val($(this).attr("data-code"));
-                                        $selectContainerList.remove();
-                                    });
-                                    $ul.append($li);
+                            $that.$el.find("span.input-group-btn").click(function () {
+                                var $searchInput = this.searchInput;
+                                var params;
+                                if ($searchInput) {
+                                    params = $searchInput.val();
                                 }
-                                $selectContainerItem.append($ul);
-                                $selectContainerList.append($selectContainerItem);
-                                selectLinkage.after($selectContainerList);
-                            }
+                                $that.bandingData(params);
+                            });
                         }
 
+                        SelectLinkage.prototype.bandingData = function (params) {
 
+                            var $that = this;
+
+                            if ($that.selectContainerList) {
+                                $that.selectContainerList.remove();
+                                $that.selectContainerList = undefined;
+                            }
+
+                            var $selectContainerList = $("<div></div>");
+                            $selectContainerList.addClass("select-container-list");
+                            var $selectContainerItem = $("<div></div>");
+                            $selectContainerItem.addClass("select-container-item");
+                            var $ul = $("<ul></ul>");
+
+                            var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
+
+//                            $.ajax({
+//                                url: CM_Components.getContextAll($that.options.url),
+//                                type: "GET",
+//                                data: JSON.stringify({"code": params}),
+//                                dataType: "json",
+//                                success: function (result) {
+//                                    getListData(result);
+//                                }
+//                            });
+
+                            function getListData(result) {
+
+                            }
+
+                            var $li;
+                            for (let index of $data) {
+                                $li = $("<li></li>");
+                                $li.attr("data-code", index["code"]);
+                                $li.html(index["name"]);
+                                $li.click(function () {
+                                    $that.showLabel.show().prev().remove();
+                                    $that.searchInput = undefined;
+                                    $that.showLabel.text($(this).html());
+                                    $that.selectInput.val($(this).attr("data-code"));
+                                    $selectContainerList.remove();
+                                    $that.selectContainerList = undefined;
+                                });
+                                $ul.append($li);
+                            }
+                            $selectContainerItem.append($ul);
+                            $selectContainerList.append($selectContainerItem);
+                            $that.$el.after($selectContainerList);
+                            $that.selectContainerList = $selectContainerList
+                        }
+
+                        var allowedMethods = [
+                            'getOptions',
+                            'getSelectData',
+                            'load', 'append', 'prepend', 'remove', 'removeAll',
+                            'insertRow', 'updateRow', 'updateCell', 'updateByUniqueId', 'removeByUniqueId',
+                            'getRowByUniqueId', 'showRow', 'hideRow', 'getRowsHidden',
+                            'mergeCells',
+                            'checkAll', 'uncheckAll',
+                            'check', 'uncheck',
+                            'checkBy', 'uncheckBy',
+                            'refresh',
+                            'resetView',
+                            'resetWidth',
+                            'destroy',
+                            'showLoading', 'hideLoading',
+                            'showColumn', 'hideColumn', 'getHiddenColumns',
+                            'filterBy',
+                            'scrollTo',
+                            'getScrollPosition',
+                            'selectPage', 'prevPage', 'nextPage',
+                            'togglePagination',
+                            'toggleView',
+                            'refreshOptions',
+                            'resetSearch',
+                            'expandRow', 'collapseRow', 'expandAllRows', 'collapseAllRows'
+                        ];
+
+                        $.fn.selectLinkage = function (option) {
+                            var value, args = Array.prototype.slice.call(arguments, 1);
+                            this.each(function () {
+                                var $this = $(this), data = $this.data('select.linkage');
+                                // jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。
+                                var options = $.extend({}, data, typeof option === 'object' && option);
+                                if (typeof option === 'string') {
+                                    if ($.inArray(option, allowedMethods) < 0) {
+                                        throw new Error("Unknown method: " + option);
+                                    }
+
+                                    if (!data) {
+                                        return;
+                                    }
+                                    value = data[option].apply(data, args);
+//                                    if (option === 'destroy') {
+//                                        $this.removeData('select.linkage');
+//                                    }
+                                }
+                                if (!data) {
+                                    $this.data('select.linkage', (data = new SelectLinkage(this, options)));
+                                }
+                            });
+                            return typeof value === 'undefined' ? this : value;
+                        }
+                    }(jQuery);
+                </script>
+
+                <script>
+                    jQuery(document).ready(function () {
                         $("#select-dept").selectLinkage({"url": "/test"});
                     });
                 </script>
