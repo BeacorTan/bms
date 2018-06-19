@@ -97,7 +97,7 @@
                             var $that = this;
                             var $searchInput = $("<input class='form-control'>");
 
-                            $that.showLabel.click(function () {
+                            $that.showLabel.click(function (e) {
                                 var $showLabel = $(this);
                                 $showLabel.hide();
                                 $showLabel.parent().prepend($searchInput);
@@ -109,16 +109,18 @@
                                         $that.bandingData($(this).val());
                                     }
                                 });
+                                e.stopPropagation();//阻止事件冒泡
                             });
 
 
-                            $that.$el.find("span.input-group-btn").click(function () {
+                            $that.$el.find("span.input-group-btn").click(function (e) {
                                 var $searchInput = this.searchInput;
                                 var params;
                                 if ($searchInput) {
                                     params = $searchInput.val();
                                 }
                                 $that.bandingData(params);
+                                e.stopPropagation();//阻止事件冒泡
                             });
                         }
 
@@ -161,15 +163,14 @@
                             function getListData(dt) {
                                 var $li;
                                 if (!dt || dt.length <= 0) {
-                                    $li = $("<li></li>");
-                                    $li.text("未匹配到数据");
+                                    $li = $("<li>未匹配到数据</li>");
                                     $ul.append($li);
                                 } else {
                                     for (let index of dt) {
                                         $li = $("<li></li>");
                                         $li.attr("data-code", index["deptCode"]);
                                         $li.html(index["deptName"]);
-                                        $li.click(function () {
+                                        $li.click(function (e) {
                                             $that.showLabel.show().prev().remove();
                                             $that.searchInput = undefined;
                                             $that.showLabel.text($(this).html());
@@ -180,6 +181,7 @@
                                             if ($that.childrenSelect) {
                                                 $that.childrenSelect.data("parentCode", $currCode);
                                             }
+                                            e.stopPropagation();//阻止事件冒泡
                                         });
                                         $ul.append($li);
                                     }
@@ -188,6 +190,14 @@
                                 $selectContainerList.append($selectContainerItem);
                                 $that.$el.after($selectContainerList);
                                 $that.selectContainerList = $selectContainerList
+                                //点击空白处，设置的弹框消失
+                                $(document).one("click", function (e) {
+                                    if($selectContainerList){
+                                        $selectContainerList.remove();
+                                    }
+                                    console.log("document.click");
+                                    e.stopPropagation();//阻止事件冒泡
+                                });
                             }
                         }
 
