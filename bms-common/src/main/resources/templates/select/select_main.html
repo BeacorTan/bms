@@ -24,7 +24,7 @@
                 <style>
 
                 </style>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label col-md-6">部门&nbsp;:</label>
                         <div class="col-md-6">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label col-md-6">&nbsp;组:</label>
                         <div class="col-md-6">
@@ -67,6 +67,14 @@
                         SelectLinkage.prototype.init = function () {
                             this.initOptions();
                             this.bandingEvent();
+                            if (this.childrenId) {
+                                this.childrenSelect.selectLinkage({
+                                    "url": this.options.url,
+                                    "isTopLevel": false,
+                                    "isChildren": true
+                                });
+//                                $("#select-dept").selectLinkage({"url": "/dept/linkage", "isTopLevel": true});
+                            }
                         }
 
                         SelectLinkage.prototype.initOptions = function () {
@@ -77,7 +85,7 @@
                             var $childrenId = this.$el.attr("children-id");
                             if ($childrenId) {
                                 this.childrenId = $childrenId;
-                                this.childrenSelect = $("#"+$childrenId);
+                                this.childrenSelect = $("#" + $childrenId);
                             }
 
                             var $selectInput = this.$el.find("input[type=hidden]");
@@ -85,6 +93,7 @@
                         }
 
                         SelectLinkage.prototype.bandingEvent = function () {
+
                             var $that = this;
                             var $searchInput = $("<input class='form-control'>");
 
@@ -115,7 +124,14 @@
 
                         SelectLinkage.prototype.bandingData = function (params) {
 
-                            var $that = this;
+                            console.log("params\t", params)
+
+                            var $that = this, $parentCode = $that.$el.data("parentCode");
+
+                            if ($that.options.isChildren === true && !$parentCode) {
+                                layer.msg("请选择上级组织");
+                                return;
+                            }
 
                             if ($that.selectContainerList) {
                                 $that.selectContainerList.remove();
@@ -128,45 +144,51 @@
                             $selectContainerItem.addClass("select-container-item");
                             var $ul = $("<ul></ul>");
 
-                            var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
+//                            var $data = [{"name": "name1", "code": "code1"}, {"name": "name2", "code": "code2"}];
 
-//                            $.ajax({
-//                                url: CM_Components.getContextAll($that.options.url),
-//                                type: "GET",
-//                                data: JSON.stringify({"code": params}),
-//                                dataType: "json",
-//                                success: function (result) {
-//                                    getListData(result);
-//                                }
-//                            });
+                            var params = "?parentCode=" + ($parentCode ? $parentCode : "") + "&deptName=" + ( $that.searchInput ? $that.searchInput.val() : "");
 
-                            function getListData(result) {
+                            $.ajax({
+                                url: CM_Components.getContextAll($that.options.url) + params,
+                                type: "GET",
+                                dataType: "json",
+                                success: function (result) {
+                                    var data = result && result.dataList;
+                                    getListData(data);
+                                }
+                            });
 
-                            }
-
-                            var $li;
-                            for (let index of $data) {
-                                $li = $("<li></li>");
-                                $li.attr("data-code", index["code"]);
-                                $li.html(index["name"]);
-                                $li.click(function () {
-                                    $that.showLabel.show().prev().remove();
-                                    $that.searchInput = undefined;
-                                    $that.showLabel.text($(this).html());
-                                    var $currCode = $(this).attr("data-code");
-                                    $that.selectInput.val($currCode);
-                                    $selectContainerList.remove();
-                                    $that.selectContainerList = undefined;
-                                    if($that.childrenSelect){
-                                        $that.childrenSelect.data("parentCode", $currCode);
+                            function getListData(dt) {
+                                var $li;
+                                if (!dt || dt.length <= 0) {
+                                    $li = $("<li></li>");
+                                    $li.text("未匹配到数据");
+                                    $ul.append($li);
+                                } else {
+                                    for (let index of dt) {
+                                        $li = $("<li></li>");
+                                        $li.attr("data-code", index["deptCode"]);
+                                        $li.html(index["deptName"]);
+                                        $li.click(function () {
+                                            $that.showLabel.show().prev().remove();
+                                            $that.searchInput = undefined;
+                                            $that.showLabel.text($(this).html());
+                                            var $currCode = $(this).attr("data-code");
+                                            $that.selectInput.val($currCode);
+                                            $selectContainerList.remove();
+                                            $that.selectContainerList = undefined;
+                                            if ($that.childrenSelect) {
+                                                $that.childrenSelect.data("parentCode", $currCode);
+                                            }
+                                        });
+                                        $ul.append($li);
                                     }
-                                });
-                                $ul.append($li);
+                                }
+                                $selectContainerItem.append($ul);
+                                $selectContainerList.append($selectContainerItem);
+                                $that.$el.after($selectContainerList);
+                                $that.selectContainerList = $selectContainerList
                             }
-                            $selectContainerItem.append($ul);
-                            $selectContainerList.append($selectContainerItem);
-                            $that.$el.after($selectContainerList);
-                            $that.selectContainerList = $selectContainerList
                         }
 
                         var allowedMethods = [
@@ -226,7 +248,7 @@
 
                 <script>
                     jQuery(document).ready(function () {
-                        $("#select-dept").selectLinkage({"url": "/dept/linkage"});
+                        $("#select-dept").selectLinkage({"url": "/dept/linkage", "isTopLevel": true});
                     });
                 </script>
             </div>

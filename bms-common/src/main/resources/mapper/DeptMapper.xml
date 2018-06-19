@@ -8,8 +8,8 @@
         <result column="LEADER" property="leader" jdbcType="VARCHAR"/>
         <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
         <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
-        <result column="PARENT_CODE" property="parentId" jdbcType="VARCHAR"/>
-        <result column="DEPT_CODE" property="depCode" jdbcType="VARCHAR"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="DEPT_CODE" property="deptCode" jdbcType="VARCHAR"/>
         <result column="CHECKED" property="checked"/>
         <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
         <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
@@ -19,8 +19,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE,DEPT_LEADER, DEPT_NAME,
-    DEPT_TYPE, DESCRIPTION, TREE_SORT, PARENT_CODE,DEPT_CODE
+    ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEPT_NAME,
+    DEPT_TYPE, TREE_SORT, PARENT_CODE,DEPT_CODE
     </sql>
 
 
@@ -46,12 +46,15 @@
         FROM T_SYS_DEPT d
         <trim prefix="where" prefixOverrides="and|or">
             <if test="deptName!=null and deptName.length()>0">
-                d.DEPT_NAME like '%${deptName}%'
+                and d.DEPT_NAME like '%${deptName}%'
             </if>
             <if test="deptCode!=null and deptCode.length()>0">
-                d.DEPT_CODE like '%${deptCode}%'
+                and d.DEPT_CODE like '%${deptCode}%'
             </if>
-            d.ACTIVE_FLAG = 1
+            <if test="parentCode!=null and parentCode.length()>0">
+                and d.PARENT_CODE = #{parentCode}
+            </if>
+            and d.ACTIVE_FLAG = 1
         </trim>
     </select>
 
