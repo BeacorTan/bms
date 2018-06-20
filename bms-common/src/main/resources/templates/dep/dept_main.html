@@ -1,3 +1,4 @@
+<link th:href="@{/assets/global/plugins/data-grid/css/data-grid.css}" rel="stylesheet" type="text/css"/>
 <div class="container" style="width: 100%;">
     <div class="row">
         <div class="col-md-1 col-xs-2">
@@ -64,11 +65,54 @@
         </div>
     </form>
     <div class="row">
+
+        <style>
+            .grid-tree {
+                position: relative;
+            }
+
+            .grid-tree-icon-merge {
+                background-position: -32px -16px !important;
+
+            }
+
+            .grid-tree-icon-open {
+                background-position: -65px -16px !important;
+            }
+
+            .grid-tree-radio-off {
+                background-position: -96px -144px;
+                opacity: .35;
+            }
+
+            .grid-tree-name {
+                position: absolute;
+                left: 18px;
+            }
+        </style>
+        <script>
+            (function () {
+
+            })();
+
+            function treeFormatter(val, record, index) {
+
+                var isLeaf=record.deptCode=="1"?"grid-tree-icon-merge":"grid-tree-radio-off";
+
+                var c = "  <div class=\"grid-tree\">\n" +
+                    "                            <div class=\"grid-tree-icon "+isLeaf+"\"></div>\n" +
+                    "                            <div class=\"grid-tree-name\">（" + record.deptCode + "）<a>" + record.deptName + "</a></div>\n" +
+                    "                        </div>";
+
+                return c;
+            }
+        </script>
+
         <table data-classes="table table-no-bordered" id="bms-dept-table" data-form="bms-dept-search-form">
             <thead>
             <tr>
-                <th data-id-field="id" data-checkbox="true">id</th>
-                <th data-field="deptName">部门名称</th>
+                <th data-id-field="id"  data-checkbox="true">id</th>
+                <th data-field="deptName" data-width="260" data-formatter="treeFormatter">部门名称</th>
                 <th data-field="deptCode">部门编码</th>
                 <th data-field="deptType">部门类型</th>
                 <th data-field="remarks">备注信息</th>
