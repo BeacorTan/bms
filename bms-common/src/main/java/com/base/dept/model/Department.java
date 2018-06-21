@@ -105,6 +105,15 @@ public class Department extends BaseModel {
     public Department() {
     }
 
+
+    public Integer getTreeLevel() {
+        return treeLevel;
+    }
+
+    public void setTreeLevel(Integer treeLevel) {
+        this.treeLevel = treeLevel;
+    }
+
     public String getLeader() {
         return leader;
     }
@@ -153,13 +162,6 @@ public class Department extends BaseModel {
         this.treeLeaf = treeLeaf;
     }
 
-    public Integer getTreeLevel() {
-        return treeLevel;
-    }
-
-    public void setTreeLevel(Integer treeLevel) {
-        this.treeLevel = treeLevel;
-    }
 
     public String getParentCodes() {
         return parentCodes;

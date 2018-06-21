@@ -36,6 +36,16 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     @Override
     public PagedResult<Department> query(Department department, PageBean pageBean) {
         ServiceUtil.startPage(pageBean);
+        if (department != null) {
+            if (StringUtils.isBlank(department.getParentCode())) {
+                department.setParentCode("0");
+            }
+            if (StringUtils.isNotBlank(department.getDeptCode())
+                    || StringUtils.isNotBlank(department.getDeptName())
+                    || StringUtils.isNotBlank(department.getDeptType())){
+                department.setParentCode(null);
+            }
+        }
         return BeanUtil.toPagedResult(depMapper.selectByDepartment(department));
     }
 

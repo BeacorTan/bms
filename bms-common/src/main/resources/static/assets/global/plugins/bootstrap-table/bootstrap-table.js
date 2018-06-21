@@ -1741,8 +1741,7 @@
                 }
             }
 
-            attributes = calculateObjectValue(this.options,
-                this.options.rowAttributes, [item, i], attributes);
+            attributes = calculateObjectValue(this.options, this.options.rowAttributes, [item, i], attributes);
 
             if (attributes) {
                 for (key in attributes) {
@@ -1762,7 +1761,8 @@
 
             html.push('<tr',
                 sprintf(' %s', htmlAttributes.join(' ')),
-                sprintf(' id="%s"', $.isArray(item) ? undefined : item._id),
+                // sprintf(' id="%s"', $.isArray(item) ? undefined : item._id),
+                sprintf(' id="%s"', $.isArray(item) ? undefined : item.id),
                 sprintf(' class="%s"', style.classes || ($.isArray(item) ? undefined : item._class)),
                 sprintf(' data-index="%s"', i),
                 sprintf(' data-uniqueid="%s"', item[this.options.uniqueId]),
@@ -1801,8 +1801,30 @@
 
                 style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
 
-                value = calculateObjectValue(column,
-                    that.header.formatters[j], [value, item, i], value);
+
+                // 初始显示的值，调用列自定义formatter函数
+                value = calculateObjectValue(column, that.header.formatters[j], [value, item, i], value);
+
+                if (column["tree"] == true) {
+                    var isLeaf = item["treeLeaf"] == "0" ? "grid-tree-icon-merge" : "grid-tree-radio-off";
+                    var treeIcon = item["tree-icon"];
+                    if (treeIcon) {
+                        isLeaf = treeIcon;
+                    }
+                    var treeStyle = item["treeLevel"] * 18;
+                    var v=[];
+
+                    treeStyle = sprintf("style='left:%s'",(treeStyle + "px;"));
+
+                    v.push(sprintf("<div class='grid-tree' %s>",treeStyle));
+
+                    v.push(sprintf("<div class='grid-tree-icon %s'></div>",isLeaf));
+                    v.push(sprintf("<div class='grid-tree-name'>%s</div>",value));
+                    v.push("</div>");
+                    value=v.join("");
+                }
+
+
 
                 // handle td's id and class
                 if (item['_' + field + '_id']) {
@@ -1814,9 +1836,12 @@
                 if (item['_' + field + '_rowspan']) {
                     rowspan_ = sprintf(' rowspan="%s"', item['_' + field + '_rowspan']);
                 }
-                if (item['_' + field + '_title']) {
-                    title_ = sprintf(' title="%s"', item['_' + field + '_title']);
-                }
+                // if (item['_' + field + '_title']) {
+                //     title_ = sprintf(' title="%s"', item['_' + field + '_title']);
+                // }
+
+                title_ = sprintf(' title="%s"', item[field]);
+
                 cellStyle = calculateObjectValue(that.header,
                     that.header.cellStyles[j], [value, item, i], cellStyle);
                 if (cellStyle.classes) {
@@ -1907,21 +1932,95 @@
         }
 
         if (html) {
+            // 绑定树icon单击事件
             this.$body.find("> tr > td > div > div.grid-tree-icon").click(function () {
                 var $that = $(this);
                 if ($that.attr("class").search("grid-tree-radio-off") >= 0) {
                     return;
                 }
-                console.log("index\t" + $that.parent().parent().parent().data("index"));
-                if ($that.data("isOpen") === true) {
+                var index = $that.parent().parent().parent().data("index");
+                if ($that.attr("class").search("grid-tree-icon-open") >= 0) {
                     $that.removeClass("grid-tree-icon-open");
                     $that.addClass("grid-tree-icon-merge");
-                    $that.data("isOpen", false);
+                    // 隐藏
+                    var children = that.data[index]["children"];
+                    if (children && children.length > 0) {
+                        var c,ch;
+                        children.forEach(function (t) {
+                            c=$("#"+t);
+                            ch= that.data[c.data("index")]["children"];
+                            if (ch && ch.length > 0) {
+                                c.find("  > td > div > div.grid-tree-icon").removeClass("grid-tree-icon-open");
+                                c.find("  > td > div > div.grid-tree-icon").addClass("grid-tree-icon-merge");
+                                ch.forEach(function (t1) {
+                                    $("#"+t1).hide();
+                                });
+                            }
+                            $("#"+t).hide();
+                        });
+                    }
                 } else {
+
                     $that.removeClass("grid-tree-icon-merge");
-                    $that.addClass("grid-tree-icon-open");
-                    $that.data("isOpen", true);
+
+                    var children = that.data[index]["children"];
+                    if (children && children.length > 0) {
+                        children.forEach(function (t) {
+                            // that.showRow({"index": t, "uniqueId": ""});
+                            $("#"+t).show();
+                        });
+                        $that.addClass("grid-tree-icon-open");
+                        return;
+                    }
+
+                    that.data[index]["tree-icon"] = "grid-tree-icon-open";
+
+                    children = [];
+
+                    var data = {"parentCode": that.data[index]["deptCode"]};
+
+                    var request = $.extend({}, {
+                        type: that.options.method,
+                        url: that.options.url,
+                        data: that.options.contentType === 'application/json' && that.options.method === 'post' ? JSON.stringify(data) : data,
+                        cache: that.options.cache,
+                        contentType: that.options.contentType,
+                        dataType: that.options.dataType,
+                        success: function (res) {
+                            console.log(res);
+                            var dataList = res.dataList;
+                            var flag = index;
+                            if (dataList && dataList.length > 0) {
+                                dataList.forEach(function (t) {
+                                    ++flag;
+                                    children.push(t["id"]);
+                                    that.insertRow({
+                                        "index": flag,
+                                        "row": t
+                                    });
+                                });
+                                that.data[index]["children"] = children;
+                            }
+
+                        },
+                        error: function (res) {
+                            console.error("error", res);
+                        },
+                        complete: function (res) {
+                            console.log("complete", res);
+                        }
+                    });
+
+                    $.ajax(request);
+                    return;
                 }
+            });
+
+
+            this.$body.find("> tr > td > div >.grid-tree-name>a").click(function (e) {
+                //  addTab: function (id, title, tabUrl) {
+                CommonUtils.addTab("111",$(this).attr("title"),$(this).attr("data-href"));
+                e.stopPropagation();//阻止事件冒泡
             });
         }
 
@@ -2479,6 +2578,7 @@
         this.initPagination();
         this.initBody(true);
     };
+
 
     BootstrapTable.prototype.prepend = function (data) {
         this.initData(data, 'prepend');

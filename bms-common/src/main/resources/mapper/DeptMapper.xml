@@ -1,13 +1,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.base.dept.mapper.DeptMapper">
 
-    <resultMap id="depResultMap" type="com.base.dept.model.DepartmentVO">
+    <resultMap id="depResultMap" type="com.base.dept.model.Department">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR"/>
         <result column="DEPT_TYPE" property="deptType" jdbcType="VARCHAR"/>
         <result column="LEADER" property="leader" jdbcType="VARCHAR"/>
         <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
         <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
+        <result column="TREE_LEAF" property="treeLeaf" jdbcType="INTEGER"/>
+        <result column="TREE_LEVEL" property="treeLevel" jdbcType="INTEGER"/>
         <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
         <result column="DEPT_CODE" property="deptCode" jdbcType="VARCHAR"/>
         <result column="CHECKED" property="checked"/>
@@ -19,8 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEPT_NAME,
-    DEPT_TYPE, TREE_SORT, PARENT_CODE,DEPT_CODE
+      ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEPT_NAME,TREE_LEAF,TREE_LEVEL,DEPT_TYPE, TREE_SORT, PARENT_CODE,DEPT_CODE
     </sql>
 
 

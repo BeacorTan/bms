@@ -36,6 +36,7 @@
                     <label class="control-label col-md-6">部门类型&nbsp;:</label>
                     <div class="col-md-6">
                         <select class="form-control" name="deptType">
+                            <option value="">全部</option>
                             <option value="company">公司</option>
                             <option value="dept">部门</option>
                             <option value="group">组</option>
@@ -89,22 +90,14 @@
                 position: absolute;
                 left: 18px;
             }
+            .grid-tree-name  a{
+                text-decoration: none;
+            }
         </style>
         <script>
-            (function () {
-
-            })();
 
             function treeFormatter(val, record, index) {
-
-                var isLeaf=record.deptCode=="1"?"grid-tree-icon-merge":"grid-tree-radio-off";
-
-                var c = "  <div class=\"grid-tree\">\n" +
-                    "                            <div class=\"grid-tree-icon "+isLeaf+"\"></div>\n" +
-                    "                            <div class=\"grid-tree-name\">（" + record.deptCode + "）<a>" + record.deptName + "</a></div>\n" +
-                    "                        </div>";
-
-                return c;
+                return "（" + record.deptCode + "）<a title='编辑机构' data-href=\"/bms/dept/profile?id="+record.id+"\">" + record.deptName + "</a>";
             }
         </script>
 
@@ -112,7 +105,7 @@
             <thead>
             <tr>
                 <th data-id-field="id"  data-checkbox="true">id</th>
-                <th data-field="deptName" data-width="260" data-formatter="treeFormatter">部门名称</th>
+                <th data-field="deptName" data-width="260" data-tree="true" data-formatter="treeFormatter">部门名称</th>
                 <th data-field="deptCode">部门编码</th>
                 <th data-field="deptType">部门类型</th>
                 <th data-field="remarks">备注信息</th>
