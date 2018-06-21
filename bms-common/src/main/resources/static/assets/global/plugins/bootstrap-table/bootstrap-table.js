@@ -1977,7 +1977,7 @@
 
                     children = [];
 
-                    var data = {"parentCode": that.data[index]["deptCode"]};
+                    var data = {"parentCode": that.data[index][that.options["parentCode"]]};
 
                     var request = $.extend({}, {
                         type: that.options.method,
@@ -1987,7 +1987,6 @@
                         contentType: that.options.contentType,
                         dataType: that.options.dataType,
                         success: function (res) {
-                            console.log(res);
                             var dataList = res.dataList;
                             var flag = index;
                             if (dataList && dataList.length > 0) {
