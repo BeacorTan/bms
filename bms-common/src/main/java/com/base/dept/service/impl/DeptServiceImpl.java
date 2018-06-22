@@ -12,6 +12,7 @@ import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
+import com.common.model.TreeVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -107,6 +108,11 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             }
         }
         return this.query(department, pageBean);
+    }
+
+    @Override
+    public List<TreeVO> queryTree() {
+        return depMapper.queryTree();
     }
 
 

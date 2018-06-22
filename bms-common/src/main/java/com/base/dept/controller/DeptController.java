@@ -5,6 +5,7 @@ import com.base.dept.service.DeptService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
+import com.common.model.TreeVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,11 @@ public class DeptController {
     @RequestMapping(value = "/json/list", method = RequestMethod.GET)
     public PagedResult<Department> query(Department department, PageBean pageBean) throws Exception {
         return depService.query(department, pageBean);
+    }
+
+    @RequestMapping(value = "/tree/list", method = RequestMethod.GET)
+    public List<TreeVO> tree() {
+        return depService.queryTree();
     }
 
     @RequestMapping(value = "/linkage", method = RequestMethod.GET)

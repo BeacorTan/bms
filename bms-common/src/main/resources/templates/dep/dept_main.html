@@ -97,7 +97,14 @@
         <script>
 
             function treeFormatter(val, record, index) {
-                return "（" + record.deptCode + "）<a title='编辑机构' data-href=\"/bms/dept/profile?id="+record.id+"\">" + record.deptName + "</a>";
+
+                var a="<a data-href='{0}'></a>".format("/bms/dept/profile?id="+record.id);
+                var v=[];
+                v.push("（{0}）".format(record.deptCode));
+                v.push("<a  title='编辑机构' data-href='{0}'>{1}</a>".format("/bms/dept/profile?id="+record.id).format(record.deptCode,record.deptName));
+                return v.join("");
+//                return "（" + record.deptCode + "）<a title='编辑机构' data-href=\"/bms/dept/profile?id="+record.id+"\">" + record.deptName + "</a>";
+
             }
         </script>
 

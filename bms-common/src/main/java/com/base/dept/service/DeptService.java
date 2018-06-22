@@ -5,6 +5,7 @@ import com.common.framework.base.BaseService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
+import com.common.model.TreeVO;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface DeptService extends BaseService<Department> {
     ResponseJson remove(List<String> ids);
 
     PagedResult<Department> linkage(Department department, PageBean pageBean);
+
+    List<TreeVO> queryTree();
 }

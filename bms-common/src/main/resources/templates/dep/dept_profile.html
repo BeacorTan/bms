@@ -1,3 +1,16 @@
+<style>
+    .input-group-search{
+        background-color: white;
+        font-weight:bold;
+    }
+    .input-group-search>i{
+        font-weight: bold !important;
+        color: black !important;
+    }
+    .input-group-search:hover{
+        background-color: #e7eaea;
+    }
+</style>
 <div class="portlet-body form">
     <form id="bms-dept-edit-form" class="form-horizontal">
         <input type="hidden" name="id" th:value="${dept!=null?dept.id:''}">
@@ -8,10 +21,15 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">上级部门</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="parentCode"
-                                   placeholder="请输入部门名称">
+                            <div class="input-group" id="bms-parent-dept" data-url="/dept/tree/list">
+                                <input type="text" class="form-control" name="parentCode" placeholder="请输入部门名称">
+                                <input type="hidden" class="form-control" name="parentName">
+                                <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <div class="row">
@@ -126,5 +144,47 @@
 <script>
     jQuery(document).ready(function () {
         Dep.initDeptProfile();
+
+        $("#bms-parent-dept").click(function () {
+            var that=$(this);
+            var $reqUrl=CM_Components.getContextAll("/common/tree?treeUrl="+that.attr("data-url"))
+            console.log("aa");
+            layer.open({
+                type: 2,
+                skin: "bms-parent-layer",
+                title: "选择公司",
+                area: ['300px', '400px'],
+                fix: false, //不固定
+                shadeClose: false,
+                shade: 0.5,
+                scrollbar: false,
+                btn: ["确定", "取消"],
+                content: $reqUrl,
+                success: function (layero, index) {
+                    var loginPage;
+                    // js获取ifram中的元素
+                    loginPage = window.frames["layui-layer-iframe" + index].document.getElementById("cpmg-login");
+
+                    // jq获取iframe中的元素
+                    // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
+                    // 如果会话失效，重定向只登陆页面
+                    if (loginPage) {
+                        window.location = CM_Components.getContextAll("/login");
+                    }
+                },
+                yes: function (index, layero) {
+                    var dept = $(layero).find("iframe")[0].contentWindow.selectNode();
+                    if (!dept) {
+                        CM_Components.layerMsg("请选择！");
+                        return;
+                    }
+                    var checkDom = $("#" + that.attr("id"));
+                    checkDom.val(dept.depName);
+                    checkDom.next().val(dept.depCode);
+                    layer.close(index);
+                }
+            });
+        });
+
     });
 </script>

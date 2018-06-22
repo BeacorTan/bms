@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+          type="text/css"/>
+    <link th:href="@{/assets/global/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/global/css/components.min.css}" rel="stylesheet" id="style_components" type="text/css"/>
+    <link th:href="@{/assets/global/css/plugins.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/global/plugins/zTree/css/metroStyle/metroStyle.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
+</head>
+<body>
+<!-- 部门tree -->
+<div class="container" style="margin-top: 10px;">
+    <div class="row">
+        <div class="col-xs-8">
+            <input id="bms-tree-search-input" type="text" style="height: 30px;" class="form-control" placeholder="关键字">
+        </div>
+        <div class="col-xs-4">
+            <button id="bms-tree-search-btn" type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>&nbsp;搜索
+            </button>
+        </div>
+    </div>
+</div>
+<ul class="ztree" id="parent-menu-zTree" th:attr="data-url=''+${treeUrl}"></ul>
+
+<script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/zTree/js/jquery.ztree.all.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/zTree/js/jquery.ztree.exhide.js}" type="text/javascript"></script>
+
+<script>
+    var $zTreeWin;
+    var $zTree = $("#parent-menu-zTree");
+    var $data;
+    var initTree = function (setting) {
+        $.ajax({
+            type: "GET",
+            cache: false,
+            async: false,
+            url: CM_Components.getContextAll($zTree.attr("data-url")),
+            success: function (res) {
+                $data = res;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                CM_Components.layerMsg("获取部门数据出错,系统错误!!!")
+            }
+        });
+
+
+        if (!$zTreeWin) {//为空
+            $zTreeWin = $.fn.zTree.init($zTree, setting, $data);
+        }
+        // 展开节点
+        var nodes = $zTreeWin.getNodes();
+        if (nodes.length > 0) {
+            $zTreeWin.expandNode(nodes[0], true, false, true);
+        }
+    }
+
+    jQuery(document).ready(function () {
+        //初始化树的配置参数
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "code",
+                    pIdKey: "parentCode",
+                    rootPId: "1"
+                },
+                key: {
+                    name: "name"
+                }
+            },
+            check: {
+                enable: false,//在节点前显示checkbox
+                chkboxType: {"Y": "", "N": ""}//父节点和字节不级联
+            }/*,
+            callback: {
+                onClick: onZtreeClick,
+                beforeEditName: onZtreeEditorClick,
+                beforeRemove: onZTreeRemoveClick
+            }*/
+        };
+        initTree(setting);
+
+        var $searchBtn = $("#bms-tree-search-btn")
+        var $searchInput = $("#bms-tree-search-input")
+
+        var treeObj = $.fn.zTree.getZTreeObj("parent-menu-zTree");
+
+        function updateNodes(nodeList) {
+            treeObj.showNodes(nodeList);
+            for(var i=0, l=nodeList.length; i<l; i++) {
+                var treeNode = nodeList[i];
+                showChildren(treeNode);
+                showParent(treeNode)
+            }
+        }
+        function showChildren(treeNode){
+            if (treeNode.isParent){
+                for(var idx in treeNode.children){
+                    var node = treeNode.children[idx];
+                    treeObj.showNode(node);
+                    showChildren(node);
+                }
+            }
+        }
+        function showParent(treeNode){
+            var parentNode;
+            while((parentNode = treeNode.getParentNode()) != null){
+                treeObj.showNode(parentNode);
+                treeObj.expandNode(parentNode, true, false, false);
+                treeNode = parentNode;
+            }
+        }
+
+        $searchBtn.click(function () {
+            var $treeName = $searchInput.val();
+            var nodes = treeObj.getNodes();
+            if (!$treeName) {
+                treeObj.showNodes(nodes);
+                return;
+//                nodes = treeObj.transformToArray(nodes);
+//                for (var i = nodes.length - 1; i >= 0; i--) {
+//                    treeObj.hideNode(nodes[i]);
+//                }
+            }
+            treeObj.hideNodes(nodes);
+//            nodes = treeObj.transformToArray(nodes);
+//            for (var i = nodes.length - 1; i >= 0; i--) {
+//                treeObj.hideNode(nodes[i]);
+//            }
+
+            var nodeList = $zTreeWin.getNodesByParamFuzzy("name", $treeName);
+            updateNodes(nodeList);
+
+
+        });
+
+    });
+
+    function selectNode() {
+        var nodes = $zTreeWin.getSelectedNodes();
+        if (nodes && nodes.length > 0) {
+            return nodes[0];
+        }
+        return null;
+    }
+</script>
+</body>
+</html>

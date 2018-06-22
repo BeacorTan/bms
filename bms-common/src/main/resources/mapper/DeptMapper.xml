@@ -20,9 +20,19 @@
         <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="TreeMap" type="com.common.model.TreeVO">
+        <result column="DEPT_CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="DEPT_NAME" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
       ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEPT_NAME,TREE_LEAF,TREE_LEVEL,DEPT_TYPE, TREE_SORT, PARENT_CODE,DEPT_CODE
     </sql>
+
+    <select id="queryTree" resultMap="TreeMap">
+        select d.DEPT_CODE,d.PARENT_CODE,d.DEPT_NAME from T_SYS_DEPT d where d.ACTIVE_FLAG=1
+    </select>
 
 
     <select id="selectDepZtreeData" resultMap="depResultMap">
