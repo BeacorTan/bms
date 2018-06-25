@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">上级部门</label>
                         <div class="col-md-7 col-sm-7">
-                            <div class="input-group" id="bms-parent-dept" data-url="/dept/tree/list">
+                            <div class="input-group" id="bms-parent-dept">
                                 <input type="text" class="form-control" name="parentCode" placeholder="请输入部门名称">
                                 <input type="hidden" class="form-control" name="parentName">
                                 <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
@@ -151,47 +151,14 @@
 </div>
 
 <script th:src="@{/assets/system/dep/dep.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/tree-layer.js}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
+
         Dep.initDeptProfile();
 
-        $("#bms-parent-dept").click(function () {
-            var that = $(this);
-            var $reqUrl = CM_Components.getContextAll("/common/tree?treeUrl={0}&id={1}").format(that.attr("data-url"),that.attr("id"));
-            layer.open({
-                type: 2,
-                skin: "bms-parent-layer",
-                title: "选择公司",
-                area: ['300px', '400px'],
-                fix: false, //不固定
-                shadeClose: false,
-                shade: 0.5,
-                id: "tree-frame",
-                scrollbar: false,
-                btn: ["确定", "取消"],
-                content: $reqUrl,
-                success: function (layero, index) {
-                    var loginPage;
-                    // js获取ifram中的元素
-                    loginPage = window.frames["layui-layer-iframe" + index].document.getElementById("cpmg-login");
-
-                    // jq获取iframe中的元素
-                    // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
-                    // 如果会话失效，重定向只登陆页面
-                    if (loginPage) {
-                        window.location = CM_Components.getContextAll("/login");
-                    }
-                },
-                yes: function (index, layero) {
-                    var treeNode = $("#tree-frame iframe")[0].contentWindow.selectNode();
-                    if (treeNode) {
-                        that.find("input[type='text']").val(treeNode["name"]);
-                        that.find("input[type='hidden']").val(treeNode["code"]);
-                    }
-                    layer.close(index);
-                }
-            });
+        $("#bms-parent-dept").treeLayer({
+            "treeUrl":"/dept/tree/list"
         });
-
     });
 </script>

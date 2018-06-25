@@ -1,3 +1,7 @@
+/**
+ * 多级联动选择器
+ * version:1.0.1
+ */
 (function () {
     $(".select-container").click(function () {
         var $that = $(this);
