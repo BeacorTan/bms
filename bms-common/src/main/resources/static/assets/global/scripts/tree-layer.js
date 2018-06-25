@@ -10,7 +10,15 @@
 
     TreeLayer.prototype.init = function () {
         this.options.id = this.$el.attr("id");
+        this.showInput=this.$el.find("input[type='text']");
+        this.hiddenInput=this.$el.find("input[type='hidden']");
     }
+
+    // TreeLayer.prototype.setData = function () {
+    //     this.options.id = this.$el.attr("id");
+    // }
+
+
     TreeLayer.prototype.bandingEvent = function () {
         var t = this;
         var treeId=t.options["id"]+Math.floor(Math.random()*(10));
@@ -45,8 +53,8 @@
                 yes: function (index, layero) {
                     var treeNode = $("#"+treeId).find("iframe")[0].contentWindow.selectNode();
                     if (treeNode) {
-                        that.find("input[type='text']").val(treeNode["name"]);
-                        that.find("input[type='hidden']").val(treeNode["code"]);
+                        t.showInput.val(treeNode["name"]);
+                        t.hiddenInput.val(treeNode["code"]);
                     }
                     layer.close(index);
                 }
@@ -56,5 +64,6 @@
 
     $.fn.treeLayer = function (options) {
         return new TreeLayer(this, options);
+        // return typeof value === 'undefined' ? this : value;
     }
 }(jQuery);
