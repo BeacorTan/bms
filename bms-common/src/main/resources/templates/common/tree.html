@@ -16,6 +16,7 @@
     <link th:href="@{/assets/global/plugins/zTree/css/metroStyle/metroStyle.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css"/>
     <script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/assets/global/plugins/layer/layer.js}" type="text/javascript"></script>
 </head>
 <body>
 <!-- 部门tree -->
@@ -29,8 +30,21 @@
             </button>
         </div>
     </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-xs-8">
+            <ul class="ztree" id="parent-menu-zTree" th:attr="data-url=''+${treeUrl}"></ul>
+        </div>
+        <div class="col-xs-4">
+            <div style="margin-top: 5px;">
+                <a onclick="expandAll('parent-menu-zTree',true)">展开</a>/<a
+                    onclick="expandAll('parent-menu-zTree',false)">折叠</a>
+            </div>
+        </div>
+    </div>
 </div>
-<ul class="ztree" id="parent-menu-zTree" th:attr="data-url=''+${treeUrl}"></ul>
+</div>
+
+<input id="parentWinId" type="hidden" th:value="${id}">
 
 <script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
 <script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
@@ -38,9 +52,11 @@
 <script th:src="@{/assets/global/plugins/zTree/js/jquery.ztree.exhide.js}" type="text/javascript"></script>
 
 <script>
+
     var $zTreeWin;
     var $zTree = $("#parent-menu-zTree");
     var $data;
+    var $parentWin = $("#" + $("#parentWinId").val(), parent.document);
     var initTree = function (setting) {
         $.ajax({
             type: "GET",
@@ -81,14 +97,29 @@
                 }
             },
             check: {
-                enable: false,//在节点前显示checkbox
+//                enable: false,//在节点前显示checkbox
                 chkboxType: {"Y": "", "N": ""}//父节点和字节不级联
-            }/*,
+            },
             callback: {
-                onClick: onZtreeClick,
-                beforeEditName: onZtreeEditorClick,
-                beforeRemove: onZTreeRemoveClick
-            }*/
+                onClick: function (event, treeId, treeNode) {
+                    if (treeNode["open"] == true) {
+                        // 折叠
+                        treeObj.expandNode(treeNode, false, false, false);
+                    } else {
+                        // 展开
+                        treeObj.expandNode(treeNode, true, false, true);
+                    }
+                },
+                onDblClick: function (event, treeId, treeNode) {
+//                    $("#" + $parentWinId, parent.document).children().first().val(treeNode["name"]);
+                    $parentWin.find("input[type='text']").val(treeNode["name"]);
+                    $parentWin.find("input[type='hidden']").val(treeNode["code"]);
+                    //先得到当前iframe层的索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //再执行关闭
+                    parent.layer.close(index);
+                }
+            }
         };
         initTree(setting);
 
@@ -99,24 +130,26 @@
 
         function updateNodes(nodeList) {
             treeObj.showNodes(nodeList);
-            for(var i=0, l=nodeList.length; i<l; i++) {
+            for (var i = 0, l = nodeList.length; i < l; i++) {
                 var treeNode = nodeList[i];
                 showChildren(treeNode);
                 showParent(treeNode)
             }
         }
-        function showChildren(treeNode){
-            if (treeNode.isParent){
-                for(var idx in treeNode.children){
+
+        function showChildren(treeNode) {
+            if (treeNode.isParent) {
+                for (var idx in treeNode.children) {
                     var node = treeNode.children[idx];
                     treeObj.showNode(node);
                     showChildren(node);
                 }
             }
         }
-        function showParent(treeNode){
+
+        function showParent(treeNode) {
             var parentNode;
-            while((parentNode = treeNode.getParentNode()) != null){
+            while ((parentNode = treeNode.getParentNode()) != null) {
                 treeObj.showNode(parentNode);
                 treeObj.expandNode(parentNode, true, false, false);
                 treeNode = parentNode;
@@ -154,6 +187,11 @@
             return nodes[0];
         }
         return null;
+    }
+
+    function expandAll(treeId, expandFlag) {
+        var $tree = $.fn.zTree.getZTreeObj(treeId);
+        $tree.expandAll(expandFlag);
     }
 </script>
 </body>

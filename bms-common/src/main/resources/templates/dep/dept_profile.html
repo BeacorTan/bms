@@ -1,13 +1,15 @@
 <style>
-    .input-group-search{
+    .input-group-search {
         background-color: white;
-        font-weight:bold;
+        font-weight: bold;
     }
-    .input-group-search>i{
+
+    .input-group-search > i {
         font-weight: bold !important;
         color: black !important;
     }
-    .input-group-search:hover{
+
+    .input-group-search:hover {
         background-color: #e7eaea;
     }
 </style>
@@ -37,7 +39,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门名称</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="deptName" th:value="${dept!=null?dept.deptName:''}"
+                            <input type="text" class="form-control" name="deptName"
+                                   th:value="${dept!=null?dept.deptName:''}"
                                    placeholder="请输入部门名称">
                         </div>
                     </div>
@@ -46,7 +49,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门编码</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="deptCode" th:value="${dept!=null?dept.deptCode:''}"
+                            <input type="text" class="form-control" name="deptCode"
+                                   th:value="${dept!=null?dept.deptCode:''}"
                                    placeholder="请输入部门编码">
                         </div>
                     </div>
@@ -67,7 +71,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">排序</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="number" class="form-control" name="treeSort" th:value="${dept!=null?dept.treeSort:''}">
+                            <input type="number" class="form-control" name="treeSort"
+                                   th:value="${dept!=null?dept.treeSort:''}">
                         </div>
                     </div>
                 </div>
@@ -79,7 +84,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">负责人</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="leader" th:value="${dept!=null?dept.leader:''}">
+                            <input type="text" class="form-control" name="leader"
+                                   th:value="${dept!=null?dept.leader:''}">
                         </div>
                     </div>
                 </div>
@@ -95,7 +101,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">联系地址</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="address" th:value="${dept!=null?dept.address:''}">
+                            <input type="text" class="form-control" name="address"
+                                   th:value="${dept!=null?dept.address:''}">
                         </div>
                     </div>
                 </div>
@@ -103,7 +110,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">邮政编码</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="zipCode" th:value="${dept!=null?dept.zipCode:''}">
+                            <input type="text" class="form-control" name="zipCode"
+                                   th:value="${dept!=null?dept.zipCode:''}">
                         </div>
                     </div>
                 </div>
@@ -111,7 +119,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">电子邮箱</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="email" class="form-control" name="email" th:value="${dept!=null?dept.email:''}">
+                            <input type="email" class="form-control" name="email"
+                                   th:value="${dept!=null?dept.email:''}">
                         </div>
                     </div>
                 </div>
@@ -121,7 +130,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">备注信息</label>
                         <div class="col-md-7 col-sm-7">
-                            <textarea name="remarks" class="form-control" rows="2" th:text="${dept!=null?dept.remarks:''}"
+                            <textarea name="remarks" class="form-control" rows="2"
+                                      th:text="${dept!=null?dept.remarks:''}"
                             ></textarea>
                         </div>
                     </div>
@@ -146,9 +156,8 @@
         Dep.initDeptProfile();
 
         $("#bms-parent-dept").click(function () {
-            var that=$(this);
-            var $reqUrl=CM_Components.getContextAll("/common/tree?treeUrl="+that.attr("data-url"))
-            console.log("aa");
+            var that = $(this);
+            var $reqUrl = CM_Components.getContextAll("/common/tree?treeUrl={0}&id={1}").format(that.attr("data-url"),that.attr("id"));
             layer.open({
                 type: 2,
                 skin: "bms-parent-layer",
@@ -157,6 +166,7 @@
                 fix: false, //不固定
                 shadeClose: false,
                 shade: 0.5,
+                id: "tree-frame",
                 scrollbar: false,
                 btn: ["确定", "取消"],
                 content: $reqUrl,
@@ -173,14 +183,11 @@
                     }
                 },
                 yes: function (index, layero) {
-                    var dept = $(layero).find("iframe")[0].contentWindow.selectNode();
-                    if (!dept) {
-                        CM_Components.layerMsg("请选择！");
-                        return;
+                    var treeNode = $("#tree-frame iframe")[0].contentWindow.selectNode();
+                    if (treeNode) {
+                        that.find("input[type='text']").val(treeNode["name"]);
+                        that.find("input[type='hidden']").val(treeNode["code"]);
                     }
-                    var checkDom = $("#" + that.attr("id"));
-                    checkDom.val(dept.depName);
-                    checkDom.next().val(dept.depCode);
                     layer.close(index);
                 }
             });

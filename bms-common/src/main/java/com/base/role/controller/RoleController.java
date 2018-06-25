@@ -72,14 +72,14 @@ public class RoleController {
             Role role = roleService.selectByPrimaryKey(roleId);
             if (HelpUtils.isNotEmpty(role)) {
                 modelMap.put("roleInfo", role);
-                return new ModelAndView("role/role_add", modelMap);
+                return new ModelAndView("role/role_profile", modelMap);
             } else {
                 modelMap.put("status", SystemConstant.ERROR_CODE_500);
                 modelMap.put("error", "请填写准确的参数!");
                 return new ModelAndView(SystemConstant.ERROR_PAGE, modelMap);
             }
         } else {
-            return new ModelAndView("role/role_add");
+            return new ModelAndView("role/role_profile");
         }
 
     }
