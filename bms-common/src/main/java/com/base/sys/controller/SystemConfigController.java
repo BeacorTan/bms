@@ -32,7 +32,7 @@ public class SystemConfigController
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView getSysConfigListView()
 	{
-		return new ModelAndView("config/systemConfig_manage");
+		return new ModelAndView("config/system_config");
 	}
 	
 	 @RequestMapping(value = "/page/list", method = RequestMethod.GET)
@@ -69,9 +69,9 @@ public class SystemConfigController
 	                LOGGER.error("sysConfigController.sysConfigEdit()异常：{}", e);
 	            }
 	            modelMap.put("sysConfig", sysConfig);
-	            return new ModelAndView("config/systemConfig_manageForm", modelMap);
+	            return new ModelAndView("config/system_config_profile", modelMap);
 	        }
-	        return new ModelAndView("config/systemConfig_manageForm");
+	        return new ModelAndView("config/system_config_profile");
 	    }
 
 	 @RequestMapping(value = "sysConfigEdit", method = RequestMethod.POST)
