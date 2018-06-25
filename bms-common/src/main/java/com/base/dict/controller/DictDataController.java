@@ -40,7 +40,7 @@ public class DictDataController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView dictMain(String code, ModelMap modelMap) {
         modelMap.put("code", code);
-        return new ModelAndView("dict/dict_data_list");
+        return new ModelAndView("dict/dict_data_main");
     }
 
 

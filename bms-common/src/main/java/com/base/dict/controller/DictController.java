@@ -39,7 +39,7 @@ public class DictController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView dictMain() {
-        return new ModelAndView("dict/dict_list");
+        return new ModelAndView("dict/dict_main");
     }
 
     /**

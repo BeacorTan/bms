@@ -45,7 +45,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView userMain() {
-        return new ModelAndView("role/role_list");
+        return new ModelAndView("role/role_main");
     }
 
     @RequestMapping(value = "/page/list", method = RequestMethod.GET)

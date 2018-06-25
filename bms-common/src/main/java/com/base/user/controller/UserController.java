@@ -60,7 +60,7 @@ public class UserController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView userMain() {
-        return new ModelAndView("user/user_list");
+        return new ModelAndView("user/user_main");
     }
 
     /**
