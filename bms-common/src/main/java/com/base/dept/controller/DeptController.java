@@ -45,11 +45,22 @@ public class DeptController {
         return depService.query(department, pageBean);
     }
 
+    /**
+     * tree layer
+     * @return
+     */
     @RequestMapping(value = "/tree/list", method = RequestMethod.GET)
     public List<TreeVO> tree() {
         return depService.queryTree();
     }
 
+    /**
+     * 联动查询
+     * @param department
+     * @param pageBean
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/linkage", method = RequestMethod.GET)
     public PagedResult<Department> linkage(Department department, PageBean pageBean) throws Exception {
         return depService.linkage(department, pageBean);

@@ -1,10 +1,11 @@
 package com.base.function.service;
 
-import com.base.function.model.FunctionExt;
-import com.base.auth.model.ButtonPower;
 import com.base.function.model.Function;
-import com.base.function.model.FunctionTree;
+import com.base.function.model.FunctionExt;
 import com.common.framework.base.BaseService;
+import com.common.framework.util.PageBean;
+import com.common.framework.util.PagedResult;
+import com.common.model.TreeVO;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -16,23 +17,10 @@ import java.util.List;
  */
 
 public interface FunctionService extends BaseService<Function> {
-    /**
-     * 获取资源树数据
-     *
-     * @return
-     * @throws Exception
-     */
-    List<FunctionTree> getFunctionZtreeData(String roleCode) throws Exception;
 
-    List<Function> getFuntion(String loginName);
+    PagedResult<Function> queryByFunction(Function function, PageBean pageBean);
 
-    /**
-     * 获取授权的按钮
-     *
-     * @param loginName
-     * @return
-     */
-    ButtonPower getAuthorizationBtn(String loginName, String modelName) throws NoSuchFieldException, IllegalAccessException;
+    List<FunctionExt> getFunctions(String loginName) throws InvocationTargetException, IllegalAccessException;
 
-    List<FunctionExt> getFuntions(String loginName) throws InvocationTargetException, IllegalAccessException;
+    List<TreeVO> queryTree(String roleCode);
 }

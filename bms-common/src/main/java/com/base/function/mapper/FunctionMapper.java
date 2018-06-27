@@ -1,8 +1,9 @@
 package com.base.function.mapper;
 
 import com.base.function.model.Function;
-import com.base.function.model.FunctionTree;
+import com.base.function.model.FunctionExt;
 import com.common.framework.base.BaseMapper;
+import com.common.model.TreeVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,12 +14,7 @@ import java.util.List;
 
 public interface FunctionMapper extends BaseMapper<Function> {
 
-    List<FunctionTree> selectFunctionZtreeData(@Param("roleCode") String roleCode);
+    List<FunctionExt> selectByLoginName(@Param("loginName") String loginName, @Param("parentCode") String parentCode);
 
-    List<Function> selectByParentID(@Param("parentID") String parentID);
-
-
-    List<Function> selectBtnByLoginNameAndModelName(@Param("loginName") String loginName,@Param("modelName") String modelName);
-
-    List<Function> selectByLoginName(@Param("loginName") String loginName, @Param("parentID") String parentID);
+    List<TreeVO> queryFunctionTree(@Param("roleCode") String roleCode);
 }

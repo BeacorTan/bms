@@ -77,7 +77,7 @@ public class HomeController {
             modelMap.put("filePath", defaultPath);
         }
 //        User user = ShiroManager.getUserInfo();
-        List<FunctionExt> functions = functionService.getFuntions(ShiroManager.getLoginName());
+        List<FunctionExt> functions = functionService.getFunctions(ShiroManager.getLoginName());
         modelMap.addAttribute("functions", functions);
 
 

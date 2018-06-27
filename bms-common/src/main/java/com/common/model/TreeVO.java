@@ -9,6 +9,16 @@ public class TreeVO {
 
     private String name;
 
+    private boolean checked = false;
+
+    public boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
     public String getCode() {
         return code;
     }

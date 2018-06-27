@@ -10,79 +10,69 @@
         <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
         <result column="FUN_CODE" property="funCode" jdbcType="VARCHAR"/>
         <result column="FUN_NAME" property="funName" jdbcType="VARCHAR"/>
-        <result column="ORDER_NUMBER" property="orderNumber" jdbcType="INTEGER"/>
-        <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR"/>
-        <result column="URL" property="url" jdbcType="VARCHAR"/>
+        <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="FUN_HREF" property="url" jdbcType="VARCHAR"/>
         <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
-        <result column="ICON" property="icon" jdbcType="VARCHAR"/>
+        <result column="FUN_ICON" property="icon" jdbcType="VARCHAR"/>
+        <result column="TREE_LEAF" property="treeLeaf" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap id="FunctionTreeResultMap" type="com.base.function.model.FunctionTree">
+    <resultMap id="FunctionExtResultMap" type="com.base.function.model.FunctionExt">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
-        <id column="PARENT_ID" property="pId" jdbcType="VARCHAR"/>
-        <id column="FUN_NAME" property="name" jdbcType="VARCHAR"/>
-        <id column="FUN_CODE" property="functionCode" jdbcType="VARCHAR"/>
-        <id column="CHECKED" property="checked"/>
+        <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="FUN_CODE" property="funCode" jdbcType="VARCHAR"/>
+        <result column="FUN_NAME" property="funName" jdbcType="VARCHAR"/>
+        <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="FUN_HREF" property="url" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="FUN_ICON" property="icon" jdbcType="VARCHAR"/>
+        <result column="TREE_LEAF" property="treeLeaf" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, FUN_CODE, FUN_NAME,
-        ORDER_NUMBER, PARENT_ID, URL,ICON, DESCRIPTION
-    </sql>
+    <resultMap id="FunctionTreeMap" type="com.common.model.TreeVO">
+        <result column="FUN_CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="FUN_NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="CHECKED" property="checked" jdbcType="VARCHAR"/>
+    </resultMap>
 
-
-    <select id="selectFunctionZtreeData" resultMap="FunctionTreeResultMap">
-        SELECT f.ID, f.PARENT_ID, f.FUN_NAME, f.FUN_CODE, f.ORDER_NUMBER
+    <select id="queryFunctionTree" resultMap="FunctionTreeMap">
+        SELECT F.FUN_CODE,F.PARENT_CODE,F.FUN_NAME
         <if test="roleCode!=null and roleCode!=''">
             /*,NVL2(r.function_code,1,0) checked*/
             ,if(r.function_code is not null,1,0) checked
         </if>
         FROM T_SYS_FUNCTION F
         <if test="roleCode!=null and roleCode!=''">
-            left join (select function_code
-            From T_SYS_role_function
-            where ACTIVE_FLAG = 1
-            and role_code = #{roleCode}) r
-            on f.fun_code = r.function_code
+            LEFT JOIN (SELECT FUNCTION_CODE
+            FROM T_SYS_ROLE_FUNCTION
+            WHERE ACTIVE_FLAG = 1
+            AND ROLE_CODE = #{roleCode}) R
+            ON F.FUN_CODE = R.FUNCTION_CODE
         </if>
-        WHERE f.ACTIVE_FLAG = 1 ORDER BY f.ORDER_NUMBER ASC
+        WHERE F.ACTIVE_FLAG = 1 ORDER BY F.TREE_SORT ASC
     </select>
 
-    <select id="selectByFunCode" resultMap="FunctionResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM t_sys_function WHERE FUN_CODE = #{funCode}
-    </select>
-
-    <select id="selectByParentID" resultMap="FunctionResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM t_sys_function WHERE PARENT_ID = #{parentID}
-    </select>
-
-    <select id="selectByLoginName" resultMap="FunctionResultMap">
+    <select id="selectByLoginName" resultMap="FunctionExtResultMap">
         select
         <include refid="Base_Column_List"/>
         From t_sys_function
-        where PARENT_ID=#{parentID} and fun_code in
+        where PARENT_CODE=#{parentCode} and fun_code in
         (select function_code
         From T_SYS_role_function
         where role_code in (select role_code
         from T_SYS_user_role
         where login_name = #{loginName} )) and active_flag=1
-        ORDER BY ORDER_NUMBER ASC
+        ORDER BY TREE_SORT ASC
     </select>
 
-    <select id="selectBtnByLoginNameAndModelName" resultMap="FunctionResultMap">
-        select f.*
-        from T_SYS_user_role ur
-        inner join T_SYS_role_function rf
-        on rf.role_code = ur.role_code
-        inner join t_sys_function f
-        on f.fun_code = rf.function_code
-        where ur.login_name = #{loginName}
-        and f.url like '${modelName}%'
-        and f.type = 0
-    </select>
-
+    <sql id="Base_Column_List">
+        ID,FUN_CODE,FUN_NAME,PARENT_CODE,FUN_HREF,FUN_ICON,DESCRIPTION,TREE_LEAF
+    </sql>
 </mapper>

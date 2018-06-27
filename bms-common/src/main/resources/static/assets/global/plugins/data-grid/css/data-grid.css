@@ -8,3 +8,28 @@
     cursor: pointer;
 }
 
+.grid-tree {
+    position: relative;
+}
+
+.grid-tree-icon-merge {
+    background-position: -32px -16px !important;
+
+}
+
+.grid-tree-icon-open {
+    background-position: -65px -16px !important;
+}
+
+.grid-tree-radio-off {
+    background-position: -96px -144px;
+    opacity: .35;
+}
+
+.grid-tree-name {
+    position: absolute;
+    left: 18px;
+}
+.grid-tree-name  a{
+    text-decoration: none;
+}

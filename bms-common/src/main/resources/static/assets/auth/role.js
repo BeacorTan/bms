@@ -61,13 +61,13 @@ var CPMG_ROLE = function () {
                     functionCodes = [];
                     var functionCodeSize = nodes.length;
                     for (var i = 0; i < functionCodeSize; i++) {
-                        functionCodes.push(nodes[i].functionCode);
+                        functionCodes.push(nodes[i]["code"]);
                     }
                 }
 
-                // 数据权限
                 var params = CommonUtils.getFormData("cpmg_role_addForm");
                 params["functionCodes"] = functionCodes;
+
                 // 数据权限
                 var deptTree = $.fn.zTree.getZTreeObj("role_dept_Tree");
                 if(deptTree){
@@ -108,14 +108,9 @@ var CPMG_ROLE = function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: CM_Components.getContextAll("/function/json/list?roleCode=" + rolCode),
-            success: function (responseJson) {
-                if (responseJson.success) {//成功
-                    var functionData = responseJson.obj;
-                    initFunctionTree(functionData);//初始化树列表
-                } else {
-                    CM_Components.layerMsg(responseJson.msg);
-                }
+            url: CM_Components.getContextAll("/function/tree/list?roleCode=" + rolCode),
+            success: function (res) {
+                initFunctionTree(res);//初始化树列表
             },
             error: function (errorMsg) {
                 CM_Components.layerMsg(errorMsg);
@@ -131,9 +126,8 @@ var CPMG_ROLE = function () {
             data: {
                 simpleData: {
                     enable: true,
-                    idKey: "id",
-                    pIdKey: "pId",
-                    functionCode: "functionCode"
+                    idKey: "code",
+                    pIdKey: "parentCode"
                 }
             },
             check: {
