@@ -10,6 +10,7 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
 import com.common.model.TreeVO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,11 +69,18 @@ public class FunctionController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ModelAndView profile(String funCode, ModelMap modelMap) throws Exception {
+        if (StringUtils.isNotBlank(funCode)) {
+            modelMap.addAttribute("fun", functionService.selectByPrimaryKey(funCode));
+        }
+        return new ModelAndView("function/function_profile", modelMap);
+    }
+
     @RequestMapping(value = "/tree/list", method = RequestMethod.GET)
     public List<TreeVO> tree(String roleCode) {
         return functionService.queryTree(roleCode);
     }
-
 
     /**
      * 菜单首页查询
@@ -82,8 +90,7 @@ public class FunctionController {
      * @return
      */
     @RequestMapping(value = "/query", method = RequestMethod.GET)
-    public PagedResult<Function> query(Function function, PageBean pageBean) throws Exception {
-//        return ServiceUtil.getResponseJson("查询成功", true, JSONArray.toJSON(functionService.getFunctionZtreeData(roleCode)));
+    public PagedResult<Function> query(Function function, PageBean pageBean) {
         return functionService.queryByFunction(function, pageBean);
     }
 

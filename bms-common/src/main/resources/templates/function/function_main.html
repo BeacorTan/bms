@@ -11,7 +11,7 @@
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button  data-url="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            <button data-url="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
             </button>
         </div>
     </div>
@@ -50,23 +50,30 @@
     <div class="row">
 
         <script>
-            function treeFormatter(val, record, index) {
-                var a = "<a data-href='{0}'></a>".format("/bms/function/profile?id=" + record.id);
+            function functionTreeFormatter(val, record, index) {
+                var a = "<a data-href='{0}'></a>".format("/bms/function/profile?id=" + record["id"]);
                 var v = [];
-                v.push("（{0}）".format(record.deptCode));
-                v.push("<a  title='编辑机构' data-href='{0}'>{1}</a>".format("/bms/dept/profile?id=" + record.id).format(record.deptCode, record.deptName));
+                v.push("<a  title='编辑菜单' data-href='{0}'>{1}</a>".format("/bms/function/profile?id=" + record["id"]).format(record["funCode"], record["funName"]));
                 return v.join("");
+            }
+
+            function functionTypeFormatter(val, record, index) {
+                if (val == 1) {
+                    return "菜单";
+                }
+                return "权限";
             }
         </script>
 
         <table id="bms-function-table" data-classes="table table-no-bordered" data-form="bms-function-search-form"
-               data-parent-code="deptCode">
+               data-parent-code="funCode">
             <thead>
             <tr>
                 <th data-id-field="id" data-checkbox="true">id</th>
-                <th data-field="funName" data-width="260" data-tree="true" data-formatter="treeFormatter">菜单名称</th>
-                <th data-field="funCode">菜单编码</th>
-                <th data-field="deptType">类型</th>
+                <th data-field="funName" data-width="260" data-tree="true" data-formatter="functionTreeFormatter">菜单名称
+                </th>
+                <th data-field="funCode">编码</th>
+                <th data-field="type" data-formatter="functionTypeFormatter">类型</th>
                 <th data-field="deptType">权限标识</th>
                 <th data-field="deptType">连接</th>
                 <th data-field="remarks">备注信息</th>
@@ -84,11 +91,7 @@
 <script>
     jQuery(document).ready(function () {
         BMS_Function.init();
-        //日期时间范围
-//        laydate.render({
-//            elem: '#bms-dept-create'
-//            , type: 'datetime'
-//            , range: true
-//        });
+        var tableUrl = CM_Components.getContextAll("/function/query");
+        CM_Components.initBootStrapTable($("#bms-function-table"), tableUrl);
     });
 </script>

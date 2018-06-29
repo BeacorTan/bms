@@ -6,10 +6,12 @@ import com.base.function.model.FunctionExt;
 import com.base.function.service.FunctionService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.util.BeanUtil;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ServiceUtil;
 import com.common.model.TreeVO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +26,6 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
     @Resource
     private FunctionMapper functionMapper;
 
-
     @Override
     public BaseMapper getMapper() {
         return functionMapper;
@@ -34,9 +35,19 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
     @Override
     public PagedResult<Function> queryByFunction(Function function, PageBean pageBean) {
         ServiceUtil.startPage(pageBean);
-        return null;
+        if (function != null) {
+            if (StringUtils.isBlank(function.getParentCode())) {
+                function.setParentCode("1");
+            }
+        }
+        return BeanUtil.toPagedResult(functionMapper.selectByFunction(function));
     }
 
+
+    @Override
+    public List<TreeVO> queryTree(String roleCode) {
+        return functionMapper.queryFunctionTree(roleCode);
+    }
 
     @Override
     public List<FunctionExt> getFunctions(String loginName) throws InvocationTargetException, IllegalAccessException {
@@ -44,12 +55,13 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         return functions;
     }
 
-    @Override
-    public List<TreeVO> queryTree(String roleCode) {
-        return functionMapper.queryFunctionTree(roleCode);
-    }
-
-    private List<FunctionExt> getFunctionExts(String loginName, String parentCode) throws InvocationTargetException, IllegalAccessException {
+    /**
+     * 递归查询
+     * @param loginName
+     * @param parentCode
+     * @return
+     */
+    private List<FunctionExt> getFunctionExts(String loginName, String parentCode) {
 
         List<FunctionExt> functions = functionMapper.selectByLoginName(loginName, parentCode);
         if (functions == null || functions.size() == 0) {

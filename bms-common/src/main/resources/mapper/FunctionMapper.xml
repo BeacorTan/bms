@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.base.function.mapper.FunctionMapper">
+
     <resultMap id="FunctionResultMap" type="com.base.function.model.Function">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
@@ -15,24 +16,12 @@
         <result column="FUN_HREF" property="url" jdbcType="VARCHAR"/>
         <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
         <result column="FUN_ICON" property="icon" jdbcType="VARCHAR"/>
-        <result column="TREE_LEAF" property="treeLeaf" jdbcType="VARCHAR"/>
+        <result column="TREE_LEAF" property="treeLeaf" jdbcType="INTEGER"/>
+        <result column="TYPE" property="type" jdbcType="INTEGER"/>
+        <result column="TREE_LEVEL" property="treeLevel" jdbcType="INTEGER"/>
     </resultMap>
 
-    <resultMap id="FunctionExtResultMap" type="com.base.function.model.FunctionExt">
-        <id column="ID" property="id" jdbcType="VARCHAR"/>
-        <result column="ACTIVE_FLAG" property="activeFlag" jdbcType="INTEGER"/>
-        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
-        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
-        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
-        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
-        <result column="FUN_CODE" property="funCode" jdbcType="VARCHAR"/>
-        <result column="FUN_NAME" property="funName" jdbcType="VARCHAR"/>
-        <result column="TREE_SORT" property="treeSort" jdbcType="INTEGER"/>
-        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
-        <result column="FUN_HREF" property="url" jdbcType="VARCHAR"/>
-        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
-        <result column="FUN_ICON" property="icon" jdbcType="VARCHAR"/>
-        <result column="TREE_LEAF" property="treeLeaf" jdbcType="VARCHAR"/>
+    <resultMap id="FunctionExtResultMap" type="com.base.function.model.FunctionExt" extends="FunctionResultMap">
     </resultMap>
 
     <resultMap id="FunctionTreeMap" type="com.common.model.TreeVO">
@@ -41,6 +30,25 @@
         <result column="FUN_NAME" property="name" jdbcType="VARCHAR"/>
         <result column="CHECKED" property="checked" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <select id="selectByFunction" resultMap="FunctionResultMap" parameterType="com.base.function.model.Function">
+        SELECT
+        *
+        FROM
+        T_SYS_FUNCTION F
+        <trim prefix="where" prefixOverrides="and">
+            <if test="funCode!=null and funCode!=''">
+                F.FUN_CODE LIKE '%%'
+            </if>
+            <if test="funName!=null and funName!=''">
+                F.FUN_NAME LIKE '%%'
+            </if>
+            <if test="parentCode!=null and parentCode!=''">
+                F.PARENT_CODE =#{parentCode,jdbcType=VARCHAR}
+            </if>
+            AND F.ACTIVE_FLAG = 1
+        </trim>
+    </select>
 
     <select id="queryFunctionTree" resultMap="FunctionTreeMap">
         SELECT F.FUN_CODE,F.PARENT_CODE,F.FUN_NAME
@@ -73,6 +81,6 @@
     </select>
 
     <sql id="Base_Column_List">
-        ID,FUN_CODE,FUN_NAME,PARENT_CODE,FUN_HREF,FUN_ICON,DESCRIPTION,TREE_LEAF
+        ID,FUN_CODE,FUN_NAME,PARENT_CODE,FUN_HREF,FUN_ICON,DESCRIPTION,TREE_LEAF,TREE_LEVEL,TYPE
     </sql>
 </mapper>
