@@ -5,7 +5,7 @@
 var BMS_Function = function () {
 
     // var b=function(){a.call(this); return $.extend(this,{});}
-    var $searchForm=$("#bms-function-search-form");
+    var $searchForm = $("#bms-function-search-form");
 
 
     //
@@ -152,30 +152,37 @@ var BMS_Function = function () {
     // }
 
 
-
-
     function init(btnId) {
         initTable();
         initButton(btnId);
     }
 
-    function  initTable() {
-        var $functionTable = $("#bms-function-table");
+    var $functionTable = $("#bms-function-table");
+
+    function initTable() {
         CM_Components.initBootStrapTable($functionTable, CM_Components.getContextAll("/function/query"));
     }
 
-    function initButton(btnId){
+    function initButton(btnId) {
 
-        $("#"+btnId).each(function () {
-
+        $("#bms-function-search-btn").click(function () {
+            $functionTable.bootstrapTable()
+            $functionTable.bootstrapTable('refresh', {
+                query: CommonUtils.getFormData("bms-function-search-form")
+            });
         });
 
+        $("#" + btnId).find("button").each(function () {
+            var $that=$(this);
+            $that.click(function () {
+                CommonUtils.addTab("editFunction","编辑菜单",CM_Components.getContextAll($that.attr("data-url")));
+            });
+
+        });
     }
-
-
     return {
-        init: function () {
-            init();
+        init: function (btnId) {
+            init(btnId);
         }
     }
 }();

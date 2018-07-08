@@ -19,4 +19,8 @@ public interface FunctionMapper extends BaseMapper<Function> {
     List<TreeVO> queryFunctionTree(@Param("roleCode") String roleCode);
 
     List<Function> selectByFunction(Function function);
+
+    Function selectByCode(@Param("funCode") String funCode);
+
+    int updateLeafByCode(@Param("funCode") String funCode,@Param("treeLeaf")Integer treeLeaf);
 }

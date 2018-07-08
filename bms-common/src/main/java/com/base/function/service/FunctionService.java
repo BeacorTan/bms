@@ -5,6 +5,7 @@ import com.base.function.model.FunctionExt;
 import com.common.framework.base.BaseService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 import com.common.model.TreeVO;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,4 +24,6 @@ public interface FunctionService extends BaseService<Function> {
     List<FunctionExt> getFunctions(String loginName) throws InvocationTargetException, IllegalAccessException;
 
     List<TreeVO> queryTree(String roleCode);
+
+    ResponseJson functionEdit(Function function);
 }

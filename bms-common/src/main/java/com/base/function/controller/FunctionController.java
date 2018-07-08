@@ -62,11 +62,9 @@ public class FunctionController {
         return ServiceUtil.getResponseJson("删除成功", true, null);
     }
 
-    @RequestMapping(value = "/update/view", method = RequestMethod.GET)
-    public ModelAndView functionUpdatView(String functionId, ModelMap modelMap) throws Exception {
-        modelMap.addAttribute("funInfo", functionService.selectByPrimaryKey(functionId));
-        ModelAndView modelAndView = new ModelAndView("function/function_update", modelMap);
-        return modelAndView;
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseJson funcitonEdit(Function function) throws Exception {
+        return functionService.functionEdit(function);
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)

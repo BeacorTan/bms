@@ -31,6 +31,18 @@
         <result column="CHECKED" property="checked" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <update id="updateLeafByCode">
+        UPDATE T_SYS_FUNCTION SET TREE_LEAF=#{treeLeaf,jdbcType=INTEGER} WHERE FUN_CODE=#{funCode,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByCode" parameterType="java.lang.String" resultMap="FunctionResultMap">
+       SELECT
+        *
+        FROM
+        T_SYS_FUNCTION F
+        WHERE  F.FUN_CODE=#{funCode,jdbcType=VARCHAR} AND F.ACTIVE_FLAG = 1
+    </select>
+
     <select id="selectByFunction" resultMap="FunctionResultMap" parameterType="com.base.function.model.Function">
         SELECT
         *
@@ -38,13 +50,13 @@
         T_SYS_FUNCTION F
         <trim prefix="where" prefixOverrides="and">
             <if test="funCode!=null and funCode!=''">
-                F.FUN_CODE LIKE '%%'
+                AND F.FUN_CODE LIKE '%${funCode}%'
             </if>
             <if test="funName!=null and funName!=''">
-                F.FUN_NAME LIKE '%%'
+                AND F.FUN_NAME LIKE '%${funName}%'
             </if>
             <if test="parentCode!=null and parentCode!=''">
-                F.PARENT_CODE =#{parentCode,jdbcType=VARCHAR}
+                AND F.PARENT_CODE =#{parentCode,jdbcType=VARCHAR}
             </if>
             AND F.ACTIVE_FLAG = 1
         </trim>

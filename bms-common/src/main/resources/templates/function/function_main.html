@@ -1,17 +1,17 @@
 <link th:href="@{/assets/global/plugins/data-grid/css/data-grid.css}" rel="stylesheet" type="text/css"/>
 
 <div class="container" style="width: 100%;">
-    <div class="row">
+    <div class="row" id="functionBtns">
         <div class="col-md-1 col-xs-2">
-            <button data-url="" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+            <button data-url="/function/profile" type="button" class="btn btn-success btn-sm" ><i class="fa fa-plus"></i>&nbsp;新增
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button data-url="" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+            <button data-url="/function/profile" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button data-url="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            <button data-url="/function/profile" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
             </button>
         </div>
     </div>
@@ -90,7 +90,7 @@
 <script type="text/javascript" src="assets/system/function/function.js"></script>
 <script>
     jQuery(document).ready(function () {
-        BMS_Function.init();
+        BMS_Function.init("functionBtns");
         var tableUrl = CM_Components.getContextAll("/function/query");
         CM_Components.initBootStrapTable($("#bms-function-table"), tableUrl);
     });
