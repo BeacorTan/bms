@@ -94,7 +94,7 @@
         }).on("success.form.bv", function (e) {
             // Get the form instance
             var params = $(e.target).serialize();
-            var reqUrl = CM_Components.getContextAll("/bulletin/bulletinEdit");
+            var reqUrl = CommonUtils.getContextAll("/bulletin/bulletinEdit");
 
             $.post(reqUrl, params, function (result) {
                 CommonUtils.closeTab('bulletin_edit');

@@ -62,7 +62,7 @@
             type: "GET",
             cache: false,
             async: false,
-            url: CM_Components.getContextAll($zTree.attr("data-url")),
+            url: CommonUtils.getContextAll($zTree.attr("data-url")),
             success: function (res) {
                 $data = res;
             },

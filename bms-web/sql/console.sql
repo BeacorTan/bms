@@ -409,7 +409,7 @@ DROP TABLE IF EXISTS `t_sys_user`;
 CREATE TABLE `t_sys_user` (
   `id` varchar(64) NOT NULL,
   `login_name` varchar(30) DEFAULT NULL,
-  `real_name` varchar(30) DEFAULT NULL COMMENT '用户真实姓名',
+  `NAME` varchar(30) DEFAULT NULL COMMENT '用户真实姓名',
   `sex` varchar(4) DEFAULT NULL COMMENT '性别',
   `phone` varchar(30) DEFAULT NULL COMMENT '电话',
   `mobile` varchar(30) DEFAULT NULL COMMENT '手机',

@@ -29,13 +29,22 @@ public class DeptController {
     private DeptService depService;
 
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ResponseJson edit(@RequestBody Department department) throws Exception {
+    @RequestMapping(value = "/profile")
+    public ModelAndView profile(String id, ModelMap modelMap) throws Exception {
+        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+            modelMap.addAttribute("dept", depService.selectByPrimaryKey(id));
+        }
+        modelMap.put("tabId", id);
+        return new ModelAndView("dep/dept_profile");
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseJson editDept(@RequestBody Department department) throws Exception {
         return depService.edit(department);
     }
 
-    @RequestMapping(value = "/del", method = RequestMethod.DELETE)
-    public ResponseJson deleteDep(List<String> ids) throws Exception {
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public ResponseJson deleteDep(@RequestBody  List<String> ids) throws Exception {
         return depService.remove(ids);
     }
 
@@ -72,12 +81,5 @@ public class DeptController {
         return new ModelAndView("dep/dept_main");
     }
 
-    @RequestMapping(value = "/profile")
-    public ModelAndView profile(String id, ModelMap modelMap) throws Exception {
-        if (StringUtils.isNotBlank(id)) {
-            modelMap.addAttribute("dept", depService.selectByPrimaryKey(id));
-        }
-        return new ModelAndView("dep/dept_profile");
-    }
 
 }

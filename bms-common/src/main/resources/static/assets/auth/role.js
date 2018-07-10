@@ -14,7 +14,7 @@ var CPMG_ROLE = function () {
     var roleMainEventHandler = function () {
         $("#cpmg_role_addView").on("click", function () {
             // id, title, tabUrl
-            CommonUtils.addTab("role_profile", "新增角色", CM_Components.getContextAll("/role/add/view/insert"))
+            CommonUtils.addTab("role_profile", "新增角色", CommonUtils.getContextAll("/role/add/view/insert"))
         });
         // 查询
         $("#cpmg_role_searchBtn").on("click", function () {
@@ -40,7 +40,7 @@ var CPMG_ROLE = function () {
             }
             //查看用户的基本信息
             //CM_Components.layerOpen("配置角色", '800px', '400px', "role/add/view/" + rows[0].id);
-            CommonUtils.addTab("role_profile", "编辑角色", CM_Components.getContextAll("/role/add/view/"+rows[0].id))
+            CommonUtils.addTab("role_profile", "编辑角色", CommonUtils.getContextAll("/role/add/view/"+rows[0].id))
         });
         //绑定删除按钮事件
         $("#cpmg_role_deleteBtn").on("click", function () {
@@ -91,7 +91,7 @@ var CPMG_ROLE = function () {
                 }
 
                 $.ajax({
-                    url: CM_Components.getContextAll(url),
+                    url: CommonUtils.getContextAll(url),
                     type: "POST",
                     contentType: 'application/json',
                     data: JSON.stringify(params),
@@ -108,7 +108,7 @@ var CPMG_ROLE = function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: CM_Components.getContextAll("/function/tree/list?roleCode=" + rolCode),
+            url: CommonUtils.getContextAll("/function/tree/list?roleCode=" + rolCode),
             success: function (res) {
                 initFunctionTree(res);//初始化树列表
             },

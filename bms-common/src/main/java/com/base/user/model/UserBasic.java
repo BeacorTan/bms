@@ -13,14 +13,13 @@ import java.util.Date;
 @Table(name = "T_SYS_USER")
 public class UserBasic extends BaseModel implements Serializable {
 
-
-    // 登录账号||坐席工号
+    // 登录账号
     @Column(name = "LOGIN_NAME")
     private String loginName;
 
     // 登录者姓名
-    @Column(name = "REAL_NAME")
-    private String realName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "SEX")
     private String sex;
@@ -36,7 +35,6 @@ public class UserBasic extends BaseModel implements Serializable {
 
     @Column(name = "PASSWORD")
     private String password;
-
 
     // 部门编码
     @Column(name = "DEPT_CODE")
@@ -134,12 +132,12 @@ public class UserBasic extends BaseModel implements Serializable {
         this.loginName = loginName;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getName() {
+        return name;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSex() {

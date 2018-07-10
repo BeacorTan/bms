@@ -5,7 +5,7 @@
 
     <resultMap id="TaskDistributionRecordResultMap" type="com.task.model.TaskDistributionRecordVO">
         <result column="USER_NO" property="userNo" jdbcType="VARCHAR"/>
-        <result column="REAL_NAME" property="empName" jdbcType="VARCHAR"/>
+        <result column="NAME" property="empName" jdbcType="VARCHAR"/>
         <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR"/>
         <result column="TASK_TYPE" property="taskType" jdbcType="VARCHAR"/>
         <result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
@@ -26,7 +26,7 @@
             parameterType="com.task.model.TaskDistributionRecordVO">
         select td.id,
         td.user_no,
-        ub.real_name,
+        ub.NAME,
         t.task_name,
         t.task_type,
         t.begin_date,
@@ -48,7 +48,7 @@
                 and t.TASK_TYPE=#{taskType,jdbcType=VARCHAR}
             </if>
             <if test="empName!=null and empName.length()>0">
-                and ub.REAL_NAME=#{empName,jdbcType=VARCHAR}
+                and ub.NAME=#{empName,jdbcType=VARCHAR}
             </if>
             <if test="userNo!=null and userNo.length()>0">
                 and td.USER_NO=#{userNo,jdbcType=VARCHAR}

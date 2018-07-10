@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.base.user.model.UserBasic">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
-        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
         <result column="SEX" property="sex" jdbcType="VARCHAR"/>
         <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
         <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
@@ -17,7 +17,7 @@
     <resultMap id="UserBasicVOResultMap" type="com.base.user.model.UserBasicVO">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
-        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
         <result column="SEX" property="sex" jdbcType="VARCHAR"/>
         <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
         <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
@@ -29,7 +29,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-       ID, LOGIN_NAME, REAL_NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE
+       ID, LOGIN_NAME, NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE
     </sql>
 
 
@@ -43,7 +43,7 @@
 
     <select id="selectByID" resultMap="UserBasicVOResultMap" parameterType="string">
          SELECT UB.ID,
-                UB.REAL_NAME,
+                UB.NAME,
                 UB.LOGIN_NAME,
                 UB.SEX,
                 UB.MOBILE,
@@ -73,8 +73,8 @@
             <if test="loginName != null and loginName.length()>0">
                 and LOGIN_NAME LIKE '%${loginName}%'
             </if>
-            <if test="realName != null and realName.length()>0">
-                and REAL_NAME LIKE '%${realName}%'
+            <if test="name != null and name.length()>0">
+                and NAME LIKE '%${name}%'
             </if>
             <if test="phone != null and phone.length()>0">
                 and PHONE = #{phone}
@@ -94,7 +94,7 @@
     <update id="updateUserByID" parameterType="com.base.user.model.UserBasic">
         UPDATE T_SYS_USER
         <trim prefix="set" prefixOverrides=",">
-            <if test="realName!=null and realName!=''">,real_name=#{realName}</if>
+            <if test="name!=null and name!=''">,NAME=#{name}</if>
             <if test="salt!=null and salt.length()>0">,salt=#{salt}</if>
             <if test="password!=null and password!=''">,password=#{password}</if>
             <if test="activeFlag!=null">,ACTIVE_FLAG=#{activeFlag}</if>

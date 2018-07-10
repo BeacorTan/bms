@@ -74,12 +74,12 @@
     jQuery(document).ready(function () {
 
         var $cmmg_sysConfig_table = $("#cmmg_sysConfig_table");
-        var tabUrl = CM_Components.getContextAll("/systemConfig/page/list");
+        var tabUrl = CommonUtils.getContextAll("/systemConfig/page/list");
 
         CM_Components.initBootStrapTable($cmmg_sysConfig_table, tabUrl);
 
         $("#cmmg_sysConfig_add_btn").click(function () {
-            var tabUrl = CM_Components.getContextAll("/systemConfig/sysConfigEdit");
+            var tabUrl = CommonUtils.getContextAll("/systemConfig/sysConfigEdit");
             CommonUtils.addTab("sysConfig_edit", "新增系统配置信息", tabUrl);
 
         });
@@ -87,7 +87,7 @@
 
         $("#cmmg_sysConfig_searchBtn").click(function () {
             $cmmg_sysConfig_table.bootstrapTable("refresh", {
-                query: CM_Components.getFormData("cmmg_sysConfig_search_form")
+                query: CommonUtils.getFormData("cmmg_sysConfig_search_form")
             });
         });
 
@@ -105,13 +105,13 @@
                 return;
             }
 
-            var tabUrl = CM_Components.getContextAll("/systemConfig/sysConfigEdit?id=" + rows[0].id);
+            var tabUrl = CommonUtils.getContextAll("/systemConfig/sysConfigEdit?id=" + rows[0].id);
             CommonUtils.addTab("sysConfig_edit", "系统配置编辑", tabUrl);
         });
 
 
         $("#cmmg_sysConfig_remove_btn").click(function () {
-            var delUrl = CM_Components.getContextAll("/systemConfig/del");
+            var delUrl = CommonUtils.getContextAll("/systemConfig/del");
             CM_Components.ajaxDeleteTable(delUrl, $cmmg_sysConfig_table);
         });
 

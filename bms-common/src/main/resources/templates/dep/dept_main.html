@@ -1,20 +1,20 @@
 <link th:href="@{/assets/global/plugins/data-grid/css/data-grid.css}" rel="stylesheet" type="text/css"/>
 <div class="container" style="width: 100%;">
-    <div class="row">
+    <div id="bms-dept-btn" class="row">
         <div class="col-md-1 col-xs-2">
-            <button id="bms-dept-add-btn" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+            <button data-url="/dept/profile"  data-type="add"  type="button" class="btn btn-success btn-sm" ><i class="fa fa-plus"></i>&nbsp;新增
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button id="bms-dept-update-btn" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+            <button data-url="/dept/profile"  data-type="edit" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button id="bms-dept-remove-btn" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            <button data-url="/dept/del" data-type="del"  type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
             </button>
         </div>
     </div>
-    <form class="form-horizontal" id="bms-dept-search-form">
+    <form id="bms-dept-search-form" class="form-horizontal">
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
@@ -44,21 +44,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label col-md-4">创建时间&nbsp;:</label>
-                    <div class="col-md-8">
-                        <input class="form-control" type="text" name="endDate" id="bms-dept-create">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-6">
+            <div id="bms-dept-search-btn" class="col-lg-2 col-md-2 col-sm-6">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <a id="bms-dept-search-btn" class="btn btn-circle green btn-outline sbold btn-sm">
+                    <a  data-type="search" class="btn btn-circle green btn-outline sbold btn-sm">
                         <i class="fa fa-search"></i> 搜索 </a>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <a onclick="CommonUtils.reset('bms-dept-search-form')"
+                    <a data-type="reset"
                        class="btn btn-circle green btn-outline sbold btn-sm">
                         <i class="fa fa-print"></i> 重置 </a>
                 </div>
@@ -69,24 +61,38 @@
         <script>
 
             function treeFormatter(val, record, index) {
-
                 var a="<a data-href='{0}'></a>".format("/bms/dept/profile?id="+record.id);
                 var v=[];
                 v.push("（{0}）".format(record.deptCode));
                 v.push("<a  title='编辑机构' data-href='{0}'>{1}</a>".format("/bms/dept/profile?id="+record.id).format(record.deptCode,record.deptName));
                 return v.join("");
-//                return "（" + record.deptCode + "）<a title='编辑机构' data-href=\"/bms/dept/profile?id="+record.id+"\">" + record.deptName + "</a>";
-
+            }
+            function deptTypeFormatter(val, record, index) {
+                switch (val){
+                    case "company":
+                        return "公司";
+                        break;
+                    case "dept":
+                        return "部门";
+                        break;
+                    case "group":
+                        return "组";
+                        break;
+                    default:
+                        return "";
+                        break;
+                }
+                return "";
             }
         </script>
 
-        <table data-classes="table table-no-bordered" id="bms-dept-table" data-form="bms-dept-search-form" data-parent-code="deptCode">
+        <table id="bms-dept-table" data-classes="table table-no-bordered" data-form="bms-dept-search-form" data-parent-code="deptCode">
             <thead>
             <tr>
                 <th data-id-field="id"  data-checkbox="true">id</th>
                 <th data-field="deptName" data-width="260" data-tree="true" data-formatter="treeFormatter">部门名称</th>
                 <th data-field="deptCode">部门编码</th>
-                <th data-field="deptType">部门类型</th>
+                <th data-field="deptType" data-formatter="deptTypeFormatter">>部门类型</th>
                 <th data-field="remarks">备注信息</th>
                 <th data-field="treeSort">排序</th>
                 <th data-field="createDate">创建时间</th>
@@ -98,15 +104,21 @@
         </table>
     </div>
 </div>
-<script th:src="@{/assets/system/dep/dep.js}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
-        Dep.initDeptMain();
-        //日期时间范围
-        laydate.render({
-            elem: '#bms-dept-create'
-            , type: 'datetime'
-            , range: true
+
+        // 头部按钮
+        $("#bms-dept-btn").buttonInit({
+            "tabTitle":"编辑部门",
+            "bootstrapTable":"bms-dept-table"
+        });
+
+        // 查询form表单按钮
+        $("#bms-dept-search-btn").formButtonInit({
+            "searchForm":"bms-dept-search-form",
+            "searchUrl":"/dept/json/list",
+            "bootstrapTable":"bms-dept-table",
+            "bootstrapTableInit":true
         });
     });
 </script>

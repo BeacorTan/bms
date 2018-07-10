@@ -12,11 +12,11 @@ var CM_Function = function () {
     var deleteFunctionpAjaxUrl = "function/";
     //增加资源属性
     var $addFunctionForm = $("#functionAddForm");//增加资源表单
-    var addFunctionAjaxUrl = CM_Components.getContextAll("/function");
+    var addFunctionAjaxUrl = CommonUtils.getContextAll("/function");
     var $addFunctionBtn = $("#addFunctionBtn");//增加资源按钮
     //修改资源属性
     var $updateFunctionForm = $("#functionUpdateForm");
-    var updateFunctionAjaxUrl = CM_Components.getContextAll("/function");
+    var updateFunctionAjaxUrl = CommonUtils.getContextAll("/function");
     var $updateFunctionBtn = $("#updateFunctionBtn");
 
     var initFunctionData = function () {

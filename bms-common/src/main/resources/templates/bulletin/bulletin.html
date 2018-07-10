@@ -31,12 +31,12 @@
 
 
     function bulletinDetail(id) {
-        CommonUtils.addTab(id, "公告详情", CM_Components.getContextAll("/bulletin/bulletinDetail?bulletinId=" + id));
+        CommonUtils.addTab(id, "公告详情", CommonUtils.getContextAll("/bulletin/bulletinDetail?bulletinId=" + id));
     }
 
     $("#cmmg_system_bulletin_table").bootstrapTable({
         method: 'get',
-        url: CM_Components.getContextAll("/bulletin/queryReadList"),
+        url: CommonUtils.getContextAll("/bulletin/queryReadList"),
         cache: false,
         dataType: "json",
         pagination: true,

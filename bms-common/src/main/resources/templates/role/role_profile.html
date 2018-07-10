@@ -100,7 +100,7 @@
         $.ajax({
             type: "GET",
             cache: false,
-            url: CM_Components.getContextAll("/dep/json/list?roleCode="+roleCode),
+            url: CommonUtils.getContextAll("/dep/json/list?roleCode="+roleCode),
             success: function (responseJson) {
                 if (responseJson.success) {//成功
                     $.fn.zTree.init($("#role_dept_Tree"), setting, responseJson.obj);

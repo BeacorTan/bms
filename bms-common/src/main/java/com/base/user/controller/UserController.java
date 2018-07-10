@@ -79,27 +79,33 @@ public class UserController {
      *
      * @return
      */
-    @RequestMapping(value = "/profile/view/{userId}", method = RequestMethod.GET)
-    public ModelAndView userUpdateView(@PathVariable(value = "userId") String userId, String operator, ModelMap modelMap) throws Exception {
-//        User userInfo = userService.selectByPrimaryKey(userId);
-        UserBasicVO userInfo = userBasiccService.selectByPrimaryKey(userId);
-        if (HelpUtils.isNotEmpty(operator) && HelpUtils.isNotEmpty(userInfo)) {
-            SysFile sysFile = new SysFile();
-            sysFile.setParentId(userId);//根据用户主键查询头像
-            List<SysFile> sysFileList = sysMapper.selectByParentId(sysFile);
-            if (HelpUtils.isNotEmpty(sysFileList)) {//不为空,说明是修改操作
-                modelMap.put("filePath", "http://121.42.166.32/" + sysFileList.get(0).getFilePath());
-            } else {
-                modelMap.put("filePath", defaultPath);
-            }
-            modelMap.put("operator", operator);
-            modelMap.put("userInfo", userInfo);
-            return new ModelAndView("user/user_profile", modelMap);
-        } else {
-            modelMap.put("status", SystemConstant.ERROR_CODE_500);
-            modelMap.put("error", "请填写准确的参数!");
-            return new ModelAndView(SystemConstant.ERROR_PAGE, modelMap);
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ModelAndView profile(String id, ModelMap modelMap) throws Exception {
+
+        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+            modelMap.put("user",  userBasiccService.selectByPrimaryKey(id));
         }
+        modelMap.put("tabId", id);
+        return new ModelAndView("user/user_profile", modelMap);
+
+//        UserBasicVO userInfo = userBasiccService.selectByPrimaryKey(userId);
+//        if (HelpUtils.isNotEmpty(operator) && HelpUtils.isNotEmpty(userInfo)) {
+//            SysFile sysFile = new SysFile();
+//            sysFile.setParentId(userId);//根据用户主键查询头像
+//            List<SysFile> sysFileList = sysMapper.selectByParentId(sysFile);
+//            if (HelpUtils.isNotEmpty(sysFileList)) {//不为空,说明是修改操作
+//                modelMap.put("filePath", "http://121.42.166.32/" + sysFileList.get(0).getFilePath());
+//            } else {
+//                modelMap.put("filePath", defaultPath);
+//            }
+//            modelMap.put("operator", operator);
+//            modelMap.put("userInfo", userInfo);
+//            return new ModelAndView("user/user_profile", modelMap);
+//        } else {
+//            modelMap.put("status", SystemConstant.ERROR_CODE_500);
+//            modelMap.put("error", "请填写准确的参数!");
+//            return new ModelAndView(SystemConstant.ERROR_PAGE, modelMap);
+//        }
     }
 
     @RequestMapping(value = "/add/view", method = RequestMethod.GET)
@@ -114,15 +120,8 @@ public class UserController {
     }
 
 
-    /**
-     * 增加用户操作
-     *
-     * @param user
-     * @return
-     */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseJson userAdd(@RequestBody UserBasicVO user) throws Exception {
-//        userService.userAdd(user);
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseJson editUser(@RequestBody UserBasicVO user) throws Exception {
         userBasiccService.userAdd(user);
         return getResponseJson(SystemConstant.ADD_SUCCESS, true, null);
     }

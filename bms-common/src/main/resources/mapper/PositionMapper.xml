@@ -10,38 +10,16 @@
         <id column="UPDATE_DATE" property="updateDate"/>
     </resultMap>
 
-
     <select id="selectPageList" parameterType="com.base.position.model.Position" resultMap="PositionResultMap">
         SELECT ID,POSITION_CODE,POSITION_NAME,MARKS,CREATE_DATE,UPDATE_DATE from T_SYS_POSITION
         <trim prefix="where" prefixOverrides="and|or">
             ACTIVE_FLAG = 1
             <if test="positionCode!=null and positionCode!=''">
-                and POSITION_CODE=#{positionCode}
+                and POSITION_CODE=#{positionCode,jdbcType=VARCHAR}
             </if>
             <if test="positionName!=null and positionName!=''">
-                and POSITION_NAME=#{positionName}
+                and POSITION_NAME=#{positionName,jdbcType=VARCHAR}
             </if>
         </trim>
     </select>
-
-    <delete id="delete" parameterType="com.base.position.model.Position">
-        UPDATE T_SYS_POSITION set UPDATE_DATE=#{updateDate},UPDATE_BY=#{updateBy},ACTIVE_FLAG=#{activeFlag}
-        where id=#{id}
-    </delete>
-
-    <select id="selectById" parameterType="java.lang.String" resultMap="PositionResultMap">
-        SELECT ID,POSITION_NAME,MARKS from T_SYS_POSITION
-        WHERE ID=#{id}
-    </select>
-
-    <update id="updateById" parameterType="com.base.position.model.Position">
-        UPDATE T_SYS_POSITION set UPDATE_DATE=#{updateDate},UPDATE_BY=#{updateBy}
-        <if test="positionName!=null and positionName!=''">
-            ,POSITION_NAME=#{positionName}
-        </if>
-        <if test="marks!=null and marks!=''">
-            ,MARKS=#{marks}
-        </if>
-        where id=#{id}
-    </update>
 </mapper>

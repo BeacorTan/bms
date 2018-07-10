@@ -1,3 +1,22 @@
+.input-group-search {
+    background-color: white;
+    font-weight: bold;
+}
+
+.input-group-search > i {
+    font-weight: bold !important;
+    color: black !important;
+}
+
+.input-group-search:hover {
+    background-color: #e7eaea;
+}
+.form-icon i{
+    margin: 0px 5px;
+    font-weight: bold;
+    color: #3a485;
+}
+
 .home-affair, .home-affair tr {
     width: 100%;
 }

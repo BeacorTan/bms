@@ -65,7 +65,7 @@
             }
 
             $.ajax({
-                url: CM_Components.getContextAll(reqUrl),
+                url: CommonUtils.getContextAll(reqUrl),
                 type: "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(params),

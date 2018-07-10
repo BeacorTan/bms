@@ -7,7 +7,7 @@ var Dep = function () {
 
         var $deptTable = $("#bms-dept-table");
 
-        CM_Components.initBootStrapTable($deptTable, CM_Components.getContextAll("/dept/json/list"));
+        CM_Components.initBootStrapTable($deptTable, CommonUtils.getContextAll("/dept/json/list"));
 
         // 查询
         $("#bms-dept-search-btn").click(function () {
@@ -17,7 +17,7 @@ var Dep = function () {
         });
 
         var $deptEditTabID = "dept_edit";
-        var $reqUrl = CM_Components.getContextAll("/dept/profile");
+        var $reqUrl = CommonUtils.getContextAll("/dept/profile");
 
         // 新增
         $("#bms-dept-add-btn").click(function () {
@@ -32,7 +32,7 @@ var Dep = function () {
 
         // 删除
         $("#bms-dept-remove-btn").click(function () {
-            CommonUtils.addTab("dept_edit", "部门编辑", CM_Components.getContextAll("/dept/profile"));
+            CommonUtils.addTab("dept_edit", "部门编辑", CommonUtils.getContextAll("/dept/profile"));
         });
 
     }
@@ -85,12 +85,12 @@ var Dep = function () {
                 function (isConfirm) {
                     if (isConfirm) {
 
-                        var params = CM_Components.getFormData("bms-dept-edit-form");
+                        var params = CommonUtils.getFormData("bms-dept-edit-form");
                         $.ajax({
                             type: "POST",
                             contentType: 'application/json',
                             cache: false,
-                            url: CM_Components.getContextAll("/dept/edit"),
+                            url: CommonUtils.getContextAll("/dept/edit"),
                             data: JSON.stringify(params),
                             success: function (responseJson) {
                                 CM_Components.layerMsg("编辑成功");

@@ -92,11 +92,11 @@
 
     function openDictDataEditWin(id) {
         //id, title, tabUrl
-        CommonUtils.addTab("dict_data_profile_tab", "编辑字典数据", CM_Components.getContextAll("/dictData/profile?id=" + id));
+        CommonUtils.addTab("dict_data_profile_tab", "编辑字典数据", CommonUtils.getContextAll("/dictData/profile?id=" + id));
     }
 
     //    function queryDictData(code) {
-    //        CommonUtils.addTab("dict_profile_tab", "字典数据", CM_Components.getContextAll("/dict/profile"));
+    //        CommonUtils.addTab("dict_profile_tab", "字典数据", CommonUtils.getContextAll("/dict/profile"));
     //    }
 
     function delDictData(id) {
@@ -115,7 +115,7 @@
             },
             function () {
                 $.ajax({
-                    url: CM_Components.getContextAll("/dictData/del?id=" + id),
+                    url: CommonUtils.getContextAll("/dictData/del?id=" + id),
                     type: "GET",
                     success: function (result) {
                         CM_Components.layerMsg("删除成功！");
@@ -134,7 +134,7 @@
 
         $("#dist_data_search_btn").click(function () {
             $cpmg_dict_data_table.bootstrapTable('refresh', {
-                url: CM_Components.getContextAll("/dictData/page/list"),
+                url: CommonUtils.getContextAll("/dictData/page/list"),
                 query: CommonUtils.getFormData("dictDataSearchForm")
             });
         });
@@ -145,7 +145,7 @@
         /*]]>*/
 
         $("#add_dictData_view").click(function () {
-            CommonUtils.addTab("dict_data_profile_tab", "新增字典数据", CM_Components.getContextAll("/dictData/profile?dictCode=" + code));
+            CommonUtils.addTab("dict_data_profile_tab", "新增字典数据", CommonUtils.getContextAll("/dictData/profile?dictCode=" + code));
         });
 
 
@@ -153,7 +153,7 @@
 
         $cpmg_dict_data_table.bootstrapTable({
             method: 'get',
-            url: CM_Components.getContextAll("/dictData/page/list?dictCode=" + code),
+            url: CommonUtils.getContextAll("/dictData/page/list?dictCode=" + code),
             cache: false,
             dataType: "json",
             striped: false,	 //使表格带有条纹

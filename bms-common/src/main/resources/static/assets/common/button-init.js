@@ -37,7 +37,7 @@
                     case "add":
                         // 新增
                         var tabId = "add" + new Date().getTime().toString();
-                        CommonUtils.addTab(tabId, options["tabTitle"], CM_Components.getContextAll(reqUrl) + "?id=" + tabId);
+                        CommonUtils.addTab(tabId, options["tabTitle"], CommonUtils.getContextAll(reqUrl) + "?id=" + tabId);
                         break;
                     case "edit":
                         // 修改
@@ -51,7 +51,7 @@
                             return;
                         }
                         var rowId = rows[0]["id"];
-                        var tabUrl = CM_Components.getContextAll(reqUrl) + "?id=" + rowId;
+                        var tabUrl = CommonUtils.getContextAll(reqUrl) + "?id=" + rowId;
                         CommonUtils.addTab(rowId, options["tabTitle"], tabUrl);
                         break;
                     case "del":
@@ -80,7 +80,7 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 closeOnConfirm: true,
-                closeOnCancel: false
+                closeOnCancel: true
             },
             function (isConfirm) {
                 if (isConfirm) {
@@ -90,7 +90,7 @@
                     });
                     $.ajax({
                         type: 'POST',
-                        url: CM_Components.getContextAll(reqUrl),
+                        url: CommonUtils.getContextAll(reqUrl),
                         contentType: "application/json",
                         data: JSON.stringify(ids),
                         dataType: "json",
@@ -150,9 +150,9 @@
                         CommonUtils.closeTab(options["tabId"]);
                         break;
                     case "submit":
-                        var dt = CM_Components.getFormData(options["editForm"]);
+                        var dt = CommonUtils.getFormData(options["editForm"]);
                         $.ajax({
-                            url: CM_Components.getContextAll($(this).attr("data-url")),
+                            url: CommonUtils.getContextAll($(this).attr("data-url")),
                             type: "POST",
                             contentType: 'application/json',
                             data: JSON.stringify(dt),
@@ -181,7 +181,7 @@
         this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
         this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
         if (this.options["bootstrapTableInit"]) {
-            CM_Components.initBootStrapTable(this.$el.bootstrapTable, CM_Components.getContextAll(this.options["searchUrl"]));
+            CM_Components.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
         }
 
     }

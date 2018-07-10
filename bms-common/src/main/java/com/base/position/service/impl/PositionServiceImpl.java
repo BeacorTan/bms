@@ -3,15 +3,17 @@ package com.base.position.service.impl;
 import com.base.position.mapper.PositionMapper;
 import com.base.position.model.Position;
 import com.base.position.service.PositionService;
-import com.common.framework.base.BaseModel;
+import com.common.framework.base.BaseMapper;
+import com.common.framework.base.BaseServiceImpl;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,40 +22,33 @@ import java.util.List;
  * 职位
  */
 @Service
-public class PositionServiceImpl implements PositionService {
+public class PositionServiceImpl extends BaseServiceImpl<Position> implements PositionService {
 
-    private Logger LOGGER = LoggerFactory.getLogger(PositionServiceImpl.class);
+//    private Logger LOGGER = LoggerFactory.getLogger(PositionServiceImpl.class);
 
     @Resource
     private PositionMapper positionMapper;
 
-
     @Override
-    public int insert(Position position) {
-        if (position == null) {
-            LOGGER.error("新增职位对象为空!");
-            return 0;
-        }
-        ModelUtil.insertInit(position);
-        position.setPositionCode("POST" + System.currentTimeMillis());
-        return positionMapper.insert(position);
+    public BaseMapper getMapper() {
+        return positionMapper;
     }
 
+    @Transactional
     @Override
-    public int update(Position position) {
+    public ResponseJson editPosition(Position position) {
         if (position == null) {
-            LOGGER.error("修改职位对象为空!");
-            return 0;
+            return ServiceUtil.getResponseJson("传入职位信息为空",false);
         }
-        ModelUtil.updateInit(position);
-        return positionMapper.updateById(position);
-    }
-
-    @Override
-    public int delete(Position position) {
-        ModelUtil.updateInit(position);
-        position.setActiveFlag(BaseModel.ACTIVE_FLAG_NO);
-        return positionMapper.delete(position);
+        if(StringUtils.isNotBlank(position.getId())){
+            ModelUtil.updateInit(position);
+            this.updateByPrimaryKeySelective(position);
+        }else{
+            ModelUtil.insertInit(position);
+            position.setPositionCode("POST" + System.currentTimeMillis());
+            this.insertSelective(position);
+        }
+        return ServiceUtil.getResponseJson("职位编辑成功",true);
     }
 
     @Override
@@ -63,10 +58,18 @@ public class PositionServiceImpl implements PositionService {
         return BeanUtil.toPagedResult(queryResult);
     }
 
-
-
     @Override
     public Position queryById(String id) {
-        return positionMapper.selectById(id);
+        return positionMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public ResponseJson updateActiveFlagByPrimaryKeyList(List<String> keys) {
+        Position position=new Position();
+        ModelUtil.deleteInit(position);
+        if(!this.updateActiveFlagByPrimaryKeyList(keys,position)){
+            return ServiceUtil.getResponseJson("传入数据为空",false);
+        }
+        return ServiceUtil.getResponseJson("删除成功",true);
     }
 }

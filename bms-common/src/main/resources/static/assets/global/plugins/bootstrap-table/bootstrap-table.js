@@ -2156,7 +2156,7 @@
 
         var formId = that.options.form;
         if (formId && !query) {
-            var formObj = CM_Components.getFormData(formId);
+            var formObj = CommonUtils.getFormData(formId);
             $.extend(params, formObj);
         }
         if (!this.options.url && !this.options.ajax) {

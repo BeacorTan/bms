@@ -67,6 +67,12 @@ public class Department extends BaseModel {
     @Column(name = "PARENT_CODE")
     private String parentCode;
 
+    /**
+     * 父部门名称
+     */
+    @Column(name = "PARENT_NAME")
+    private String parentName;
+
 
     /**
      * 电话
@@ -105,6 +111,14 @@ public class Department extends BaseModel {
     public Department() {
     }
 
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 
     public Integer getTreeLevel() {
         return treeLevel;

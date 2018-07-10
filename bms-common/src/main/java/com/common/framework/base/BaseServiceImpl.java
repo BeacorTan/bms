@@ -17,42 +17,42 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     public abstract BaseMapper getMapper();
 
     @Override
-    public T insert(T pojo) throws Exception {
+    public T insert(T pojo)  {
         getMapper().insert(pojo);
         return pojo;
     }
 
 
     @Override
-    public T insertSelective(T pojo) throws Exception {
+    public T insertSelective(T pojo)  {
         getMapper().insertSelective(pojo);
         return pojo;
     }
 
     @Override
-    public T updateByPrimaryKey(T pojo) throws Exception {
+    public T updateByPrimaryKey(T pojo)  {
         getMapper().updateByPrimaryKey(pojo);
         return pojo;
     }
 
     @Override
-    public T updateByPrimaryKeySelective(T pojo) throws Exception {
+    public T updateByPrimaryKeySelective(T pojo) {
         getMapper().updateByPrimaryKeySelective(pojo);
         return pojo;
     }
 
     @Override
-    public int delete(T key) throws Exception {
+    public int delete(T key)  {
         return getMapper().delete(key);
     }
 
     @Override
-    public int deleteByPrimaryKey(Object key) throws Exception {
+    public int deleteByPrimaryKey(Object key)  {
         return getMapper().deleteByPrimaryKey(key);
     }
 
     @Override
-    public boolean deleteByPrimaryKeyList(List<String> keys) throws Exception {
+    public boolean deleteByPrimaryKeyList(List<String> keys)  {
         if (HelpUtils.isEmpty(keys)) {//判断是否为空
             return false;
         }
@@ -63,7 +63,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public boolean updateActiveFlagByPrimaryKeyList(List<String> keys, T t) throws Exception {
+    public boolean updateActiveFlagByPrimaryKeyList(List<String> keys, T t)  {
 
         if (HelpUtils.isEmpty(keys)) {//判断是否为空
             return false;
@@ -77,28 +77,28 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public List<T> select(T pojo) throws Exception {
+    public List<T> select(T pojo)  {
         return getMapper().select(pojo);
     }
 
     @Override
-    public int selectCount(T record) throws Exception {
+    public int selectCount(T record)  {
         return getMapper().selectCount(record);
     }
 
     @Override
-    public T selectByPrimaryKey(Object key) throws Exception {
+    public T selectByPrimaryKey(Object key)  {
         T pojo = (T) getMapper().selectByPrimaryKey(key);
         return pojo;
     }
 
     @Override
-    public List<T> selectAll() throws Exception {
+    public List<T> selectAll()  {
         return getMapper().selectAll();
     }
 
     @Override
-    public PagedResult<T> findPageList(Integer pageNo, Integer pageSize, T pojo) throws Exception {
+    public PagedResult<T> findPageList(Integer pageNo, Integer pageSize, T pojo)  {
         pageNo = pageNo == null ? 1 : pageNo;
         pageSize = pageSize == null ? 10 : pageSize;
         PageHelper.orderBy("CREATE_DATE desc");//默认都是以时间来排序

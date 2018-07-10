@@ -1,340 +1,213 @@
-<!DOCTYPE html>
-<!--[if IE 8]>
-<html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]>
-<html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--<![endif]-->
-<head>
-    <meta charset="utf-8"/>
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-          type="text/css"/>
-    <link th:href="@{/assets/global/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/assets/global/plugins/simple-line-icons/simple-line-icons.min.css}" rel="stylesheet"
-          type="text/css"/>
-    <link th:href="@{/assets/global/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/assets/global/plugins/bootstrapvalidator/css/bootstrapValidator.min.css}" rel="stylesheet"
-          type="text/css"/>
-    <!-- BEGIN THEME GLOBAL STYLES -->
-    <link th:href="@{/assets/global/css/components.min.css}" rel="stylesheet" id="style_components" type="text/css"/>
-    <link th:href="@{/assets/global/css/plugins.min.css}" rel="stylesheet" type="text/css"/>
-    <!-- END THEME GLOBAL STYLES -->
-    <!-- BEGIN PAGE LEVEL STYLES -->
-    <link th:href="@{/assets/pages/css/profile.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/assets/global/plugins/bootstrap-fileinput/css/fileinput.min.css}" rel="stylesheet"
-          type="text/css"/>
-    <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css"/>
-    <!-- END PAGE LEVEL STYLES -->
-</head>
-
-<body>
-<!-- BEGIN CONTENT BODY -->
-<div class="page-content">
-    <div class="row" style="width: 100%;">
-        <div class="col-md-12">
-            <div class="profile-sidebar" th:if="${operator} eq -1">
-                <!-- PORTLET MAIN -->
-                <div class="portlet light profile-sidebar-portlet ">
-                    <!-- SIDEBAR USERPIC -->
-                    <div class="profile-userpic">
-                        <img th:src="@{${filePath}}" class="img-responsive" alt=""></div>
-                    <div class="profile-usertitle">
-                        <div class="profile-usertitle-name" th:text="${userInfo.realName}"></div>
-                        <!--<div class="profile-usertitle-job"> 软件开发工程师 </div>-->
+<link th:href="@{/assets/global/plugins/select/css/select.css}" rel="stylesheet" type="text/css"/>
+<div class="container row" style="margin-top: 18px;width: 100%;">
+    <div class="form-unit">基本信息</div>
+    <form class="form-horizontal" id="addUserForm">
+        <input type="hidden" name="id" th:if="${user}!=null" th:value="${user}==null?'':${user.id}">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">账号：<span class="required">*</span></label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" id="user_loginName" name="loginName"
+                               th:value="${user}==null?'':${user.loginName}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">姓名：<span
+                            class="required">*</span></label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" name="name"
+                               th:value="${user}==null?'':${user.name}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">部门：<span
+                            class="required">*</span></label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" placeholder="请选择部门" id="userDept"
+                               th:value="${user}==null?'':${user.deptName}">
+                        <input type="hidden" name="deptCode" th:value="${user}==null?'':${user.deptCode}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">职位：<span
+                            class="required">*</span></label>
+                    <div class="col-md-8 col-sm-8">
+                        <div class="form-control select-container" arrow="down" data-url="/position/page/list"
+                             data-code="positionCode" data-value="positionName">
+                            <input type="text" name="positionCode" hidden="hidden"/>
+                            <span class="select-container-arrow"><i class="fa fa-sort-desc"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">手机：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" name="mobile"
+                               th:value="${user}==null?'':${user.mobile}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">电话：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control" name="phone" th:value="${user}==null?'':${user.phone}">
                     </div>
                 </div>
             </div>
 
-            <div class="profile-content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="portlet light portlet-fit portlet-form ">
-                            <div class="portlet-title tabbable-line">
-                                <ul class="nav nav-tabs pull-left">
-                                    <li class="active">
-                                        <a href="#tab_1_1" data-toggle="tab">个人信息</a>
-                                    </li>
-                                    <!--<li th:if="${operator} eq -1">
-                                        <a href="#tab_1_2" data-toggle="tab">头像上传</a>
-                                    </li>-->
-                                    <li>
-                                        <a href="#tab_1_3" data-toggle="tab">密码变更</a>
-                                    </li>
-                                </ul>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4">邮箱：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="email" class="form-control" name="email" th:value="${user}==null?'':${user.email}">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+                <div class="form-group form-md-radios form-sm-radios">
+                    <label class="control-label col-md-4 col-sm-4">性别：</label>
+                    <div class="col-md-8 col-sm-8">
+                        <div class="md-radio-inline">
+                            <div class="md-radio">
+                                <input type="radio" id="gender_man" checked="checked" name="sex"
+                                       value="1" class="md-radiobtn">
+                                <label for="gender_man">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span> 男 </label>
                             </div>
-                            <div class="portlet-body">
-                                <div class="tab-content">
-                                    <!-- PERSONAL INFO TAB -->
-                                    <div class="tab-pane active" id="tab_1_1">
-                                        <form action="#" class="form-horizontal" id="updateUserForm">
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">分机号<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" th:value="${userInfo.channelCode}"
-                                                                   class="form-control" placeholder="" name="userCode">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">坐席工号<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" th:value="${userInfo.loginName}" readonly
-                                                                   class="form-control" placeholder=""
-                                                                   name="loginName">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">员工姓名<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" th:value="${userInfo.realName}"
-                                                                   class="form-control" placeholder=""
-                                                                   name="realName">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">公司<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" class="form-control" id="update-userCompany" th:value="${userInfo.companyName}">
-                                                            <input type="hidden" name="companyCode" th:value="${userInfo.companyCode}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">部门<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" class="form-control" th:value="${userInfo.deptName}" id="update-userDept">
-                                                            <input type="hidden" name="deptCode" th:value="${userInfo.deptCode}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">组</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input id="update-userGroup" type="text" class="form-control"  th:value="${userInfo.groupName}">
-                                                            <input type="hidden" name="groupCode"  th:value="${userInfo.groupCode}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">手机号码<span
-                                                                class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="text" th:value="${userInfo.phone}"
-                                                                   class="form-control" placeholder="" name="phone">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">邮箱</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <input type="email" th:value="${userInfo.email}"
-                                                                   class="form-control" placeholder="" name="email">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group form-md-radios form-sm-radios">
-                                                        <label class="control-label col-md-4 col-sm-4">性别</label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <div class="md-radio-inline">
-                                                                <div class="md-radio">
-                                                                    <input type="radio" id="gender_man"
-                                                                           checked="checked" name="sex"
-                                                                           value="1" class="md-radiobtn">
-                                                                    <label for="gender_man">
-                                                                        <span></span>
-                                                                        <span class="check"></span>
-                                                                        <span class="box"></span> 男 </label>
-                                                                </div>
-                                                                <div class="md-radio">
-                                                                    <input type="radio" id="gender_woman" name="sex"
-                                                                           value="2"
-                                                                           class="md-radiobtn">
-                                                                    <label for="gender_woman">
-                                                                        <span></span>
-                                                                        <span class="check"></span>
-                                                                        <span class="box"></span> 女 </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4 col-sm-4">职位<span class="required">*</span></label>
-                                                        <div class="col-md-8 col-sm-8">
-                                                            <select class="form-control position-select" name="positionCode">
-                                                                <!--<option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>-->
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-11">
-                                                        <script type="application/javascript">
-                                                            function closeCurWin() {
-                                                                CM_Components.layerClose();
-                                                            }
-                                                        </script>
-                                                        <!-- <a href="javascript:;" id="updateUserBtn"
-                                                            class="btn  green btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
-                                                        <a href="javascript:;" id="cancelUserBtn"
-                                                           onclick="closeCurWin()"
-                                                           class="btn  purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--&lt;!&ndash;影藏域&ndash;&gt;-->
-                                            <input type="hidden" name="id" th:value="${userInfo.id}"/>
-                                        </form>
-                                    </div>
-                                    <!-- END PERSONAL INFO TAB -->
-                                    <!-- CHANGE AVATAR TAB -->
-                                    <div class="tab-pane" id="tab_1_2" th:if="${operator} eq -1">
-                                        <div style="max-width:650px;">
-                                            <input id="imgUpload" name="file" multiple="multiple" type="file"
-                                                   class="file-loading" accept=".png,.gif,.jpg"/>
-                                        </div>
-                                    </div>
-                                    <!-- END CHANGE AVATAR TAB -->
-                                    <!-- CHANGE PASSWORD TAB -->
-                                    <div class="tab-pane" id="tab_1_3">
-                                        <form class="form-horizontal" id="updateUserPwdForm">
-                                            <div class="form-body" style="margin-left:-100px;">
-                                                <div class="form-group form-md-line-input" th:if="${operator} eq -1">
-                                                    <label class="col-md-3 control-label">当前密码
-                                                        <span class="required">*</span>
-                                                    </label>
-                                                    <div class="col-md-9">
-                                                        <input type="password" class="form-control" placeholder=""
-                                                               name="currentPwd">
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-md-line-input">
-                                                    <label class="col-md-3 control-label">新密码
-                                                        <span class="required">*</span>
-                                                    </label>
-                                                    <div class="col-md-9">
-                                                        <input type="password" class="form-control" placeholder=""
-                                                               name="newPwd">
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-md-line-input">
-                                                    <label class="col-md-3 control-label">确认新密码
-                                                        <span class="required">*</span>
-                                                    </label>
-                                                    <div class="col-md-9">
-                                                        <input type="password" class="form-control" placeholder=""
-                                                               name="confirmPwd">
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-1"></div>
-                                                    <div class="col-md-11">
-                                                        <a href="javascript:;" id="updateUserPwdBtn"
-                                                           class="btn  green btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                        <a href="javascript:;" id="cancelUserPwdBtn"
-                                                           onclick="closeCurWin()"
-                                                           class="btn  purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取消&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--&lt;!&ndash;影藏域&ndash;&gt;-->
-                                            <input type="hidden" name="id" th:value="${userInfo.id}"/>
-                                            <input type="hidden" name="loginName" th:value="${userInfo.loginName}"/>
-                                        </form>
-                                    </div>
-                                    <!-- END CHANGE PASSWORD TAB -->
-                                </div>
+                            <div class="md-radio">
+                                <input type="radio" id="gender_woman" name="sex" value="2"
+                                       class="md-radiobtn">
+                                <label for="gender_woman">
+                                    <span></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span> 女 </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END PROFILE CONTENT -->
         </div>
+    </form>
+    <div class="form-unit">授权角色</div>
+</div>
+<table data-classes="table table-no-bordered"
+       id="cpmg-user-role-table">
+    <thead>
+    <tr>
+        <th data-field="id" data-checkbox="true" data-formatter="stateFormater"></th>
+        <th data-field="roleName">角色名称</th>
+        <th data-field="roleCode">角色编码</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<div class="container row form-buttons" style="width: 100%;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <a id="addUserBtn"
+           class="btn btn-sm green btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a onclick="CommonUtils.reset('addUserForm')"
+           class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a onclick="CommonUtils.closeTab('addUserTab')"
+           class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </div>
 </div>
-<!-- END CONTENT BODY -->
-<!--[if lt IE 9]>
-<script th:src="@{/assets/global/plugins/respond.min.js}"></script>
-<script th:src="@{/assets/global/plugins/excanvas.min.js}"></script>
-<script th:src="@{/assets/global/plugins/ie8.fix.min.js}"></script>
-<![endif]-->
-<!-- BEGIN CORE PLUGINS -->
-<script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/js.cookie.min.js}" type="text/javascript"></script>
-<!-- END CORE PLUGINS -->
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script th:src="@{/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/plugins/select/js/select.js}" type="text/javascript"></script>
 <script th:src="@{/assets/global/plugins/bootstrapvalidator/js/bootstrapValidator.min.js}"
         type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/jquery.blockui.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/bootstrap-fileinput/js/fileinput.min.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/bootstrap-fileinput/themes/fa/theme.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/bootstrap-fileinput/js/locales/zh.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/scripts/app.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
 <script th:src="@{/assets/auth/user.js}" type="text/javascript"></script>
-<script th:src="@{/assets/global/plugins/layer/layer.js}" type="text/javascript"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    jQuery(document).ready(function () {
-        CM_User.initUserProfile(/*[[@{/user/update}]]*/);
-        var operator = /*[[${operator}]]*/;
-        //修改自己的个人信息,需要初始化上传图片
-        if (operator == -1) {
-            CM_User.initUserUploadPhoto();
-        }
+<script>
 
-        $("#update-userCompany,#update-userDept,#update-userGroup").focus(function () {
+    function stateFormater(value, row, index) {
+        if (row.state == true)
+            return {
+                disabled: false,//设置是否可用
+                checked: true//设置选中
+            };
+        return value;
+    }
+
+    (function () {
+
+        var loginName = $("#user_loginName").val();
+        $("#cpmg-user-role-table").bootstrapTable({
+            method: 'get',
+            url: CommonUtils.getContextAll("/role/query?loginName=" + loginName),
+            cache: false,
+            dataType: "json",
+            striped: false,	 //使表格带有条纹
+            sortable: true,
+            pagination: true,	//在表格底部显示分页工具栏
+            pageSize: 10,
+            pageNumber: 1,
+            pageList: [5],
+            idField: "id",  //标识哪个字段为id主键
+            showToggle: false,   //名片格式
+            cardView: false,//设置为True时显示名片（card）布局
+            singleSelect: false,//复选框只能选择一条记录
+            search: false,//是否显示右上角的搜索框
+            // clickToSelect: true,//点击行即可选中单选/复选框
+            sidePagination: "server",//表格分页的位置
+            queryParamsType: "", //参数格式,发送标准的RESTFul类型的参数请求
+            strictSearch: true,
+            showColumns: false,     //是否显示所有的列
+            showRefresh: false,     //是否显示刷新按钮
+            minimumCountColumns: 2,    //最少允许的列数
+            checkbox: true,
+            responseHandler: function (res) {
+                return {
+                    "rows": res.dataList,
+                    "total": res.total
+                };
+            },
+            formatNoMatches: function () {  //没有匹配的结果
+                return '无符合条件的记录';
+            }
+        });
+
+
+        // 职位
+        var $positionSelect = $(".position-select");
+        $.ajax({
+            url: CommonUtils.getContextAll("/position/page/list"),
+            type: "get",
+            success: function (result) {
+                if (result && result.dataList) {
+                    var dataList = result.dataList;
+                    var content = "<option value=''>选择</option>";
+                    $positionSelect.append(content);
+                    for (var i = 0; i < dataList.length; i++) {
+                        content = "<option value='" + dataList[i].positionCode + "'>" + dataList[i].positionName + "</option>";
+                        $positionSelect.append(content);
+                    }
+                }
+            },
+            error: function (errorMsg) {
+                console.error(errorMsg);
+            }
+        });
+        // 职位
+
+        CM_User.initUserAdd(/*[[@{/user}]]*/);
+
+        $("#userCompany,#userDept,#userGroup").focus(function () {
             var domId = $(this).attr("id");
             deptCheck(domId);
         });
@@ -350,7 +223,7 @@
                 shade: 0.5,
                 scrollbar: false,
                 btn: ["确定", "取消"],
-                content: CM_Components.getContextAll("/dep/alert/list"),
+                content: CommonUtils.getContextAll("/dep/alert/list"),
                 success: function (layero, index) {
                     // layui-layer-iframe2
                     var loginPage;
@@ -361,7 +234,7 @@
                     // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
                     // 如果会话失效，重定向只登陆页面
                     if (loginPage) {
-                        window.location = CM_Components.getContextAll("/login");
+                        window.location = CommonUtils.getContextAll("/login");
                     }
                 },
                 yes: function (index, layero) {
@@ -377,9 +250,5 @@
                 }
             });
         }
-    });
-    /*]]>*/
+    })();
 </script>
-</body>
-
-</html>

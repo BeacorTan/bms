@@ -20,8 +20,8 @@
                     <label class="control-label col-md-4 col-sm-4">员工姓名<span
                             class="required">*</span></label>
                     <div class="col-md-8 col-sm-8">
-                        <input type="text" class="form-control" name="realName"
-                               th:value="${user}==null?'':${user.realName}">
+                        <input type="text" class="form-control" name="name"
+                               th:value="${user}==null?'':${user.name}">
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@
         var loginName = $("#user_loginName").val();
         $("#cpmg-user-role-table").bootstrapTable({
             method: 'get',
-            url: CM_Components.getContextAll("/role/query?loginName=" + loginName),
+            url: CommonUtils.getContextAll("/role/query?loginName=" + loginName),
             cache: false,
             dataType: "json",
             striped: false,	 //使表格带有条纹
@@ -222,7 +222,7 @@
         // 职位
         var $positionSelect = $(".position-select");
         $.ajax({
-            url: CM_Components.getContextAll("/position/page/list"),
+            url: CommonUtils.getContextAll("/position/page/list"),
             type: "get",
             success: function (result) {
                 if (result && result.dataList) {
@@ -259,7 +259,7 @@
                 shade: 0.5,
                 scrollbar: false,
                 btn: ["确定", "取消"],
-                content: CM_Components.getContextAll("/dep/alert/list"),
+                content: CommonUtils.getContextAll("/dep/alert/list"),
                 success: function (layero, index) {
                     // layui-layer-iframe2
                     var loginPage;
@@ -270,7 +270,7 @@
                     // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
                     // 如果会话失效，重定向只登陆页面
                     if (loginPage) {
-                        window.location = CM_Components.getContextAll("/login");
+                        window.location = CommonUtils.getContextAll("/login");
                     }
                 },
                 yes: function (index, layero) {

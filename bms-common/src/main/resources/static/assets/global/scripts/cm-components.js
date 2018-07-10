@@ -21,7 +21,7 @@ var CM_Components = function () {
             } else {
                 var params = {"code": selCode};
                 $.ajax({
-                    url: CM_Components.getContextAll("/dict/query"),
+                    url: CommonUtils.getContextAll("/dict/query"),
                     type: "POST",
                     async: false,
                     contentType: 'application/json',
@@ -66,7 +66,7 @@ var CM_Components = function () {
         } else {
             var params = {"code": code};
             $.ajax({
-                url: CM_Components.getContextAll("/dict/query"),
+                url: CommonUtils.getContextAll("/dict/query"),
                 type: "POST",
                 cache: false,
                 async: false,
@@ -91,7 +91,7 @@ var CM_Components = function () {
         } else {
             var params = {"code": code};
             $.ajax({
-                url: CM_Components.getContextAll("/dict/query"),
+                url: CommonUtils.getContextAll("/dict/query"),
                 type: "POST",
                 async: false,
                 contentType: 'application/json',
@@ -287,7 +287,7 @@ var CM_Components = function () {
                 // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
                 // 如果会话失效，重定向只登陆页面
                 if (loginPage) {
-                    window.location = CM_Components.getContextAll("/login");
+                    window.location = CommonUtils.getContextAll("/login");
                 }
             }
         });
@@ -437,49 +437,7 @@ var CM_Components = function () {
         });
     }
 
-    /**
-     *  form组装
-     * @param form
-     * @returns {{}}
-     */
-    var getFormData = function (form) {
-        var formData = {};
-        var name;
-        var currentInput;
-        var inputType;
 
-        var list = $("#" + form + " input");
-        for (var i = 0; i < list.length; i++) {
-            currentInput = $(list[i]);
-            name = currentInput.attr("name");
-            if (!name) {
-                continue;
-            }
-            inputType = currentInput.attr("type");
-            // 复选框
-            if (inputType == "checkbox") {
-                if (!currentInput.is(":checked")) {
-                    continue;
-                }
-                if (!formData[name]) {
-                    formData[name] = [];
-                }
-                formData[name].push(currentInput.val());
-                continue;
-            }
-            // 单选
-            if (inputType == "radio" && !currentInput.is(":checked")) {
-                continue;
-            }
-            formData[name] = currentInput.val();
-        }
-        var currDom;
-        $("#" + form + " select").each(function () {
-            currDom = $(this);
-            formData[currDom.attr("name")] = currDom.val();
-        });
-        return formData;
-    }
 
     // var index;
     return {
@@ -495,9 +453,6 @@ var CM_Components = function () {
          */
         dictDataBinding: function (selectIds) {
             dictDataBinding(selectIds);
-        },
-        getFormData: function (form) {
-            return getFormData(form);
         },
         initIndexLeftMenu: function () {
             handleLeftMenuClick();
@@ -543,19 +498,6 @@ var CM_Components = function () {
         },
         getPageData: function (ajaxUrl, data, targetClass) {
             getPageData(ajaxUrl, data, targetClass);
-        },
-        getContextAll: function (api_path) {
-            // 获取当前jsp文件的绝对路径
-            var strFullPath = window.document.location.href;
-            // 获取当前jsp文件在web中的相对路径
-            var strPath = window.document.location.pathname;
-            // 获取jsp文件在绝对路径中的索引位置
-            var pos = strFullPath.indexOf(strPath);
-            // 获取主机地址
-            var prePath = strFullPath.substring(0, pos);
-            // 获取项目名称 如：/Web_Test
-            var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
-            return (prePath + postPath + api_path);
         }
     }
 }();

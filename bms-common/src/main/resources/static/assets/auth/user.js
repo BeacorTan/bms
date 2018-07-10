@@ -10,7 +10,7 @@ var CM_User = function () {
     var userTableColum = [{checkbox: true}
         , {title: 'id', field: 'id', align: 'center', valign: 'middle', visible: false}
         , {title: '登录账号', field: 'loginName', align: 'center', valign: 'middle'}
-        , {title: '姓名', field: 'realName', align: 'center', valign: 'middle'}
+        , {title: '姓名', field: 'name', align: 'center', valign: 'middle'}
         , {title: '电话', field: 'mobile', align: 'center'}
         , {title: '手机号', field: 'phone', align: 'center'}
         , {title: '邮箱', field: 'email', align: 'center'}];
@@ -40,58 +40,7 @@ var CM_User = function () {
 
 
     var $searchUserFormId = $("#searchUserFormId");
-    /**
-     * 用户主页面初始化用户表格数据
-     */
-    var initTable = function () {
-        CM_Components.initBootStrapTable($userTable, tableAjaxUrl, userTableColum);
-    }
-    /**
-     * 用户主页面按钮绑定事件:增加、修改、删除
-     */
-    var userMainEventHandler = function () {
-        //增加用户
-        $("#addUserView").on("click", function () {
-            CommonUtils.addTab("addUserTab", "添加用户", CM_Components.getContextAll("/user/add/view"));
-        });
-        // 查询
-        $user_searchUsers.on("click", function () {
-            var paramData = {
-                "realName": $searchUserFormId.find('input[name=realName]').val(),
-                "loginName": $searchUserFormId.find('input[name=loginName]').val(),
-                "phone": $searchUserFormId.find('input[name=phone]').val()
-            };
 
-            // 重新加载数据
-            $userTable.bootstrapTable(
-                "refresh",
-                {
-                    url: tableAjaxUrl,
-                    query: paramData
-                }
-            );
-        });
-
-        //绑定修改用户弹出页面的按钮事件
-        $("#updateUserView").on("click", function () {
-            var rows = CM_Components.getTableSelections($userTable);
-            if (rows.length == 0) {
-                CM_Components.bootstrapSweetAlert("", "请选择一个用户", "error");
-                return;
-            }
-            if (rows.length >= 2) {
-                CM_Components.bootstrapSweetAlert("", "不能选择多个用户", "error");
-                return;
-            }
-            //查看用户的基本信息
-            //CM_Components.layerOpen("配置账户", '1000px', '650px', "user/profile/view/" + rows[0].id + "?operator=1");
-            CommonUtils.addTab("addUserTab", "编辑用户", CM_Components.getContextAll("/user/add/view?id=" + rows[0].id));
-        });
-        //绑定删除按钮事件
-        $deleteUsers.on("click", function () {
-            CM_Components.ajaxDeleteTable("user/batch", $userTable);
-        });
-    }
     /**
      * 用户修改页面事件绑定
      */
@@ -144,7 +93,7 @@ var CM_User = function () {
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                realName: {
+                name: {
                     validators: {
                         notEmpty: {
                             message: '员工姓名不能为空'
@@ -195,7 +144,7 @@ var CM_User = function () {
             }
         }).on("success.form.bv", function (e) {
             console.info("edit user", e)
-            var params = CM_Components.getFormData("addUserForm");
+            var params = CommonUtils.getFormData("addUserForm");
             var roleCodes = [];
             var selectRoles = $("#cpmg-user-role-table").bootstrapTable("getSelections");
             for (var i = 0; i < selectRoles.length; i++) {
@@ -211,7 +160,7 @@ var CM_User = function () {
             }
 
             $.ajax({
-                url: CM_Components.getContextAll(reqUrl),
+                url: CommonUtils.getContextAll(reqUrl),
                 type: "POST",
                 contentType: 'application/json',
                 data: JSON.stringify(params),
@@ -314,9 +263,9 @@ var CM_User = function () {
         });
 
         $updateUserPwdBtn.on("click", function () {
-            var params = CM_Components.getFormData("updateUserPwdForm");
+            var params = CommonUtils.getFormData("updateUserPwdForm");
             $.ajax({
-                url: CM_Components.getContextAll("/user/updatePwd"),
+                url: CommonUtils.getContextAll("/user/updatePwd"),
                 type: "POST",
                 //contentType: 'application/json',
                 // data: JSON.stringify(params),
@@ -377,8 +326,7 @@ var CM_User = function () {
     return {
         //初始化用户管理的主页面:用户列表
         initUserMain: function () {
-            initTable();
-            userMainEventHandler();
+            //initTable();
         },
         //初始化用户管理的修改页面:role_profile.html
         initUserProfile: function (updateAjaxUrl) {

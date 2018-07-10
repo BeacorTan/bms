@@ -24,7 +24,6 @@ import java.util.List;
 @Service
 public class DeptServiceImpl extends BaseServiceImpl<Department> implements DeptService {
 
-
     @Resource
     private DeptMapper depMapper;
 
@@ -32,7 +31,6 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     public BaseMapper getMapper() {
         return depMapper;
     }
-
 
     @Override
     public PagedResult<Department> query(Department department, PageBean pageBean) {
@@ -43,7 +41,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             }
             if (StringUtils.isNotBlank(department.getDeptCode())
                     || StringUtils.isNotBlank(department.getDeptName())
-                    || StringUtils.isNotBlank(department.getDeptType())){
+                    || StringUtils.isNotBlank(department.getDeptType())) {
                 department.setParentCode(null);
             }
         }
@@ -61,11 +59,12 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
 
         if (StringUtils.isNotBlank(parentCode)) {
             Department parentDept = depMapper.selectOne(new Department(parentCode, BaseModel.ACTIVE_FLAG_YES));
-            if (parentCode != null) {
+            if (parentDept != null) {
                 depMapper.updateByDeptCode(new Department(parentCode, "0"));
                 department.setParentCodes(parentDept.getParentCodes() + "," + parentCode);
                 department.setTreeNames(parentDept.getTreeNames() + "/" + department.getDeptName());
                 department.setTreeLevel(parentDept.getTreeLevel() + 1);
+                department.setParentName(parentDept.getDeptName());
             }
         }
         if (StringUtils.isNotBlank(department.getId())) {
@@ -84,15 +83,12 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
 
     @Override
     public ResponseJson remove(List<String> ids) {
-        if (CollectionUtils.isNotEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return ServiceUtil.getResponseJson("删除失败，参数为空", false);
         }
         Department department = new Department();
-        ids.forEach((id) -> {
-            department.setId(id);
-            ModelUtil.deleteInit(department);
-            depMapper.updateByPrimaryKeySelective(department);
-        });
+        ModelUtil.deleteInit(department);
+        this.updateActiveFlagByPrimaryKeyList(ids, department);
         return ServiceUtil.getResponseJson("删除成功", true);
     }
 
@@ -114,6 +110,4 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     public List<TreeVO> queryTree() {
         return depMapper.queryTree();
     }
-
-
 }

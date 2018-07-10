@@ -25,7 +25,7 @@
 
         t.$el.click(function () {
             var that = $(this);
-            var $reqUrl = CM_Components.getContextAll("/common/tree?treeUrl={0}&id={1}").format(t.options["treeUrl"], t.options["id"]);
+            var $reqUrl = CommonUtils.getContextAll("/common/tree?treeUrl={0}&id={1}").format(t.options["treeUrl"], t.options["id"]);
             layer.open({
                 type: 2,
                 skin: "bms-parent-layer",
@@ -47,7 +47,7 @@
                     // loginPage=$("#layui-layer-iframe"+index).contents().find("#cpmg-login");
                     // 如果会话失效，重定向只登陆页面
                     if (loginPage) {
-                        window.location = CM_Components.getContextAll("/login");
+                        window.location = CommonUtils.getContextAll("/login");
                     }
                 },
                 yes: function (index, layero) {

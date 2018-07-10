@@ -12,7 +12,8 @@ var CommonUtils = function () {
         var currentInput;
         var inputType;
 
-        var list = $("#" + form + " input");
+        var $form = $("#" + form);
+        var list = $form.find("input");
         for (var i = 0; i < list.length; i++) {
             currentInput = $(list[i]);
             name = currentInput.attr("name");
@@ -37,20 +38,21 @@ var CommonUtils = function () {
             }
             formData[name] = currentInput.val();
         }
-
-        // 下拉框
         var currDom;
-        $("#" + form + " select").each(function () {
+        $form.find("select").each(function () {
             currDom = $(this);
             formData[currDom.attr("name")] = currDom.val();
         });
-
         // 文本域
-        $("#" + form + " textarea").each(function () {
+        $form.find("textarea").each(function () {
             currDom = $(this);
             formData[currDom.attr("name")] = currDom.val();
         });
-
+        // 数值框
+        $form.find("number").each(function () {
+            currDom = $(this);
+            formData[currDom.attr("name")] = currDom.val();
+        });
         return formData;
     }
 
@@ -162,6 +164,19 @@ var CommonUtils = function () {
         },
         updateTab: function (bootstrapTable, tabId, reqUrl,tabTitle) {
             return updateTab(bootstrapTable, tabId, reqUrl,tabTitle);
+        },
+        getContextAll: function (api_path) {
+            // 获取当前jsp文件的绝对路径
+            var strFullPath = window.document.location.href;
+            // 获取当前jsp文件在web中的相对路径
+            var strPath = window.document.location.pathname;
+            // 获取jsp文件在绝对路径中的索引位置
+            var pos = strFullPath.indexOf(strPath);
+            // 获取主机地址
+            var prePath = strFullPath.substring(0, pos);
+            // 获取项目名称 如：/Web_Test
+            var postPath = strPath.substring(0, strPath.substr(1).indexOf('/') + 1);
+            return (prePath + postPath + api_path);
         }
 
     };

@@ -57,7 +57,7 @@
             var $code = $that.attr("data-code");
             var $value = $that.attr("data-value");
 
-            var $reqUrl = CM_Components.getContextAll($that.attr("data-url"));
+            var $reqUrl = CommonUtils.getContextAll($that.attr("data-url"));
             if (params) {
                 $reqUrl = $reqUrl + "?" + $value + "=" + params;
             }
@@ -66,7 +66,6 @@
                 url: $reqUrl,
                 type: "GET",
                 success: function (result) {
-//                                console.table(result.dataList);
                     var $dataList = result.dataList;
                     if ($dataList && $dataList.length > 0) {
                         for (let index of $dataList) {
@@ -194,7 +193,7 @@
         var params = "?parentCode=" + ($parentCode ? $parentCode : "") + "&deptName=" + ( $that.searchInput ? $that.searchInput.val() : "");
 
         $.ajax({
-            url: CM_Components.getContextAll($that.options.url) + params,
+            url: CommonUtils.getContextAll($that.options.url) + params,
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -288,9 +287,6 @@
                     return;
                 }
                 value = data[option].apply(data, args);
-//                                    if (option === 'destroy') {
-//                                        $this.removeData('select.linkage');
-//                                    }
             }
             if (!data) {
                 $this.data('select.linkage', (data = new SelectLinkage(this, options)));
