@@ -23,4 +23,8 @@ public interface FunctionMapper extends BaseMapper<Function> {
     Function selectByCode(@Param("funCode") String funCode);
 
     int updateLeafByCode(@Param("funCode") String funCode,@Param("treeLeaf")Integer treeLeaf);
+
+    List<String> selectPermissionByLoginName(@Param("loginName") String loginName);
+
+    String isExistsPermissionsById(@Param("id") String id);
 }

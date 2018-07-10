@@ -1,9 +1,9 @@
 package com.common.framework.base;
 
-import com.github.pagehelper.PageHelper;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.HelpUtils;
 import com.common.framework.util.PagedResult;
+import com.github.pagehelper.PageHelper;
 
 import java.util.List;
 

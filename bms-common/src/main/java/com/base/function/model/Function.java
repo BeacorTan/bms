@@ -74,6 +74,7 @@ public class Function extends BaseModel {
     @Column(length = 32, name = "TREE_LEVEL")
     private Integer treeLevel;
 
+    // 菜单类型 1：菜单  0：权限按钮
     @Column(name = "TYPE")
     private Integer type;
 

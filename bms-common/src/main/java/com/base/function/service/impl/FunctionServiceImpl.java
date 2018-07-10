@@ -8,12 +8,14 @@ import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
 import com.common.framework.util.*;
 import com.common.model.TreeVO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -22,6 +24,37 @@ import java.util.List;
 @Service
 public class FunctionServiceImpl extends BaseServiceImpl<Function> implements FunctionService {
 
+
+    @Transactional
+    @Override
+    public ResponseJson updateActiveFlagByPrimaryKeyList(List<String> keys) {
+
+        if (CollectionUtils.isEmpty(keys)) {
+            return ServiceUtil.getResponseJson("删除失败，上传数据为空", false);
+        }
+
+        Function function = new Function();
+        ModelUtil.deleteInit(function);
+        String funName;
+        StringBuilder msg = new StringBuilder();
+        for (String id : keys) {
+            funName = functionMapper.isExistsPermissionsById(id);
+            if (StringUtils.isNotBlank(funName)) {
+                msg.append(funName);
+                msg.append(",");
+                continue;
+            }
+            function.setId(id);
+            functionMapper.updateByPrimaryKeySelective(function);
+        }
+        if (StringUtils.isNotBlank(msg.toString())) {
+            String m = MessageFormat.format("不能删除以下菜单:{0},请先删除权限", msg.substring(0, msg.length() - 1));
+            return ServiceUtil.getResponseJson(m, false);
+        }
+        return ServiceUtil.getResponseJson("编辑成功", true);
+
+    }
+
     @Transactional
     @Override
     public ResponseJson functionEdit(Function function) {
@@ -29,7 +62,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         if (function == null) {
             return ServiceUtil.getResponseJson("输入数据为空", false);
         }
-        String parentCode = function.getFunCode();
+        String parentCode = function.getParentCode();
         String id = function.getId();
         Function parentFunction = functionMapper.selectByCode(parentCode);
         function.setParentName(parentFunction.getFunName());
@@ -52,6 +85,11 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
             functionMapper.updateLeafByCode(parentCode, 0);
         }
         return ServiceUtil.getResponseJson("编辑成功", true);
+    }
+
+    @Override
+    public List<String> getPermissions(String loginName) {
+        return functionMapper.selectPermissionByLoginName(loginName);
     }
 
     /**

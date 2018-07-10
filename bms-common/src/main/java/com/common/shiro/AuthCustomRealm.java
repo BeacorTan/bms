@@ -1,5 +1,6 @@
 package com.common.shiro;
 
+import com.base.function.service.FunctionService;
 import com.base.user.model.UserBasic;
 import com.base.user.service.UserBasicService;
 import org.apache.shiro.authc.AuthenticationException;
@@ -26,6 +27,9 @@ public class AuthCustomRealm extends AuthorizingRealm {
 
     @Resource
     private UserBasicService userBasicService;
+
+    @Resource
+    private FunctionService functionService;
 
     /**
      * 认证信息.(身份验证) Authentication 是用来验证用户身份
@@ -112,7 +116,7 @@ public class AuthCustomRealm extends AuthorizingRealm {
          }
          */
         // 设置权限信息.
-        // authorizationInfo.setStringPermissions(getStringPermissions(userInfo.getRoleList()));
+         authorizationInfo.addStringPermissions(functionService.getPermissions(ShiroManager.getLoginName()));
         return authorizationInfo;
     }
     /**

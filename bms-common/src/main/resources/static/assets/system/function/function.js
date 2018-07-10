@@ -1,11 +1,7 @@
-//@ sourceURL=function.js
 /**
  * 资源管理(菜单、按钮等)模块js
  */
 var BMS_Function = function () {
-
-    // var b=function(){a.call(this); return $.extend(this,{});}
-    var $searchForm = $("#bms-function-search-form");
 
 
     //
@@ -152,37 +148,46 @@ var BMS_Function = function () {
     // }
 
 
-    function init(btnId) {
-        initTable();
-        initButton(btnId);
-    }
 
     var $functionTable = $("#bms-function-table");
 
-    function initTable() {
-        CM_Components.initBootStrapTable($functionTable, CM_Components.getContextAll("/function/query"));
+    function initFunctionIcons() {
+
+        function iconClick(className) {
+            var iconId = "#" + $("#function_functionIconID").val();
+            var $funIcon = $(iconId, parent.document);
+            $funIcon.find("span").text(className);
+            $funIcon.find("i").attr("class", className);
+            $funIcon.find("input").val(className);
+        }
+
+        // 图标单击、双击事件
+        $("div.function-icon").on({
+            click: function () {
+                console.log("click");
+                var icon = $(this);
+                icon.addClass("cmmp-function-icon-hover");
+                var className = icon.find("i").attr("class");
+                iconClick(className);
+                var changeIcon = $("#cmmg_function_icon_ul").find("[isChange=true]");
+                if (changeIcon) {
+                    icon.attr("isChange", "false");
+                    changeIcon.removeClass("cmmp-function-icon-hover");
+                }
+                icon.attr("isChange", "true");
+            }, dblclick: function () {
+                console.log("dblclick");
+                var className = $(this).find("i").attr("class");
+                iconClick(className);
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭
+            }
+        });
     }
 
-    function initButton(btnId) {
-
-        $("#bms-function-search-btn").click(function () {
-            $functionTable.bootstrapTable()
-            $functionTable.bootstrapTable('refresh', {
-                query: CommonUtils.getFormData("bms-function-search-form")
-            });
-        });
-
-        $("#" + btnId).find("button").each(function () {
-            var $that=$(this);
-            $that.click(function () {
-                CommonUtils.addTab("editFunction","编辑菜单",CM_Components.getContextAll($that.attr("data-url")));
-            });
-
-        });
-    }
     return {
-        init: function (btnId) {
-            init(btnId);
+        initFunctionIcons: function () {
+            initFunctionIcons();
         }
     }
 }();

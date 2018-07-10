@@ -26,4 +26,8 @@ public interface FunctionService extends BaseService<Function> {
     List<TreeVO> queryTree(String roleCode);
 
     ResponseJson functionEdit(Function function);
+
+    List<String> getPermissions(String loginName);
+
+    ResponseJson updateActiveFlagByPrimaryKeyList(List<String> keys);
 }

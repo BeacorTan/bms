@@ -334,44 +334,7 @@ var CM_Function = function () {
     }
 
 
-    /**
-     * 修改页面调用父页面方法,给zTree动态修改数据
-     * @param depNode
-     */
-    function initFunctionIconsBtn() {
 
-        function iconClick(className) {
-            // var className = $(this).find("i").attr("class");
-            console.info("-------------" + className + "----------------");
-            var parentWinName = $("#cmmg_function_parentWinName").val();
-            var ifrc = window.parent.frames[parentWinName];
-            var winc = ifrc.window || ifrc.contentWindow;
-            winc.document.getElementById("cmmp-funcion-icon-input").value = className;
-            winc.document.getElementById("cmmp-funcion-icon-show").setAttribute("class", className);
-        }
-
-        // 图标单击、双击事件
-        $(".cmmp-function-icon").on({
-            click: function () {
-                var icon = $(this);
-                icon.addClass("cmmp-function-icon-hover");
-                var className = icon.find("i").attr("class");
-                iconClick(className);
-                var changeIcon = $("#cmmg_function_icon_ul").find("[isChange=true]");
-                if (changeIcon) {
-                    icon.attr("isChange", "false");
-                    changeIcon.removeClass("cmmp-function-icon-hover");
-                }
-
-                icon.attr("isChange", "true");
-            }, dblclick: function () {
-                var className = $(this).find("i").attr("class");
-                iconClick(className);
-                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                parent.layer.close(index); //再执行关闭
-            }
-        });
-    }
 
     // 图标选择按钮
     function initFunctionIconChangeBtn() {

@@ -31,6 +31,25 @@
         <result column="CHECKED" property="checked" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="isExistsPermissionsById" parameterType="java.lang.String" resultType="java.lang.String">
+        select f.FUN_NAME from t_sys_function f
+        inner join t_sys_role_function rf on f.FUN_CODE=rf.FUNCTION_CODE
+        where f.id=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectPermissionByLoginName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT DISTINCT
+            (f.FUN_CODE)
+        FROM
+            t_sys_user_role ur
+        INNER JOIN t_sys_role_function rf ON ur.ROLE_CODE = rf.ROLE_CODE
+        INNER JOIN t_sys_function f ON f.FUN_CODE = rf.FUNCTION_CODE
+        WHERE
+            ur.LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        AND f.TYPE = 0
+        AND f.ACTIVE_FLAG = 1
+    </select>
+
     <update id="updateLeafByCode">
         UPDATE T_SYS_FUNCTION SET TREE_LEAF=#{treeLeaf,jdbcType=INTEGER} WHERE FUN_CODE=#{funCode,jdbcType=VARCHAR}
     </update>

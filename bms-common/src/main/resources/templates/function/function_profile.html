@@ -12,6 +12,11 @@
     .input-group-search:hover {
         background-color: #e7eaea;
     }
+    .form-icon i{
+        margin: 0px 5px;
+        font-weight: bold;
+        color: #3a485;
+    }
 </style>
 <div class="portlet-body form">
     <form id="bms-function-edit-form" class="form-horizontal">
@@ -24,8 +29,8 @@
                         <label class="control-label col-md-3 col-sm-3">上级菜单</label>
                         <div class="col-md-7 col-sm-7">
                             <div class="input-group" id="bms-parent-function">
-                                <input type="text" class="form-control" name="parentCode" placeholder="请选择上级菜单">
-                                <input type="hidden" class="form-control" name="parentName">
+                                <input name="parentName" th:value="${fun!=null?fun.parentName:''}" type="text" class="form-control" placeholder="请选择上级菜单">
+                                <input name="parentCode" th:value="${fun!=null?fun.parentCode:''}" type="hidden" class="form-control" >
                                 <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
@@ -36,13 +41,13 @@
                         <label class="control-label col-md-3 col-sm-3">菜单类型</label>
                         <div class="radio col-md-2 col-sm-4">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked>
+                                <input type="radio" name="type"  value="1" th:checked="${fun!=null?fun.type:''} == 1">
                                 菜单
                             </label>
                         </div>
                         <div class="radio col-md-2 col-sm-4">
                             <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="0">
+                                <input type="radio" name="type"  value="0" th:checked="${fun!=null?fun.type:''} == 0">
                                 权限
                             </label>
                         </div>
@@ -85,9 +90,12 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">菜单图标</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="icon"
-                                   th:value="${fun!=null?fun.icon:''}"
-                                   placeholder="请选择菜单图标">
+                            <label id="function_icon_input" class="control-label form-control form-icon" style="text-align: left;">
+                                <i class="icon-anchor" th:attr="class=${fun!=null?fun.icon:''}"></i>
+                                <!--th:attr="id='potential_call_btn'+${customerNotNo.customerMobile}"-->
+                                <span th:text="${fun!=null?fun.icon:''}"></span>
+                                <input name="icon" th:value="${fun!=null?fun.icon:''}" type="hidden" >
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -96,8 +104,7 @@
                         <label class="control-label col-md-3 col-sm-3">字体颜色</label>
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="funColor"
-                                   th:value="${fun!=null?fun.funColor:''}"
-                                   placeholder="请输入链接">
+                                   th:value="${fun!=null?fun.funColor:''}">
                         </div>
                     </div>
                 </div>
@@ -128,22 +135,43 @@
             </div>
         </div>
         <footer>
-            <div class="cm-footer-style">
-                <a id="bms-function-edit-submit" class="btn btn-sm green btn-outline sbold ">
-                    &nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <a onclick="CommonUtils.reset('bms-function-edit-form')"
-                   class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <a onclick="CommonUtils.closeTab('function_edit')" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <div class="cm-footer-style" th:attr="id='edit-btn'+${tabId}">
+                <a data-type="submit" data-url="/function/profile" class="btn btn-sm green btn-outline sbold ">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a data-type="reset" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a data-type="close" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
             </div>
         </footer>
     </form>
 </div>
-
 <script th:src="@{/assets/global/scripts/tree-layer.js}" type="text/javascript"></script>
-<script>
+<script th:src="@{/assets/common/button-init.js}" type="text/javascript"></script>
+<script type="text/javascript" th:inline="javascript">
     jQuery(document).ready(function () {
+
+        var tabId=/*[[${tabId}]]*/
+        $("#edit-btn"+tabId).formButtonInit({
+            "bootstrapTable":"bms-function-table",
+            "tabId":tabId,
+            "editForm":"bms-function-edit-form"
+        });
+
         $("#bms-parent-function").treeLayer({
             "treeUrl": "/function/tree/list"
+        });
+
+        $("#function_icon_input").click(function () {
+            layer.open({
+                type: 2,
+                skin: "cm-custom-layer",
+                title: '菜单图标',
+                area: ["1200px", "650px"],
+                fix: false, //不固定
+                shadeClose: false,
+                shade: 0.5,
+                scrollbar: false,
+                content: 'function/icons?functionIconID=function_icon_input',
+                btn: ['确定']
+            })
         });
     });
 </script>

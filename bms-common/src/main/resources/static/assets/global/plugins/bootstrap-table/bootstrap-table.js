@@ -2017,8 +2017,9 @@
 
 
             this.$body.find("> tr > td > div >.grid-tree-name>a").click(function (e) {
-                //  addTab: function (id, title, tabUrl) {
-                CommonUtils.addTab("111",$(this).attr("title"),$(this).attr("data-href"));
+                var tabUrl=$(this).attr("data-href");
+                var tabId=tabUrl.substring(tabUrl.indexOf("=")+1);
+                CommonUtils.addTab(tabId,$(this).attr("title"),tabUrl);
                 e.stopPropagation();//阻止事件冒泡
             });
         }
