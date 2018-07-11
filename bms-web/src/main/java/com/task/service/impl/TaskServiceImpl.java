@@ -1,5 +1,6 @@
 package com.task.service.impl;
 
+import com.common.framework.constant.SystemConstant;
 import com.task.mapper.TaskMapper;
 import com.task.model.TaskVO;
 import com.task.service.ITaskService;
@@ -33,7 +34,7 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskVO> implements ITaskSer
     public ResponseJson edit(TaskVO task) {
 
         if (task == null) {
-            return ServiceUtil.getResponseJson("编辑失败", false);
+            return ServiceUtil.getResponseJson("编辑失败", SystemConstant.RESPONSE_ERROR);
         }
 
         boolean flag = true;

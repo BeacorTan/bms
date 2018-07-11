@@ -6,6 +6,7 @@ import com.base.function.model.FunctionExt;
 import com.base.function.service.FunctionService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.*;
 import com.common.model.TreeVO;
 import org.apache.commons.collections.CollectionUtils;
@@ -30,7 +31,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
     public ResponseJson updateActiveFlagByPrimaryKeyList(List<String> keys) {
 
         if (CollectionUtils.isEmpty(keys)) {
-            return ServiceUtil.getResponseJson("删除失败，上传数据为空", false);
+            return ServiceUtil.getResponseJson("删除失败，上传数据为空", SystemConstant.RESPONSE_ERROR);
         }
 
         Function function = new Function();
@@ -49,9 +50,9 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         }
         if (StringUtils.isNotBlank(msg.toString())) {
             String m = MessageFormat.format("不能删除以下菜单:{0},请先删除权限", msg.substring(0, msg.length() - 1));
-            return ServiceUtil.getResponseJson(m, false);
+            return ServiceUtil.getResponseJson(m, SystemConstant.RESPONSE_ERROR);
         }
-        return ServiceUtil.getResponseJson("编辑成功", true);
+        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
 
     }
 
@@ -60,7 +61,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
     public ResponseJson functionEdit(Function function) {
 
         if (function == null) {
-            return ServiceUtil.getResponseJson("输入数据为空", false);
+            return ServiceUtil.getResponseJson("输入数据为空", SystemConstant.RESPONSE_ERROR);
         }
         String parentCode = function.getParentCode();
         String id = function.getId();
@@ -84,7 +85,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         if (parentLeaf == 1) {
             functionMapper.updateLeafByCode(parentCode, 0);
         }
-        return ServiceUtil.getResponseJson("编辑成功", true);
+        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override

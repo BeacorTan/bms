@@ -5,6 +5,7 @@ import com.base.position.model.Position;
 import com.base.position.service.PositionService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
@@ -38,7 +39,7 @@ public class PositionServiceImpl extends BaseServiceImpl<Position> implements Po
     @Override
     public ResponseJson editPosition(Position position) {
         if (position == null) {
-            return ServiceUtil.getResponseJson("传入职位信息为空",false);
+            return ServiceUtil.getResponseJson("传入职位信息为空", SystemConstant.RESPONSE_ERROR);
         }
         if(StringUtils.isNotBlank(position.getId())){
             ModelUtil.updateInit(position);
@@ -48,7 +49,7 @@ public class PositionServiceImpl extends BaseServiceImpl<Position> implements Po
             position.setPositionCode("POST" + System.currentTimeMillis());
             this.insertSelective(position);
         }
-        return ServiceUtil.getResponseJson("职位编辑成功",true);
+        return ServiceUtil.getResponseJson("职位编辑成功",SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override
@@ -68,8 +69,8 @@ public class PositionServiceImpl extends BaseServiceImpl<Position> implements Po
         Position position=new Position();
         ModelUtil.deleteInit(position);
         if(!this.updateActiveFlagByPrimaryKeyList(keys,position)){
-            return ServiceUtil.getResponseJson("传入数据为空",false);
+            return ServiceUtil.getResponseJson("传入数据为空",SystemConstant.RESPONSE_ERROR);
         }
-        return ServiceUtil.getResponseJson("删除成功",true);
+        return ServiceUtil.getResponseJson("删除成功",SystemConstant.RESPONSE_SUCCESS);
     }
 }

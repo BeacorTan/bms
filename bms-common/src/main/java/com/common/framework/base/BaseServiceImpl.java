@@ -2,6 +2,7 @@ package com.common.framework.base;
 
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.HelpUtils;
+import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PagedResult;
 import com.github.pagehelper.PageHelper;
 
@@ -17,20 +18,20 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     public abstract BaseMapper getMapper();
 
     @Override
-    public T insert(T pojo)  {
+    public T insert(T pojo) {
         getMapper().insert(pojo);
         return pojo;
     }
 
 
     @Override
-    public T insertSelective(T pojo)  {
+    public T insertSelective(T pojo) {
         getMapper().insertSelective(pojo);
         return pojo;
     }
 
     @Override
-    public T updateByPrimaryKey(T pojo)  {
+    public T updateByPrimaryKey(T pojo) {
         getMapper().updateByPrimaryKey(pojo);
         return pojo;
     }
@@ -42,17 +43,17 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public int delete(T key)  {
+    public int delete(T key) {
         return getMapper().delete(key);
     }
 
     @Override
-    public int deleteByPrimaryKey(Object key)  {
+    public int deleteByPrimaryKey(Object key) {
         return getMapper().deleteByPrimaryKey(key);
     }
 
     @Override
-    public boolean deleteByPrimaryKeyList(List<String> keys)  {
+    public boolean deleteByPrimaryKeyList(List<String> keys) {
         if (HelpUtils.isEmpty(keys)) {//判断是否为空
             return false;
         }
@@ -63,7 +64,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public boolean updateActiveFlagByPrimaryKeyList(List<String> keys, T t)  {
+    public boolean updateActiveFlagByPrimaryKeyList(List<String> keys, T t) {
 
         if (HelpUtils.isEmpty(keys)) {//判断是否为空
             return false;
@@ -77,28 +78,38 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
     }
 
     @Override
-    public List<T> select(T pojo)  {
+    public boolean updateActiveFlagByPrimaryKey(T t) {
+        if (t == null) {
+            return false;
+        }
+        ModelUtil.deleteInit(t);
+        getMapper().updateByPrimaryKeySelective(t);
+        return true;
+    }
+
+    @Override
+    public List<T> select(T pojo) {
         return getMapper().select(pojo);
     }
 
     @Override
-    public int selectCount(T record)  {
+    public int selectCount(T record) {
         return getMapper().selectCount(record);
     }
 
     @Override
-    public T selectByPrimaryKey(Object key)  {
+    public T selectByPrimaryKey(Object key) {
         T pojo = (T) getMapper().selectByPrimaryKey(key);
         return pojo;
     }
 
     @Override
-    public List<T> selectAll()  {
+    public List<T> selectAll() {
         return getMapper().selectAll();
     }
 
     @Override
-    public PagedResult<T> findPageList(Integer pageNo, Integer pageSize, T pojo)  {
+    public PagedResult<T> findPageList(Integer pageNo, Integer pageSize, T pojo) {
         pageNo = pageNo == null ? 1 : pageNo;
         pageSize = pageSize == null ? 10 : pageSize;
         PageHelper.orderBy("CREATE_DATE desc");//默认都是以时间来排序

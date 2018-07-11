@@ -19,7 +19,6 @@ import javax.annotation.Resource;
 
 /**
  * 身份校验核心类;
- *
  */
 public class AuthCustomRealm extends AuthorizingRealm {
 
@@ -49,12 +48,8 @@ public class AuthCustomRealm extends AuthorizingRealm {
         // 通过username从数据库中查找 User对象，如果找到，没找到.
         // 这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
 
-        UserBasic userInfo = null;
-        try {
-            userInfo = userBasicService.selectByLoginName(username);
-        } catch (Exception e) {
-            logger.error("AuthCustomRealm.doGetAuthenticationInfo异常：", e);
-        }
+        UserBasic userInfo = userBasicService.selectByLoginName(username);
+
         if (userInfo == null) {
             return null;
         }
@@ -63,8 +58,7 @@ public class AuthCustomRealm extends AuthorizingRealm {
          */
         // userInfo.setPermissions(userService.findPermissions(user));
         // 加密交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(),
-                ByteSource.Util.bytes(userInfo.getCredentialsSalt()), getName());
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(),ByteSource.Util.bytes(userInfo.getCredentialsSalt()), getName());
         //UserContext.setUserContext(userInfo);
         return authenticationInfo;
     }
@@ -116,7 +110,7 @@ public class AuthCustomRealm extends AuthorizingRealm {
          }
          */
         // 设置权限信息.
-         authorizationInfo.addStringPermissions(functionService.getPermissions(ShiroManager.getLoginName()));
+        authorizationInfo.addStringPermissions(functionService.getPermissions(ShiroManager.getLoginName()));
         return authorizationInfo;
     }
     /**

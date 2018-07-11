@@ -5,7 +5,7 @@
         <id column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
         <result column="NAME" property="name" jdbcType="VARCHAR"/>
-        <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+        <result column="SEX" property="sex" jdbcType="INTEGER"/>
         <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
         <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
         <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
@@ -14,24 +14,41 @@
         <result column="SALT" property="salt"/>
     </resultMap>
 
-    <resultMap id="UserBasicVOResultMap" type="com.base.user.model.UserBasicVO">
-        <id column="ID" property="id" jdbcType="VARCHAR"/>
-        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
-        <result column="NAME" property="name" jdbcType="VARCHAR"/>
-        <result column="SEX" property="sex" jdbcType="VARCHAR"/>
-        <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
-        <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
-        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
-        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
-        <result column="DEPT_CODE" property="deptCode" jdbcType="VARCHAR"/>
-        <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR"/>
-        <result column="SALT" property="salt"/>
+    <resultMap id="UserVOResultMap" type="com.base.user.model.UserVO" extends="BaseResultMap">
+        <result column="POSITION_NAME" property="positionName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-       ID, LOGIN_NAME, NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE
+       ID, LOGIN_NAME, NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE,SEX
     </sql>
 
+    <select id="selectById" resultMap="UserVOResultMap" parameterType="java.lang.String">
+        SELECT
+           	P.POSITION_NAME,
+            U.ID,
+            U.LOGIN_NAME,
+            U.NAME,
+            U.SEX,
+            U.MOBILE,
+            U.PHONE,
+            U.EMAIL,
+            U. PASSWORD,
+            U.CREATE_DATE,
+            U.CREATE_BY,
+            U.SALT,
+            U.DEPT_CODE,
+            U.SEX,
+            U.EMAIL,
+            U.DEPT_NAME,
+            U.MOBILE,
+            U.PHONE,
+            U.POSITION_CODE
+        FROM
+            T_SYS_USER U
+        INNER JOIN T_SYS_POSITION P ON U.POSITION_CODE = P.POSITION_CODE
+        WHERE
+            U.ID = #{id,jdbcType=VARCHAR}
+    </select>
 
     <select id="selectByLoginName" parameterType="string" resultMap="BaseResultMap">
         SELECT
@@ -41,29 +58,13 @@
         AND ACTIVE_FLAG = 1
     </select>
 
-    <select id="selectByID" resultMap="UserBasicVOResultMap" parameterType="string">
-         SELECT UB.ID,
-                UB.NAME,
-                UB.LOGIN_NAME,
-                UB.SEX,
-                UB.MOBILE,
-                UB.PHONE,
-                UB.EMAIL,
-                UB.DEPT_CODE,
-                D2.DEPT_NAME AS DEPT_NAME,
-           FROM T_SYS_USER UB
-           LEFT JOIN T_SYS_DEPT D2
-             ON D2.DEPT_CODE = UB.DEPT_CODE
-          WHERE UB.ID = #{id} AND UB.ACTIVE_FLAG = 1
-    </select>
-
-    <select id="isExitLoginName" parameterType="java.lang.String" resultType="int">
-    SELECT
-      COUNT(*)
-      FROM T_SYS_USER
-     WHERE LOGIN_NAME = #{loginName}
-       AND ACTIVE_FLAG = 1
-  </select>
+     <select id="isExitLoginName" parameterType="java.lang.String" resultType="int">
+        SELECT
+          COUNT(*)
+          FROM T_SYS_USER
+         WHERE LOGIN_NAME = #{loginName}
+           AND ACTIVE_FLAG = 1
+     </select>
 
     <select id="selectListByUser" parameterType="com.base.user.model.UserBasic" resultMap="BaseResultMap">
         select
@@ -82,28 +83,4 @@
             and ACTIVE_FLAG = 1
         </trim>
     </select>
-
-    <delete id="deleteByIDs">
-        delete from T_SYS_USER
-        where id in
-        <foreach collection="list" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
-    </delete>
-
-    <update id="updateUserByID" parameterType="com.base.user.model.UserBasic">
-        UPDATE T_SYS_USER
-        <trim prefix="set" prefixOverrides=",">
-            <if test="name!=null and name!=''">,NAME=#{name}</if>
-            <if test="salt!=null and salt.length()>0">,salt=#{salt}</if>
-            <if test="password!=null and password!=''">,password=#{password}</if>
-            <if test="activeFlag!=null">,ACTIVE_FLAG=#{activeFlag}</if>
-            <if test="sex!=null">,sex=#{sex}</if>
-            <if test="mobile!=null and mobile!=''">,mobile=#{mobile}</if>
-            <if test="email!=null and email!=''">,email=#{email}</if>
-            <if test="deptCode!=null and deptCode!=''">,DEPT_CODE=#{deptCode}</if>
-            <if test="phone!=null and phone!=''">,PHONE=#{phone,jdbcType=VARCHAR}</if>
-        </trim>
-        WHERE id=#{id,jdbcType=VARCHAR}
-    </update>
 </mapper>

@@ -113,4 +113,7 @@ public interface BaseService<T extends BaseModel> {
 
 
     boolean updateActiveFlagByPrimaryKeyList(List<String> keys, T t) ;
+
+    boolean updateActiveFlagByPrimaryKey(T t) ;
+
 }

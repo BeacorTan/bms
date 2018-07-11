@@ -6,6 +6,7 @@ import com.base.dept.service.DeptService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseModel;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
@@ -53,7 +54,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     public ResponseJson edit(Department department) {
 
         if (department == null) {
-            return ServiceUtil.getResponseJson("编辑失败", false);
+            return ServiceUtil.getResponseJson("编辑失败", SystemConstant.RESPONSE_ERROR);
         }
         String parentCode = department.getParentCode();
 
@@ -78,18 +79,18 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             department.setTreeLeaf("1");
             depMapper.insertSelective(department);
         }
-        return ServiceUtil.getResponseJson("编辑成功", true);
+        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override
     public ResponseJson remove(List<String> ids) {
         if (CollectionUtils.isEmpty(ids)) {
-            return ServiceUtil.getResponseJson("删除失败，参数为空", false);
+            return ServiceUtil.getResponseJson("删除失败，参数为空", SystemConstant.RESPONSE_ERROR);
         }
         Department department = new Department();
         ModelUtil.deleteInit(department);
         this.updateActiveFlagByPrimaryKeyList(ids, department);
-        return ServiceUtil.getResponseJson("删除成功", true);
+        return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override

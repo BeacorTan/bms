@@ -8,6 +8,7 @@ import com.base.bulletin.mapper.SystemBulletinMapper;
 import com.base.bulletin.service.SystemBulletinService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
@@ -82,7 +83,7 @@ public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> i
     public ResponseJson systemBulletinEditService(SystemBulletin systemBulletin) {
 
         if (systemBulletin == null) {
-            return ServiceUtil.getResponseJson("编辑失败", false);
+            return ServiceUtil.getResponseJson("编辑失败", SystemConstant.RESPONSE_ERROR);
         }
 
         boolean flag = true;

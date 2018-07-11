@@ -22,7 +22,7 @@ public class UserBasic extends BaseModel implements Serializable {
     private String name;
 
     @Column(name = "SEX")
-    private String sex;
+    private Integer sex;
 
     @Column(name = "phone")
     private String phone;
@@ -140,11 +140,11 @@ public class UserBasic extends BaseModel implements Serializable {
         this.name = name;
     }
 
-    public String getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 

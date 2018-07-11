@@ -2,29 +2,34 @@ package com.base.user.service.impl;
 
 import com.base.user.mapper.UserBasicMapper;
 import com.base.user.mapper.UserRoleMapper;
+import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
 import com.base.user.model.UserRoleMap;
+import com.base.user.model.UserVO;
 import com.base.user.service.UserBasicService;
+import com.common.framework.base.BaseMapper;
+import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.ModelUtil;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
 import com.common.shiro.EncryptPwd;
-import com.common.shiro.ShiroManager;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
+
+import static com.common.framework.util.ServiceUtil.getResponseJson;
 
 
 @Service(value = "userBasicService")
-public class UserBasicServiceImpl implements UserBasicService {
+public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements UserBasicService {
 
     @Resource
     private UserBasicMapper userBasicMapper;
@@ -32,74 +37,70 @@ public class UserBasicServiceImpl implements UserBasicService {
     @Resource
     private UserRoleMapper userRoleMapper;
 
-
-    @Transactional
     @Override
-    public void userAdd(UserBasicVO userVO) {
-        if (userVO == null) {
-            return;
+    public ResponseJson editUser(UserBasicVO user) {
+        if (user == null) {
+            return ServiceUtil.getResponseJson("传入参数为空", SystemConstant.RESPONSE_ERROR);
         }
+        String id = user.getId();
+        if (StringUtils.isNotBlank(id)) {
+            this.updateUser(user);
+        } else {
+            this.addUser(user);
+        }
+        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+    }
+
+    /**
+     * 新增用户
+     *
+     * @param
+     */
+    private void addUser(UserBasicVO userVO) {
         // 新增默认密码为123456
         userVO.setPassword("123456");
-        Date currDate = new Date();
-        String loginName = ShiroManager.getLoginName();
-//        userVO.setCreateTime(currDate.getTime());
-//        userVO.setCreateUser(loginName);
-//        userVO.setOperator(loginName);
-//        userVO.setOperatTime(currDate);
-        new EncryptPwd().encryptPassword(userVO);
-//        userVO.setIsActive("1");
-//        userVO.setIsFrozen("0");
-//        userVO.setErrCountPw(1);
-//        userVO.setChannelCode("9999");
-//        insert into t_user_basic(id,login_name,real_name,salt,password,is_active,channel_code,IS_FROZEN,ERR_COUNT_PW,CREATE_USER)
-//        values('2','000000','000000','d56b05ae01e7216faa08122d0bd2baa9','cc411ffc8decb08ea39723453cd84fe2','1','9999','0'，1,'admin')
-        userBasicMapper.insert(userVO);
-
+        EncryptPwd.encryptPassword(userVO);
+        ModelUtil.insertInit(userVO);
+        userBasicMapper.insertSelective(userVO);
         List<String> roleCodes = userVO.getRoleCodes();
-        if (roleCodes == null || roleCodes.isEmpty()) {
+        if (CollectionUtils.isEmpty(roleCodes)) {
             return;
         }
 
-        loginName = userVO.getLoginName();
-        UserRoleMap userRoleMap;
-        for (String role : roleCodes) {
-            if (role == null || "".equals(role)) {
+        String loginName = userVO.getLoginName();
+        UserRoleMap userRoleMap = new UserRoleMap(loginName);
+        for (String roleCode : roleCodes) {
+            if (StringUtils.isBlank(roleCode)) {
                 continue;
             }
-            userRoleMap = new UserRoleMap(role, loginName);
+            userRoleMap.setRoleCode(roleCode);
             ModelUtil.insertInit(userRoleMap);
-            userRoleMapper.insert(userRoleMap);
+            userRoleMapper.insertSelective(userRoleMap);
         }
-
     }
 
 
-    @Transactional
-    @Override
-    public void updateUser(UserBasicVO userVO) {
-        if (userVO == null) {
+    /**
+     * 修改用户
+     *
+     * @param user
+     */
+    private void updateUser(UserBasicVO user) {
+
+        userBasicMapper.updateByPrimaryKeySelective(user);
+        List<String> roleCodes = user.getRoleCodes();
+        if (CollectionUtils.isEmpty(roleCodes)) {
             return;
         }
-//        userVO.setOperatTime(new Date());
-//        userVO.setOperator(ShiroManager.getLoginName());
-        UserBasic user = userVO;
-        String password = userVO.getPassword();
-        if (!StringUtils.isEmpty(password)) {
-            new EncryptPwd().encryptPassword(user);
-        }
-        userBasicMapper.updateUserByID(user);
+        String loginName = user.getLoginName();
+        UserRoleMap userRoleMap = new UserRoleMap(loginName);
+        ModelUtil.deleteInit(userRoleMap);
+        userRoleMapper.updateActiveFlagByRecord(userRoleMap);
 
-        List<String> roleCodes = userVO.getRoleCodes();
-        if (CollectionUtils.isNotEmpty(roleCodes)) {
-            String loginName = user.getLoginName();
-            UserRoleMap userRoleMap = null;
-            userRoleMapper.delete(new UserRoleMap(loginName));
-            for (String roleCode : roleCodes) {
-                userRoleMap = new UserRoleMap(roleCode, loginName);
-                ModelUtil.insertInit(userRoleMap);
-                userRoleMapper.insert(userRoleMap);
-            }
+        for (String roleCode : roleCodes) {
+            userRoleMap.setRoleCode(roleCode);
+            ModelUtil.insertInit(userRoleMap);
+            userRoleMapper.insertSelective(userRoleMap);
         }
     }
 
@@ -109,8 +110,8 @@ public class UserBasicServiceImpl implements UserBasicService {
     }
 
     @Override
-    public UserBasicVO selectByPrimaryKey(String id) {
-        return userBasicMapper.selectByID(id);
+    public UserVO selectByPrimaryKey(String id) {
+        return userBasicMapper.selectById(id);
     }
 
     @Override
@@ -130,10 +131,45 @@ public class UserBasicServiceImpl implements UserBasicService {
     }
 
     @Override
-    public void deleteByIDs(List<String> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return;
+    public ResponseJson removeUserByKeys(List<String> ids) {
+
+        if (CollectionUtils.isEmpty(ids)) {
+            return ServiceUtil.getResponseJson("传入参数为空", SystemConstant.RESPONSE_ERROR);
         }
-        userBasicMapper.deleteByIDs(ids);
+
+        UserBasic user = new UserBasic();
+        ModelUtil.deleteInit(user);
+
+        UserRoleMap userRoleMap = new UserRoleMap();
+        ModelUtil.deleteInit(userRoleMap);
+        userRoleMapper.updateActiveFlagByUserIds(userRoleMap, ids);
+        this.updateActiveFlagByPrimaryKeyList(ids, user);
+        return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
+    }
+
+
+    @Override
+    public ResponseJson updatePassword(UpdateUserPwdVO user) {
+
+        String pwd = user.getCurrentPwd();
+
+
+        String confirmPwd = user.getConfirmPwd();
+        // 确认新密码
+        String newPwd = user.getNewPwd();
+
+        if (StringUtils.isEmpty(confirmPwd) || StringUtils.isEmpty(newPwd) || (!newPwd.equals(confirmPwd))) {
+            return getResponseJson("修改失败！新密码和确认密码不一致", SystemConstant.RESPONSE_ERROR);
+        }
+        user.setPassword(newPwd);
+        EncryptPwd.encryptPassword(user);
+        ModelUtil.updateInit(user);
+        userBasicMapper.updateByPrimaryKeySelective(user);
+        return getResponseJson("密码修改成功", SystemConstant.RESPONSE_SUCCESS);
+    }
+
+    @Override
+    public BaseMapper getMapper() {
+        return this.userBasicMapper;
     }
 }

@@ -5,6 +5,7 @@ import com.base.sys.model.SystemConfig;
 import com.base.sys.service.SystemConfigService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig> imple
 
     public ResponseJson updateSysConfig(SystemConfig sysConfig) {
         if (sysConfig == null) {
-            return ServiceUtil.getResponseJson("编辑失败", false);
+            return ServiceUtil.getResponseJson("编辑失败", SystemConstant.RESPONSE_ERROR);
         }
 
         boolean flag = true;

@@ -1,10 +1,13 @@
 package com.base.user.service;
 
 
+import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
+import com.base.user.model.UserVO;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 
 import java.util.List;
 
@@ -16,11 +19,7 @@ import java.util.List;
  */
 public interface UserBasicService {
 
-
-    void userAdd(UserBasicVO userVO);
-
-
-    void updateUser(UserBasicVO userVO);
+    ResponseJson editUser(UserBasicVO user);
 
     /**
      * 根据用户登录名查找用户
@@ -32,7 +31,7 @@ public interface UserBasicService {
     UserBasic selectByLoginName(String loginName);
 
 
-    UserBasicVO selectByPrimaryKey(String id);
+    UserVO selectByPrimaryKey(String id);
 
     /**
      * 根据查询条件分页查询用户信息
@@ -53,5 +52,7 @@ public interface UserBasicService {
     boolean isExitLoginName(String loginName);
 
 
-    void deleteByIDs(List<String> ids);
+    ResponseJson removeUserByKeys(List<String> ids);
+
+    ResponseJson updatePassword(UpdateUserPwdVO user);
 }

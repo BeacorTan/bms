@@ -1,0 +1,30 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.user.mapper.UserRoleMapper">
+
+    <update id="updateActiveFlagByRecord" parameterType="com.base.user.model.UserRoleMap">
+       UPDATE  T_SYS_USER_ROLE
+       SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
+           UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
+           ACTIVE_FLAG=#{activeFlag,jdbcType=INTEGER}
+       WHERE LOGIN_NAME=#{loginName,jdbcType=VARCHAR}
+   </update>
+
+    <update id="updateActiveFlagByUserIds" >
+        UPDATE  T_SYS_USER_ROLE
+        SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
+        UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
+        ACTIVE_FLAG=#{activeFlag,jdbcType=INTEGER}
+        WHERE
+        LOGIN_NAME IN (
+            SELECT
+                LOGIN_NAME
+            FROM
+                t_sys_user
+            WHERE
+                id IN
+            <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+                　　　　#{id}
+            </foreach>
+        )
+    </update>
+</mapper>

@@ -2,15 +2,15 @@ package com.base.user.mapper;
 
 
 import com.base.user.model.UserBasic;
-import com.base.user.model.UserBasicVO;
-import tk.mybatis.mapper.common.Mapper;
+import com.base.user.model.UserVO;
+import com.common.framework.base.BaseMapper;
 
 import java.util.List;
 
 /**
  * 用户mapper
  */
-public interface UserBasicMapper extends Mapper<UserBasic> {
+public interface UserBasicMapper extends BaseMapper<UserBasic> {
     /**
      * 根据登录名称查询用户实体类
      *
@@ -19,8 +19,6 @@ public interface UserBasicMapper extends Mapper<UserBasic> {
      */
     UserBasic selectByLoginName(String loginName);
 
-
-    int insert(UserBasic userBasic);
 
     /**
      * 根据条件查询用户列表
@@ -38,12 +36,5 @@ public interface UserBasicMapper extends Mapper<UserBasic> {
      */
     int isExitLoginName(String loginName);
 
-
-    UserBasicVO selectByID(String id);
-
-
-    void deleteByIDs(List<String> ids);
-
-    int updateUserByID(UserBasic userBasic);
-
+    UserVO selectById(String id);
 }

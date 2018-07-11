@@ -3,6 +3,7 @@ package com.task.service.impl;
 import com.base.role.model.RoleData;
 import com.base.role.service.RoleDataService;
 import com.base.util.AuthManager;
+import com.common.framework.constant.SystemConstant;
 import com.task.mapper.TaskDistributionMapper;
 import com.task.model.ImportTask;
 import com.task.model.TaskCustomer;
@@ -62,7 +63,7 @@ public class TaskDistributionServiceImpl extends BaseServiceImpl<TaskDistributio
         String msg = "分配成功";
 
         if (StringUtils.isEmpty(taskID)) {
-            return ServiceUtil.getResponseJson("任务ID为空", false);
+            return ServiceUtil.getResponseJson("任务ID为空", SystemConstant.RESPONSE_ERROR);
         }
 
         try {

@@ -151,6 +151,9 @@
                         break;
                     case "submit":
                         var dt = CommonUtils.getFormData(options["editForm"]);
+                        if(options["supplyParams"]){
+                            dt=$.extend(dt,options["supplyParams"].apply($this));
+                        }
                         $.ajax({
                             url: CommonUtils.getContextAll($(this).attr("data-url")),
                             type: "POST",
@@ -193,6 +196,7 @@
      * searchForm:查询form id
      * searchUrl：查询路径 例：/function/query
      * editForm：编辑form
+     * supplyParams：补充参数 此属性值为：json或函数（返回值为json）
      * tabId:tab id
      * @type {{bootstrapTable: string, searchForm: string, searchUrl: string,tabId:string}}
      */
@@ -202,6 +206,7 @@
         "searchForm": "",
         "searchUrl": "",
         "editForm": "",
+        "supplyParams": "",
         "tabId": ""
     }
 

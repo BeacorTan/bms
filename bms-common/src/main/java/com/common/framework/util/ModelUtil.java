@@ -1,7 +1,7 @@
 package com.common.framework.util;
 
-import com.common.shiro.ShiroManager;
 import com.common.framework.base.BaseModel;
+import com.common.shiro.ShiroManager;
 
 import java.util.Date;
 
@@ -15,20 +15,14 @@ public class ModelUtil {
      * @param baseModel
      */
     public static void insertInit(BaseModel baseModel) {
-        if (HelpUtils.isNotEmpty(baseModel)) {
-            Date systemDate = new Date();
-            String systemUser = ShiroManager.getLoginName();
-            baseModel.setCreateBy(systemUser);
-            baseModel.setCreateDate(systemDate);
-            baseModel.setUpdateBy(systemUser);
-            baseModel.setUpdateDate(systemDate);
-            baseModel.setActiveFlag(BaseModel.ACTIVE_FLAG_YES);
-
-            /* 主键处理 */
-            if (HelpUtils.isEmpty(baseModel.getId())) {
-                baseModel.setId(HelpUtils.getUUID());
-            }
-        }
+        Date systemDate = new Date();
+        String systemUser = ShiroManager.getLoginName();
+        baseModel.setCreateBy(systemUser);
+        baseModel.setCreateDate(systemDate);
+        baseModel.setUpdateBy(systemUser);
+        baseModel.setUpdateDate(systemDate);
+        baseModel.setActiveFlag(BaseModel.ACTIVE_FLAG_YES);
+        baseModel.setId(HelpUtils.getUUID());
     }
 
 
@@ -38,18 +32,13 @@ public class ModelUtil {
      * @param baseModel
      */
     public static void updateInit(BaseModel baseModel) {
-        if (HelpUtils.isNotEmpty(baseModel)) {
-            baseModel.setUpdateBy(ShiroManager.getLoginName());
-            baseModel.setUpdateDate(new Date());
-        }
+        baseModel.setUpdateBy(ShiroManager.getLoginName());
+        baseModel.setUpdateDate(new Date());
     }
 
     public static void deleteInit(BaseModel baseModel) {
-        if (HelpUtils.isNotEmpty(baseModel)) {
-            baseModel.setActiveFlag(BaseModel.ACTIVE_FLAG_NO);
-            updateInit(baseModel);
-        }
+        baseModel.setActiveFlag(BaseModel.ACTIVE_FLAG_NO);
+        updateInit(baseModel);
     }
-
 
 }

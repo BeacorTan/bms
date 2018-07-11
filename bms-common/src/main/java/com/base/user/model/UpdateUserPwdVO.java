@@ -1,24 +1,16 @@
 package com.base.user.model;
 
-/**
- * 用户
- */
+
 public class UpdateUserPwdVO extends UserBasic {
 
-    // 用户当前密码
-    private String currentPwd;
-    // 新密码
-    private String confirmPwd;
     // 确认新密码
+    private String confirmPwd;
+
+    // 新密码
     private String newPwd;
 
-    public String getCurrentPwd() {
-        return currentPwd;
-    }
-
-    public void setCurrentPwd(String currentPwd) {
-        this.currentPwd = currentPwd;
-    }
+    // 当前密码
+    private String currentPwd;
 
     public String getConfirmPwd() {
         return confirmPwd;
@@ -34,5 +26,13 @@ public class UpdateUserPwdVO extends UserBasic {
 
     public void setNewPwd(String newPwd) {
         this.newPwd = newPwd;
+    }
+
+    public String getCurrentPwd() {
+        return currentPwd;
+    }
+
+    public void setCurrentPwd(String currentPwd) {
+        this.currentPwd = currentPwd;
     }
 }
