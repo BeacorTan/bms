@@ -13,7 +13,7 @@ public class DictVO extends BaseModel {
     @Column(name = "NAME")
     private String name;
     @Column(name = "MARKS")
-    private String marks = "";
+    private String marks;
 
 
     public DictVO(String id, int activeFlag) {

@@ -9,11 +9,11 @@
     </resultMap>
 
     <select id="selectByDictCode" resultMap="DictDataResultMap">
-      SELECT DD.ID,DD.CODE,DD.NAME,DD.MARKS FROM T_SYS_DATA_DICTIONARY DD WHERE DD.DICT_CODE=#{dictCode} AND  DD.ACTIVE_FLAG=1
+      SELECT DD.ID,DD.CODE,DD.NAME FROM T_SYS_DATA_DICTIONARY DD WHERE DD.DICT_CODE=#{dictCode} AND  DD.ACTIVE_FLAG=1
     </select>
 
     <select id="selectByDict" resultMap="DictDataResultMap" parameterType="com.base.dict.model.DictDataVO">
-        SELECT DD.ID,DD.CODE,DD.NAME,DD.UPDATE_DATE FROM T_SYS_DATA_DICTIONARY DD
+        SELECT DD.ID,DD.CODE,DD.NAME,DD.MARKS FROM T_SYS_DATA_DICTIONARY DD
         <trim prefix="where" prefixOverrides="or||and">
             DD.DICT_CODE=#{dictCode} AND DD.ACTIVE_FLAG=1
             <if test="code!=null and code.length()>0">
