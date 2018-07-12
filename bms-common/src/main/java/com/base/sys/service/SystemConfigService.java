@@ -6,9 +6,13 @@ import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 
-public interface SystemConfigService extends BaseService<SystemConfig>
-{
-	PagedResult<SystemConfig> selectSysConfigPageList(PageBean pageBean, SystemConfig sysConfig);
-	
-	ResponseJson updateSysConfig(SystemConfig sysConfig);
+import java.util.List;
+
+public interface SystemConfigService extends BaseService<SystemConfig> {
+
+    PagedResult<SystemConfig> selectSysConfigPageList(PageBean pageBean, SystemConfig sysConfig);
+
+    ResponseJson editConfig(SystemConfig sysConfig);
+
+    ResponseJson removeByIds(List<String> ids);
 }

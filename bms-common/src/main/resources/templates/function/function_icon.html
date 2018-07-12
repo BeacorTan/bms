@@ -1,5 +1,5 @@
 <style type="text/css">
-    .cmmp-function-icon{
+    .bms-function-icon{
         width:10%;
         height:35px;
         cursor:pointer;
@@ -8,14 +8,14 @@
         font-size: 1rem;
         text-align:center;
     }
-    .cmmp-function-icon:hover{
+    .bms-function-icon:hover{
         background-color: #b4dfe6;
     }
-    .cmmp-function-icon-hover{
+    .bms-function-icon-hover{
         background-color: #00a8c6;
     }
 
-    .cmmp-function-icon i{
+    .bms-function-icon i{
         vertical-align: middle;
         text-align: center;
     }
@@ -65,14 +65,9 @@
         <div class="col-md-3 col-sm-4 col-xs-12 function-icon" th:each="icon,rowStat:${icons}" ><i th:class="${icon}"></i><span th:text="${icon}"></span></div>
     </div>
 </div>
-<!--<ul id="cmmg_function_icon_ul">
-    <li  class="cmmp-function-icon"   th:each="icon,rowStat:${icons}">
-        <i  th:class="${icon}"></i>
-    </li>
-</ul>-->
 <script th:src="@{/assets/system/function/function.js}" type="text/javascript"></script>
 <script type="application/javascript">
     jQuery(document).ready(function() {
-        BMS_Function.initFunctionIcons();
+        BmsFunction.initFunctionIcons();
     });
 </script>
