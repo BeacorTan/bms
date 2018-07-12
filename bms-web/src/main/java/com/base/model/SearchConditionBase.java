@@ -4,10 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-/**
- * @author BoSongsh
- * @create 2018-01-24 11:51
- **/
 public class SearchConditionBase {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

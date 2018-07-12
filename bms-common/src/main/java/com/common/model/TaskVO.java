@@ -1,9 +1,5 @@
 package com.common.model;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 public class TaskVO {
 
     private String id;

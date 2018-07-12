@@ -8,10 +8,6 @@ import com.common.framework.base.BaseMapper;
 
 import java.util.List;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 15:02
- **/
 public interface TaskDistributionMapper extends BaseMapper<TaskDistributionVO> {
 
 

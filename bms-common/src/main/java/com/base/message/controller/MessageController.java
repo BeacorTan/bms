@@ -6,12 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 消息控制器
- *
- * @author BoSongsh
- * @create 2018-05-02 11:13
- **/
 @RequestMapping("/message")
 @RestController
 public class MessageController {

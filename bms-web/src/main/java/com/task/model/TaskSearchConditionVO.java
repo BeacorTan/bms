@@ -4,10 +4,6 @@ import com.common.model.AuthBase;
 
 import java.util.Date;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 public class TaskSearchConditionVO extends AuthBase {
 
     private String taskName;

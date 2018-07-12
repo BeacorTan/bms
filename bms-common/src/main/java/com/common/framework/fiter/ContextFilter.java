@@ -7,10 +7,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-/**
- * @author BoSongsh
- * @create 2018-01-14 10:52
- **/
 @WebFilter(filterName = "contextFilter", urlPatterns = "/*")
 public class ContextFilter implements Filter {
     private Logger logger = LoggerFactory.getLogger(ContextFilter.class);

@@ -1,15 +1,7 @@
 package com.base.role.model;
 
-import com.base.dept.model.Department;
-
 import java.util.List;
 
-/**
- * 角色vo
- *
- * @author BoSongsh
- * @create 2018-01-15 9:50
- **/
 public class RoleVO extends Role {
 
     List<String> functions;

@@ -20,12 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * 任务分配
- *
- * @author BoSongsh
- * @create 2018-04-20 17:20
- **/
 @RestController
 @RequestMapping(value = "/task/distribution")
 public class TaskDistributionController {

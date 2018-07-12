@@ -5,10 +5,6 @@ import com.common.framework.base.BaseModel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 @Table(name = "T_TASK_DISTRIBUTION")
 public class TaskDistributionVO extends BaseModel {
 

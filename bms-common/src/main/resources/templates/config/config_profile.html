@@ -4,7 +4,7 @@
         <input type="hidden" name="id" th:value="${sysConfig!=null?sysConfig.id:''}"/>
         <div class="form-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label class="control-label col-md-4">配置名称&nbsp;:</label>
                         <div class="col-md-8">
@@ -13,7 +13,10 @@
                                    class="form-control" required></div>
                     </div>
                 </div>
-                <div class="col-md-6">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label class="control-label col-md-4">配置键名&nbsp;:</label>
                         <div class="col-md-8">
@@ -26,7 +29,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label class="control-label col-md-4">配置键值&nbsp;:</label>
                         <div class="col-md-8">

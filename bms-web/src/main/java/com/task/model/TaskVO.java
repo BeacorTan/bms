@@ -8,10 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import java.util.Date;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 @Table(name = "T_TASK")
 public class TaskVO extends BaseModel {
 

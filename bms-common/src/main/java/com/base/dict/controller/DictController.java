@@ -1,12 +1,11 @@
 package com.base.dict.controller;
 
-import com.base.dict.service.IDictService;
 import com.base.dict.model.DictVO;
+import com.base.dict.service.IDictService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,43 +17,28 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-/**
- * @author BoSongsh
- * @create 2018-03-01 17:24
- **/
 @RequestMapping("/dict")
 @RestController
 public class DictController {
 
-    private Logger LOGGER = LoggerFactory.getLogger(DictController.class);
+//    private Logger LOGGER = LoggerFactory.getLogger(DictController.class);
 
     @Autowired
     private IDictService dictService;
 
-
-    /**
-     * 用户管理主页面
-     *
-     * @return
-     */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView dictMain() {
         return new ModelAndView("dict/dict_main");
     }
 
-    /**
-     * 用户管理主页面
-     *
-     * @return
-     */
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, ModelMap modelMap) {
-        ModelAndView modelAndView = new ModelAndView("dict/dict_profile");
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
             modelMap.put("dictVO", dictService.selectById(id));
-            modelAndView.getModelMap().addAllAttributes(modelMap);
         }
-        return modelAndView;
+        modelMap.put("tabId", id);
+        return new ModelAndView("dict/dict_profile", modelMap);
     }
 
 
@@ -67,51 +51,19 @@ public class DictController {
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public List<DictVO> query(@RequestBody DictVO dictVO) {
-        List<DictVO> queryResult = null;
-        if (dictVO == null) {
-            LOGGER.error("DictController.query()查询条件为空");
-            return queryResult;
-        }
-        try {
-            queryResult = dictService.selectByDictCode(dictVO.getCode());
-        } catch (Exception e) {
-            LOGGER.error("DictController.query()异常:{}", e);
-        }
-        return queryResult;
+        String code = dictVO == null?"":dictVO.getCode();
+        return dictService.selectByDictCode(code);
     }
 
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Integer add(@RequestBody DictVO dictVO) {
-        Integer result = null;
-        try {
-            result = dictService.add(dictVO);
-        } catch (Exception e) {
-            LOGGER.error("DictController.add()异常:{}", e);
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Integer update(@RequestBody DictVO dictVO) {
-        Integer result = null;
-        try {
-            result = dictService.update(dictVO);
-        } catch (Exception e) {
-            LOGGER.error("DictController.update()异常:{}", e);
-        }
-        return result;
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseJson editDict(@RequestBody DictVO dictVO) {
+        return dictService.editDict(dictVO);
     }
 
 
-    @RequestMapping(value = "/del", method = RequestMethod.GET)
-    public Integer update(String id) {
-        Integer result = null;
-        try {
-            result = dictService.delete(id);
-        } catch (Exception e) {
-            LOGGER.error("DictController.update()异常:{}", e);
-        }
-        return result;
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public ResponseJson remove(@RequestBody List<String> ids) {
+        return dictService.removeByIds(ids);
     }
 }

@@ -3,41 +3,25 @@
 <mapper namespace="com.base.dict.mapper.DictDataMapper">
     <resultMap id="DictDataResultMap" type="com.base.dict.model.DictVO">
         <id column="ID" property="id"/>
-        <id column="code" property="code"/>
-        <id column="name" property="name"/>
-        <id column="update_date" property="updateDate"/>
+        <id column="CODE" property="code"/>
+        <id column="NAME" property="name"/>
+        <id column="MARKS" property="marks"/>
     </resultMap>
 
     <select id="selectByDictCode" resultMap="DictDataResultMap">
-      select dd.ID,dd.code,dd.name from T_SYS_DATA_DICTIONARY dd where dd.dict_code=#{dictCode} and  dd.active_flag=1
+      SELECT DD.ID,DD.CODE,DD.NAME,DD.MARKS FROM T_SYS_DATA_DICTIONARY DD WHERE DD.DICT_CODE=#{dictCode} AND  DD.ACTIVE_FLAG=1
     </select>
 
     <select id="selectByDict" resultMap="DictDataResultMap" parameterType="com.base.dict.model.DictDataVO">
-        select dd.ID,dd.code,dd.name,dd.update_date from T_SYS_DATA_DICTIONARY dd
+        SELECT DD.ID,DD.CODE,DD.NAME,DD.UPDATE_DATE FROM T_SYS_DATA_DICTIONARY DD
         <trim prefix="where" prefixOverrides="or||and">
-            dd.dict_code=#{dictCode} and dd.active_flag=1
+            DD.DICT_CODE=#{dictCode} AND DD.ACTIVE_FLAG=1
             <if test="code!=null and code.length()>0">
-                and dd.code=#{code}
+                AND DD.CODE=#{code}
             </if>
             <if test="name!=null and name.length()>0">
-                and dd.name like '%${name}%'
+                AND DD.NAME LIKE '%${name}%'
             </if>
         </trim>
     </select>
-
-
-    <update id="updateById" parameterType="com.base.dict.model.DictVO">
-        UPDATE T_SYS_DATA_DICTIONARY
-        <trim prefix="set" prefixOverrides=",">
-            <if test="code!=null and code.length()>0">,CODE=#{code}</if>
-            <if test="name!=null and name.length()>0">,NAME=#{name}</if>
-            <if test="updateDate!=null">,UPDATE_DATE=#{updateDate}</if>
-            <if test="updateBy!=null and updateBy.length()>0">,UPDATE_BY=#{updateBy}</if>
-            <if test="marks!=null and marks.length()>0">,MARKS=#{marks}</if>
-            <if test="activeFlag!=null">,ACTIVE_FLAG=#{activeFlag}</if>
-        </trim>
-        where id=#{id}
-    </update>
-
-
 </mapper>

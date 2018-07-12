@@ -5,12 +5,6 @@ import com.common.framework.base.BaseModel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-/**
- * 角色
- *
- * @author BoSongsh
- * @create 2018-01-12 10:10
- **/
 @Table(name = "T_SYS_ROLE")
 public class Role extends BaseModel {
 

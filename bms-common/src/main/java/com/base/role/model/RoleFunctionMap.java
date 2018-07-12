@@ -5,12 +5,6 @@ import com.common.framework.base.BaseModel;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-/**
- * 角色
- *
- * @author BoSongsh
- * @create 2018-01-12 10:10
- **/
 @Table(name = "T_SYS_ROLE_FUNCTION")
 public class RoleFunctionMap extends BaseModel {
 
@@ -18,9 +12,6 @@ public class RoleFunctionMap extends BaseModel {
     private String roleCode;
     @Column(name = "FUNCTION_CODE", length = 40)
     private String functionCode;
-//    @Column(name = "REMARKS", length = 200)
-//    private String remarks;
-
 
     public RoleFunctionMap(String roleCode, String functionCode) {
         this.roleCode = roleCode;

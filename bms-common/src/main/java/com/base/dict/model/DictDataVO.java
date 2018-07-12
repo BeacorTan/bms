@@ -6,7 +6,6 @@ import javax.persistence.Table;
 /**
  * 数据字典
  *
- * @author BoSongsh
  * @create 2018-03-01 17:10
  **/
 @Table(name = "T_SYS_DATA_DICTIONARY")

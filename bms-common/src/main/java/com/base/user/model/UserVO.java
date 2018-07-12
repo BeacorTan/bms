@@ -1,9 +1,5 @@
 package com.base.user.model;
 
-/**
- * @author BoSongsh
- * @create 2018-07-11 14:56
- **/
 public class UserVO extends UserBasic {
 
     private String positionName;

@@ -36,10 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 14:53
- **/
 @Service
 public class TaskDistributionServiceImpl extends BaseServiceImpl<TaskDistributionVO> implements ITaskDistributionService {
 

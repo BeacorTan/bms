@@ -12,12 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * 权限utils
- *
- * @author BoSongsh
- * @create 2018-04-28 10:28
- **/
 @Component
 public class AuthManager {
 

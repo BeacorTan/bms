@@ -1,9 +1,5 @@
 package com.task.model;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 public class TaskDistributionRecordVO extends TaskVO {
 
     private String userNo;

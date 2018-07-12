@@ -21,12 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-/**
- * 任务管理
- *
- * @author BoSongsh
- * @create 2018-04-20 17:20
- **/
 @RestController
 @RequestMapping(value = "/task/manage")
 public class TaskManageController {

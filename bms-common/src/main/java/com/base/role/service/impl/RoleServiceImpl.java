@@ -46,7 +46,6 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Resource
     private RoleFunctionMapper roleFunctionMapper;
 
-
     @Resource
     private RoleDataMapper roleDataMapper;
 
@@ -57,7 +56,6 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     public BaseMapper getMapper() {
         return roleMapper;
     }
-
 
     @Override
     public PagedResult<Role> selectPageList(PageBean pageBean, Role role) {

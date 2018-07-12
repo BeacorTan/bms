@@ -35,7 +35,7 @@ public class DeptController {
             modelMap.addAttribute("dept", depService.selectByPrimaryKey(id));
         }
         modelMap.put("tabId", id);
-        return new ModelAndView("dep/dept_profile");
+        return new ModelAndView("dept/dept_profile");
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
@@ -78,7 +78,7 @@ public class DeptController {
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView depMain() {
-        return new ModelAndView("dep/dept_main");
+        return new ModelAndView("dept/dept_main");
     }
 
 

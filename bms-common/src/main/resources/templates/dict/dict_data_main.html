@@ -1,78 +1,58 @@
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-      type="text/css"/>
-<div class="portlet light">
-    <div class="portlet-body">
-        <form class="form-horizontal" id="dictDataSearchForm">
-            <input type="hidden" name="dictCode"/>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label col-md-4">字典名称&nbsp;:</label>
-                        <div class="col-md-8">
-                            <input type="text" name="name" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label col-md-4">字典类型&nbsp;:</label>
-                        <div class="col-md-8">
-                            <input type="text" name="code" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="actions pull-left">
-                        <a id="dist_data_search_btn" class="btn btn-sm btn-circle green btn-outline sbold">
-                            <i class="fa fa-search"></i> 搜索 </a>
-                        <a onclick="CommonUtils.reset('dictDataSearchForm')"
-                           class="btn btn-sm btn-circle green btn-outline sbold">
-                            <i class="fa fa-print"></i> 重置 </a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!--<style type="text/css">
-    .table-bordered a {
-        font-size: 15px;
-        margin: 0px 5px;
-    }
-
-    .table-bordered a > .fa-pencil {
-        color: #69aa46;
-    }
-
-    .table-bordered a > .fa-trash-o {
-        color: #dd5a43;
-    }
-
-</style>-->
-<div class="portlet light portlet-fit">
-
-    <div class="portlet-title">
-        <div class="actions pull-left">
-            <a id="add_dictData_view" class="btn btn-sm btn-circle green btn-outline sbold">
-                <i class="fa fa-plus"></i> 增加 </a>
-            <!-- <a href="javascript:void(0);" id="updateUserView" class="btn btn-sm btn-circle purple btn-outline sbold">
-                 <i class="fa fa-print"></i> 修改 </a>-->
-            <a class="btn btn-sm btn-circle red btn-outline sbold">
-                <i class="fa fa-print"></i> 删除 </a>
+<div class="container" style="width: 100%;">
+    <div id="bms-dictData-btn" class="row">
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/dictData/profile" data-type="add" type="button" class="btn btn-success btn-sm"><i
+                    class="fa fa-plus"></i>&nbsp;新增
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/dictData/profile" data-type="edit" type="button" class="btn btn-info btn-sm"><i
+                    class="fa fa-edit"></i>&nbsp;修改
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/dictData/del" data-type="del" type="button" class="btn btn-danger btn-sm"><i
+                    class="fa fa-remove"></i>&nbsp;删除
+            </button>
         </div>
     </div>
-    <div class="portlet-body">
-        <!--<table class="table table-striped table-bordered table-hover" id="userTable">
-        </table>
--->
-        <!--<table class="table table-striped table-bordered table-hover"-->
-        <table data-classes="table table-no-bordered"
-               id="cpmg_dict_data_table">
+    <form id="bms-dictData-search-form" class="form-horizontal" >
+        <input type="hidden" name="dictCode" th:value="${code}"/>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">字典名称&nbsp;:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="name" class="form-control"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">字典类型&nbsp;:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="code" class="form-control"></div>
+                </div>
+            </div>
+            <div id="bms-dictData-search-btn" class="col-lg-2 col-md-2 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="search" class="btn btn-sm btn-circle green sbold">
+                        <i class="fa fa-search"></i> 搜索 </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="reset" class="btn btn-circle green btn-outline sbold btn-sm">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <table id="bms-dictData-table" data-form="bms-dictData-search-form" data-classes="table table-no-bordered">
             <thead>
             <tr>
-                <th data-field="id" data-visible="false"></th>
+                <th data-id-field="id" data-checkbox="true">id</th>
                 <th data-field="name">字典名称</th>
                 <th data-field="code">字典类型</th>
-                <th data-field="updateDate">更新时间</th>
+                <th data-field="marks">备注</th>
                 <th data-formatter="dictDataOperate">操作</th>
             </tr>
             </thead>
@@ -82,7 +62,26 @@
     </div>
 </div>
 
-<script th:inline="javascript">
+
+<script  th:inline="javascript">
+
+    jQuery(document).ready(function () {
+
+        // 头部按钮
+        $("#bms-dictData-btn").buttonInit({
+            "tabTitle": "编辑字典",
+            "bootstrapTable": "bms-dictData-table"
+        });
+
+        // 查询form表单按钮
+        $("#bms-dictData-search-btn").formButtonInit({
+            "searchForm": "bms-dictData-search-form",
+            "searchUrl": "/dictData/page/list",
+            "bootstrapTable": "bms-dictData-table",
+            "bootstrapTableInit": true
+        });
+    });
+
 
     function dictDataOperate(val, record, index) {
         var id = record.id;
@@ -91,13 +90,9 @@
     }
 
     function openDictDataEditWin(id) {
-        //id, title, tabUrl
-        CommonUtils.addTab("dict_data_profile_tab", "编辑字典数据", CommonUtils.getContextAll("/dictData/profile?id=" + id));
+        CommonUtils.addTab(id, "编辑字典数据", CommonUtils.getContextAll("/dictData/profile?id=" + id));
     }
 
-    //    function queryDictData(code) {
-    //        CommonUtils.addTab("dict_profile_tab", "字典数据", CommonUtils.getContextAll("/dict/profile"));
-    //    }
 
     function delDictData(id) {
         if (!id) {
@@ -115,73 +110,17 @@
             },
             function () {
                 $.ajax({
-                    url: CommonUtils.getContextAll("/dictData/del?id=" + id),
-                    type: "GET",
+                    url: CommonUtils.getContextAll("/dictData/del"),
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify([id]),
                     success: function (result) {
                         CM_Components.layerMsg("删除成功！");
-                        $("#cpmg_dict_data_table").bootstrapTable('refresh', {
-                            query: CommonUtils.getFormData("dictSearchForm")
+                        $("#bms-dictData-table").bootstrapTable('refresh', {
+                            query: CommonUtils.getFormData("bms-dictData-search-form")
                         });
                     }
                 });
             });
     }
-
-
-    (function () {
-
-        var $cpmg_dict_data_table = $("#cpmg_dict_data_table");
-
-        $("#dist_data_search_btn").click(function () {
-            $cpmg_dict_data_table.bootstrapTable('refresh', {
-                url: CommonUtils.getContextAll("/dictData/page/list"),
-                query: CommonUtils.getFormData("dictDataSearchForm")
-            });
-        });
-
-
-        /*<![CDATA[*/
-        var code =/*[[${code}]]*/;
-        /*]]>*/
-
-        $("#add_dictData_view").click(function () {
-            CommonUtils.addTab("dict_data_profile_tab", "新增字典数据", CommonUtils.getContextAll("/dictData/profile?dictCode=" + code));
-        });
-
-
-        $("#dictDataSearchForm").find("input[name='dictCode']").val(code);
-
-        $cpmg_dict_data_table.bootstrapTable({
-            method: 'get',
-            url: CommonUtils.getContextAll("/dictData/page/list?dictCode=" + code),
-            cache: false,
-            dataType: "json",
-            striped: false,	 //使表格带有条纹
-            sortable: true,
-            pagination: true,	//在表格底部显示分页工具栏
-            pageSize: 10,
-            pageNumber: 1,
-            pageList: [5],
-            idField: "id",  //标识哪个字段为id主键
-            showToggle: false,   //名片格式
-            cardView: false,//设置为True时显示名片（card）布局
-            singleSelect: false,//复选框只能选择一条记录
-            search: false,//是否显示右上角的搜索框
-            sidePagination: "server",//表格分页的位置
-            queryParamsType: "", //参数格式,发送标准的RESTFul类型的参数请求
-            strictSearch: true,
-            showColumns: false,     //是否显示所有的列
-            showRefresh: false,     //是否显示刷新按钮
-            minimumCountColumns: 2,    //最少允许的列数
-            responseHandler: function (res) {
-                return {
-                    "rows": res.dataList,
-                    "total": res.total
-                };
-            },
-            formatNoMatches: function () {  //没有匹配的结果
-                return '无符合条件的记录';
-            }
-        });
-    })();
 </script>

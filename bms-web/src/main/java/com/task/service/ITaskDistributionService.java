@@ -10,12 +10,6 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * 任务service
- *
- * @author BoSongsh
- * @create 2018-04-23 14:52
- **/
 public interface ITaskDistributionService extends BaseService<TaskDistributionVO> {
 
     ResponseJson distribute(MultipartFile file, String taskID);

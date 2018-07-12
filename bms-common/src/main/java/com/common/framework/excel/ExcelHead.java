@@ -3,12 +3,6 @@ package com.common.framework.excel;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * excel表头
- *
- * @author BoSongsh
- * @create 2018-04-19 17:47
- **/
 public class ExcelHead {
 
     public final static Map<String, String> HEADERS_FOLLOW_UP_USER_NO = new HashMap<String, String>(7);

@@ -13,12 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * 任务管理
- *
- * @author BoSongsh
- * @create 2018-04-20 17:20
- **/
 @RestController
 @RequestMapping(value = "/task/query")
 public class TaskQueryController {

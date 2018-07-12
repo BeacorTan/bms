@@ -25,12 +25,6 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 
 
-/**
- * 公告
- *
- * @author BoSongsh
- * @create 2018-05-07 18:05
- **/
 @RestController
 @RequestMapping(value = "/bulletin")
 public class BulletinController {

@@ -11,7 +11,7 @@ import javax.persistence.Table;
  *
  * @date 2017年04月07日
  */
-@Table(name = "t_sys_function")
+@Table(name = "T_SYS_FUNCTION")
 public class Function extends BaseModel {
 
     /**

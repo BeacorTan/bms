@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 /**
  * 矢量图标工具类
  *
- * @author BoSongsh
  * @create 2018-01-22 16:29
  **/
 public final class IConUtils {

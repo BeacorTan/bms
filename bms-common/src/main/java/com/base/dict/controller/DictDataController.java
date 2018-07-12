@@ -4,6 +4,7 @@ import com.base.dict.model.DictDataVO;
 import com.base.dict.service.IDictDataService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
+import com.common.framework.util.ResponseJson;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-/**
- * @author BoSongsh
- * @create 2018-03-01 17:24
- **/
 @RequestMapping("/dictData")
 @RestController
 public class DictDataController {
@@ -31,12 +28,6 @@ public class DictDataController {
     @Autowired
     private IDictDataService dictDataService;
 
-
-    /**
-     * 用户管理主页面
-     *
-     * @return
-     */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView dictMain(String code, ModelMap modelMap) {
         modelMap.put("code", code);
@@ -50,21 +41,16 @@ public class DictDataController {
         return dictDataService.selectPageList(pageBean, dict);
     }
 
-
     /**
      * @return
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, String dictCode, ModelMap modelMap) {
-        ModelAndView modelAndView = new ModelAndView("dict/dict_data_profile");
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
             modelMap.put("dictVO", dictDataService.selectById(id));
-            modelAndView.getModelMap().addAllAttributes(modelMap);
-        } else {
-            modelMap.put("dictCode", dictCode);
-            modelAndView.getModelMap().addAllAttributes(modelMap);
         }
-        return modelAndView;
+        modelMap.put("tabId", id);
+        return new ModelAndView("dict/dict_data_profile", modelMap);
     }
 
 
@@ -84,37 +70,14 @@ public class DictDataController {
     }
 
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Integer add(@RequestBody DictDataVO dictVO) {
-        Integer result = null;
-        try {
-            result = dictDataService.add(dictVO);
-        } catch (Exception e) {
-            LOGGER.error("DictDataController.add()异常:{}", e);
-        }
-        return result;
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Integer update(@RequestBody DictDataVO dictVO) {
-        Integer result = null;
-        try {
-            result = dictDataService.update(dictVO);
-        } catch (Exception e) {
-            LOGGER.error("DictDataController.update()异常:{}", e);
-        }
-        return result;
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public ResponseJson editDictData(@RequestBody DictDataVO dictVO) {
+        return dictDataService.editDictData(dictVO);
     }
 
 
-    @RequestMapping(value = "/del", method = RequestMethod.GET)
-    public Integer update(String id) {
-        Integer result = null;
-        try {
-            result = dictDataService.delete(id);
-        } catch (Exception e) {
-            LOGGER.error("DictDataController.update()异常:{}", e);
-        }
-        return result;
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public ResponseJson remove(@RequestBody List<String> ids) {
+        return dictDataService.removeByIds(ids);
     }
 }

@@ -59,11 +59,6 @@ public class PositionController {
     }
 
 
-    /**
-     * 分页查询用户集合
-     *
-     * @return UserSample
-     */
     @RequestMapping(value = "/page/list", method = RequestMethod.GET)
     @ResponseBody
     public PagedResult<Position> getUserPageList(PageBean pageBean, Position position) {

@@ -29,10 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author BoSongsh
- * @create 2018-03-12 10:36
- **/
 public class ExcelUtil {
 
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);

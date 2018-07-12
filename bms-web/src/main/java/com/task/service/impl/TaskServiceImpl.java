@@ -18,10 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 14:53
- **/
 @Service
 public class TaskServiceImpl extends BaseServiceImpl<TaskVO> implements ITaskService {
 

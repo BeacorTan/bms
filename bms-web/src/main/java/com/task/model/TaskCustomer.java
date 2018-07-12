@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-/**
- * @author BoSongsh
- * @create 2018-04-23 11:13
- **/
 public class TaskCustomer {
 
     private String userNo;
