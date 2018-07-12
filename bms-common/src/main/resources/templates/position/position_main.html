@@ -1,68 +1,53 @@
-<!--<style type="text/css">
-    .table-bordered a {
-        font-size: 15px;
-        margin: 0px 5px;
-    }
-
-    .table-bordered a > .fa-pencil {
-        color: #69aa46;
-    }
-
-    .table-bordered a > .fa-trash-o {
-        color: #dd5a43;
-    }
-
-</style>-->
-<div class="portlet light common-search-form">
-    <div id="bms-position-btn" class="row" >
+<div class="container" style="width: 100%;">
+    <div id="bms-position-btn" class="row">
         <div class="col-md-1 col-xs-2">
-            <button data-url="/position/profile" data-type="add" type="button"
-                    class="btn btn-success btn-sm"><i class="fa fa-plus"></i>&nbsp;新增
+            <button data-url="/position/profile" data-type="add" type="button" class="btn btn-success btn-sm"><i
+                    class="fa fa-plus"></i>&nbsp;新增
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button data-url="/position/profile"  data-type="edit" type="button" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>&nbsp;修改
+            <button data-url="/position/profile" data-type="edit" type="button" class="btn btn-info btn-sm"><i
+                    class="fa fa-edit"></i>&nbsp;修改
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button data-url="/position/del" data-type="del"  type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>&nbsp;删除
+            <button data-url="/position/del" data-type="del" type="button" class="btn btn-danger btn-sm"><i
+                    class="fa fa-remove"></i>&nbsp;删除
             </button>
         </div>
     </div>
-    <div class="portlet-body">
-        <form id="bms-position-search-form" class="form-horizontal">
-            <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label col-md-5 col-sm-5">职位编码&nbsp;<i class="fa fa-user-circle"></i>&nbsp;：</label>
-                        <div class="col-md-7 col-sm-7">
-                            <input type="text" name="positionCode" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label col-md-5 col-sm-5">职位名称&nbsp;<i
-                                class="fa fa-address-card"></i>&nbsp;：</label>
-                        <div class="col-md-7 col-sm-7">
-                            <input type="text" name="positionName" class="form-control"></div>
-                    </div>
-                </div>
-                <div id="bms-position-search-btn" class="col-lg-2 col-md-2 col-sm-6">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <a data-type="search" class="btn btn-circle green btn-outline sbold btn-sm">
-                            <i class="fa fa-search"></i> 搜索 </a>
-                    </div>
-                    <div  class="col-lg-6 col-md-6 col-sm-6">
-                        <a data-type="reset" class="btn btn-circle green btn-outline sbold btn-sm">
-                            <i class="fa fa-print"></i> 重置 </a>
-                    </div>
+
+    <form id="bms-position-search-form" class="form-horizontal">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                    <label class="control-label col-md-5 col-sm-5">职位编码&nbsp;<i
+                            class="fa fa-user-circle"></i>&nbsp;：</label>
+                    <div class="col-md-7 col-sm-7">
+                        <input type="text" name="positionCode" class="form-control"></div>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
-<div class="portlet light portlet-fit">
-    <div class="portlet-body">
+            <div class="col-md-3 col-sm-6">
+                <div class="form-group">
+                    <label class="control-label col-md-5 col-sm-5">职位名称&nbsp;<i
+                            class="fa fa-address-card"></i>&nbsp;：</label>
+                    <div class="col-md-7 col-sm-7">
+                        <input type="text" name="positionName" class="form-control"></div>
+                </div>
+            </div>
+            <div id="bms-position-search-btn" class="col-lg-2 col-md-2 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="search" class="btn btn-sm btn-circle green sbold">
+                        <i class="fa fa-search"></i> 搜索 </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="reset" class="btn btn-circle green btn-outline sbold btn-sm">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
         <table id="bms-position_table" data-click-to-select="true" data-classes="table table-no-bordered"
                data-page-size="20">
             <thead>
@@ -91,10 +76,10 @@
 
         // 查询form表单按钮
         $("#bms-position-search-btn").formButtonInit({
-            "searchForm":"bms-position-search-form",
-            "searchUrl":"/position/page/list",
-            "bootstrapTable":"bms-position_table",
-            "bootstrapTableInit":true
+            "searchForm": "bms-position-search-form",
+            "searchUrl": "/position/page/list",
+            "bootstrapTable": "bms-position_table",
+            "bootstrapTableInit": true
         });
     });
 </script>

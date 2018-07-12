@@ -68,10 +68,10 @@
                 success: function (result) {
                     var $dataList = result.dataList;
                     if ($dataList && $dataList.length > 0) {
-                        for (let index of $dataList) {
+                        $dataList.forEach(function (_t) {
                             var $l_2 = $("<li></li>");
-                            $l_2.html(index[$value]);
-                            $l_2.attr("data-code", index[$code]);
+                            $l_2.html(_t[$value]);
+                            $l_2.attr("data-code", _t[$code]);
                             $l_2.on("click", function () {
                                 var $selectList = $(this).parents(".select-container-list");
                                 $selectList.siblings().find(".item-name").html($(this).html());
@@ -84,7 +84,25 @@
                             $sci.append($u);
                             $scl.append($sci);
                             $that.after($scl);
-                        }
+                        });
+
+                        // for (let index of $dataList) {
+                        //     var $l_2 = $("<li></li>");
+                        //     $l_2.html(index[$value]);
+                        //     $l_2.attr("data-code", index[$code]);
+                        //     $l_2.on("click", function () {
+                        //         var $selectList = $(this).parents(".select-container-list");
+                        //         $selectList.siblings().find(".item-name").html($(this).html());
+                        //         $selectList.remove();
+                        //         $that.attr("arrow", "down");
+                        //         $input.val($(this).attr("data-code"));
+                        //     });
+                        //
+                        //     $u.append($l_2);
+                        //     $sci.append($u);
+                        //     $scl.append($sci);
+                        //     $that.after($scl);
+                        // }
                     }
                 }
             });
@@ -208,6 +226,29 @@
                 $li = $("<li>未匹配到数据</li>");
                 $ul.append($li);
             } else {
+
+                dt.forEach(function (tp) {
+                    $li = $("<li></li>");
+                    $li.attr("data-code", tp["deptCode"]);
+                    $li.html(tp["deptName"]);
+                    $li.click(function (e) {
+                        $that.showLabel.show().prev().remove();
+                        $that.searchInput = undefined;
+                        $that.showLabel.text($(this).html());
+
+                        var $currCode = $(this).attr("data-code");
+                        $that.selectInput.val($currCode);
+                        $selectContainerList.remove();
+                        $that.selectContainerList = undefined;
+                        if ($that.childrenSelect) {
+                            $that.childrenSelect.selectLinkage("reset");
+                            $that.childrenSelect.data("parentCode", $currCode);
+                        }
+                        e.stopPropagation();//阻止事件冒泡
+                    });
+                    $ul.append($li);
+                });
+/*
                 for (let index of dt) {
                     $li = $("<li></li>");
                     $li.attr("data-code", index["deptCode"]);
@@ -229,6 +270,7 @@
                     });
                     $ul.append($li);
                 }
+*/
             }
             $selectContainerItem.append($ul);
             $selectContainerList.append($selectContainerItem);
