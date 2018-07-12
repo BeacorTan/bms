@@ -1,0 +1,23 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.role.mapper.RoleFunctionMapper">
+
+    <update id="updateActiveFlagByRoleIds" parameterType="map">
+        UPDATE  T_SYS_ROLE_FUNCTION
+        SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
+        UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
+        ACTIVE_FLAG=#{activeFlag,jdbcType=INTEGER}
+        WHERE
+        ROLE_CODE IN (
+        SELECT
+        r.ROLE_CODE
+        FROM
+        T_SYS_ROLE r
+        WHERE
+        r.id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+        )
+        and ACTIVE_FLAG=1
+    </update>
+</mapper>

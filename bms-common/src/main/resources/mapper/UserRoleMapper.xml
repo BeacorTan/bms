@@ -1,6 +1,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.base.user.mapper.UserRoleMapper">
 
+
+    <select id="isExistByRoleIds" resultType="int">
+        SELECT
+            count(1)
+        FROM
+            t_sys_user_role ur
+        INNER JOIN t_sys_role r ON r.ROLE_CODE = ur.ROLE_CODE
+        WHERE
+            r.ID IN
+            <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        AND r.ACTIVE_FLAG = 1
+        AND ur.ACTIVE_FLAG = 1
+    </select>
+
     <update id="updateActiveFlagByRecord" parameterType="com.base.user.model.UserRoleMap">
        UPDATE  T_SYS_USER_ROLE
        SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
@@ -9,7 +25,7 @@
        WHERE LOGIN_NAME=#{loginName,jdbcType=VARCHAR}
    </update>
 
-    <update id="updateActiveFlagByUserIds" >
+    <update id="updateActiveFlagByUserIds" parameterType="map">
         UPDATE  T_SYS_USER_ROLE
         SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
         UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
@@ -17,14 +33,15 @@
         WHERE
         LOGIN_NAME IN (
             SELECT
-                LOGIN_NAME
+                U.LOGIN_NAME
             FROM
-                t_sys_user
+                T_SYS_USER U
             WHERE
-                id IN
-            <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
-                　　　　#{id}
+               U.ID IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id,jdbcType=VARCHAR}
             </foreach>
         )
+        and ACTIVE_FLAG=1
     </update>
 </mapper>

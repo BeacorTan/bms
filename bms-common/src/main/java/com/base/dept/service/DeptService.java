@@ -30,5 +30,5 @@ public interface DeptService extends BaseService<Department> {
 
     PagedResult<Department> linkage(Department department, PageBean pageBean);
 
-    List<TreeVO> queryTree();
+    List<TreeVO> queryTree(String roleCode);
 }

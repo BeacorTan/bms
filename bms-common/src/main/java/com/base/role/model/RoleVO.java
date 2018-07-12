@@ -12,24 +12,24 @@ import java.util.List;
  **/
 public class RoleVO extends Role {
 
-    List<String> functionCodes;
+    List<String> functions;
 
     // 授权数据
-    List<Department> authData;
+    List<String> departments;
 
-    public List<Department> getAuthData() {
-        return authData;
+    public List<String> getFunctions() {
+        return functions;
     }
 
-    public void setAuthData(List<Department> authData) {
-        this.authData = authData;
+    public void setFunctions(List<String> functions) {
+        this.functions = functions;
     }
 
-    public List<String> getFunctionCodes() {
-        return functionCodes;
+    public List<String> getDepartments() {
+        return departments;
     }
 
-    public void setFunctionCodes(List<String> functionCodes) {
-        this.functionCodes = functionCodes;
+    public void setDepartments(List<String> departments) {
+        this.departments = departments;
     }
 }

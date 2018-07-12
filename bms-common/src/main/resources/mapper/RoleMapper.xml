@@ -40,13 +40,12 @@
     <select id="selectListByLoginName" resultMap="UserRoleResultMap">
         select r.ROLE_NAME,r.ROLE_CODE
         <if test="loginName!=null and loginName.length()>0">
-            /*,NVL2(ur.role_code,1,0) STATE*/
             ,if(ur.role_code is not null,1,0) STATE
         </if>
         From T_SYS_role r
         <if test="loginName!=null and loginName.length()>0">
             left join (
-            select role_code From T_SYS_user_role where login_name=#{loginName} and ACTIVE_FLAG = 1) ur
+            select DISTINCT(role_code) From T_SYS_user_role where login_name=#{loginName} and ACTIVE_FLAG = 1) ur
             on ur.role_code = r.role_code
         </if>
         WHERE

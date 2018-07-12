@@ -3,6 +3,8 @@ package com.base.dept.service.impl;
 import com.base.dept.mapper.DeptMapper;
 import com.base.dept.model.Department;
 import com.base.dept.service.DeptService;
+import com.base.role.mapper.RoleDataMapper;
+import com.base.user.mapper.UserBasicMapper;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseModel;
 import com.common.framework.base.BaseServiceImpl;
@@ -14,19 +16,29 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
 import com.common.model.TreeVO;
+import com.common.shiro.ShiroManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DeptServiceImpl extends BaseServiceImpl<Department> implements DeptService {
 
     @Resource
     private DeptMapper depMapper;
+
+    @Resource
+    private UserBasicMapper userBasicMapper;
+
+    @Resource
+    private RoleDataMapper roleDataMapper;
 
     @Override
     public BaseMapper getMapper() {
@@ -87,9 +99,21 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
         if (CollectionUtils.isEmpty(ids)) {
             return ServiceUtil.getResponseJson("删除失败，参数为空", SystemConstant.RESPONSE_ERROR);
         }
+
+        if(userBasicMapper.countUserByDeptIds(ids)>0){
+            return ServiceUtil.getResponseJson("该部门下已存在员工，请先调整该部门下的员工至其他部门", SystemConstant.RESPONSE_ERROR);
+        }
+
         Department department = new Department();
         ModelUtil.deleteInit(department);
         this.updateActiveFlagByPrimaryKeyList(ids, department);
+
+        Map<String,Object> delMap=new HashMap<String,Object>(2);
+        delMap.put("updateBy", ShiroManager.getLoginName());
+        delMap.put("updateDate",new Date());
+        delMap.put("activeFlag", BaseModel.ACTIVE_FLAG_NO);
+        delMap.put("ids",ids);
+        roleDataMapper.updateActiveFlagByDeptIds(delMap);
         return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
     }
 
@@ -108,7 +132,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     }
 
     @Override
-    public List<TreeVO> queryTree() {
-        return depMapper.queryTree();
+    public List<TreeVO> queryTree(String roleCode) {
+        return depMapper.queryTree(roleCode);
     }
 }

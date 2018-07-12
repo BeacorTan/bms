@@ -25,32 +25,30 @@
         <result column="DEPT_CODE" property="code" jdbcType="VARCHAR"/>
         <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
         <result column="DEPT_NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="CHECKED" property="checked" jdbcType="BOOLEAN"/>
     </resultMap>
 
     <sql id="Base_Column_List">
       ID, ACTIVE_FLAG, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, DEPT_NAME,TREE_LEAF,TREE_LEVEL,DEPT_TYPE, TREE_SORT, PARENT_CODE,DEPT_CODE,PARENT_NAME
     </sql>
 
-    <select id="queryTree" resultMap="TreeMap">
-        select d.DEPT_CODE,d.PARENT_CODE,d.DEPT_NAME from T_SYS_DEPT d where d.ACTIVE_FLAG=1
+    <select id="queryTree" resultMap="TreeMap" parameterType="java.lang.String">
+        /* select d.DEPT_CODE,d.PARENT_CODE,d.DEPT_NAME from T_SYS_DEPT d where d.ACTIVE_FLAG=1*/
+        SELECT D.DEPT_CODE,D.PARENT_CODE,D.DEPT_NAME
+        <if test="roleCode!=null and roleCode!=''">
+            ,IF(RD.CTRL_DATA IS NOT NULL,1,0) CHECKED
+        </if>
+        FROM T_SYS_DEPT D
+        <if test="roleCode!=null and roleCode!=''">
+            LEFT JOIN (SELECT CTRL_DATA
+            FROM T_SYS_ROLE_DATA R
+            WHERE R.ACTIVE_FLAG = 1
+            AND r.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}) RD
+            ON D.DEPT_CODE = RD.CTRL_DATA
+        </if>
+        WHERE D.ACTIVE_FLAG = 1 ORDER BY D.TREE_SORT ASC
     </select>
 
-
-    <select id="selectDepZtreeData" resultMap="depResultMap">
-        SELECT id,PARENT_CODE,DEPT_NAME,DEPT_CODE,DEPT_TYPE
-        <if test="roleCode!=null and roleCode.length()>0">
-            /*,NVL2(r.ctrl_data,1,0) checked*/
-            ,if(r.ctrl_data is not null,1,0) checked
-        </if>
-        FROM T_SYS_DEPT d
-        <if test="roleCode!=null and roleCode.length()>0">
-            left join (select ctrl_data
-            From T_SYS_ROLE_DATA
-            where role_code = #{roleCode} and ACTIVE_FLAG = 1) r
-            on d.DEPT_CODE = r.ctrl_data
-        </if>
-        WHERE d.ACTIVE_FLAG = 1 ORDER BY d.TREE_SORT ASC
-    </select>
 
     <select id="selectByDepartment" resultMap="depResultMap" parameterType="com.base.dept.model.Department">
         SELECT

@@ -1,26 +1,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.base.role.mapper.RoleDataMapper">
 
-    <resultMap id="RoleDataResultMap" type="com.base.role.model.RoleData">
-        <id column="ID" property="id"/>
-        <result column="ACTIVE_FLAG" property="activeFlag"/>
-        <result column="CREATE_BY" property="createBy"/>
-        <result column="CREATE_DATE" property="createDate"/>
-        <result column="UPDATE_BY" property="updateBy"/>
-        <result column="UPDATE_DATE" property="updateDate"/>
-        <result column="ROLE_CODE" property="roleCode"/>
-        <result column="CTRL_TYPE" property="ctrlType"/>
-        <result column="CTRL_DATA" property="ctrlData"/>
-    </resultMap>
+    <update id="updateActiveFlagByRoleIds" parameterType="map">
+        UPDATE  T_SYS_ROLE_DATA
+        SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
+        UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
+        ACTIVE_FLAG=#{activeFlag,jdbcType=INTEGER}
+        WHERE
+        ROLE_CODE IN (
+        SELECT
+        ROLE_CODE
+        FROM
+        T_SYS_ROLE
+        WHERE
+        id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+        )
+        and ACTIVE_FLAG=1
+    </update>
 
-    <select id="selectByLoginName" resultMap="RoleDataResultMap">
-        SELECT RD.CTRL_TYPE,RD.CTRL_DATA
-        FROM T_SYS_ROLE_DATA RD
-        INNER JOIN T_SYS_USER_ROLE UR
-        ON UR.ROLE_CODE = RD.ROLE_CODE
-        WHERE UR.LOGIN_NAME = #{loginName}
-        AND RD.ACTIVE_FLAG = 1
-        AND UR.ACTIVE_FLAG = 1
-    </select>
-
+    <update id="updateActiveFlagByDeptIds" parameterType="map">
+        UPDATE  T_SYS_ROLE_DATA
+        SET UPDATE_BY=#{updateBy,jdbcType=VARCHAR},
+        UPDATE_DATE=#{updateDate,jdbcType=TIMESTAMP},
+        ACTIVE_FLAG=#{activeFlag,jdbcType=INTEGER}
+        WHERE
+        CTRL_DATA IN (
+        SELECT
+        D.DEPT_CODE
+        FROM
+        T_SYS_DEPT D
+        WHERE
+        D.ID IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+        )
+        AND ACTIVE_FLAG=1
+    </update>
 </mapper>

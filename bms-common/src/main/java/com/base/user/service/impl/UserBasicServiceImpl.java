@@ -9,6 +9,7 @@ import com.base.user.model.UserRoleMap;
 import com.base.user.model.UserVO;
 import com.base.user.service.UserBasicService;
 import com.common.framework.base.BaseMapper;
+import com.common.framework.base.BaseModel;
 import com.common.framework.base.BaseServiceImpl;
 import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.BeanUtil;
@@ -18,12 +19,17 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
 import com.common.shiro.EncryptPwd;
+import com.common.shiro.ShiroManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.common.framework.util.ServiceUtil.getResponseJson;
 
@@ -130,6 +136,7 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
         return false;
     }
 
+    @Transactional
     @Override
     public ResponseJson removeUserByKeys(List<String> ids) {
 
@@ -142,8 +149,15 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
 
         UserRoleMap userRoleMap = new UserRoleMap();
         ModelUtil.deleteInit(userRoleMap);
-        userRoleMapper.updateActiveFlagByUserIds(userRoleMap, ids);
         this.updateActiveFlagByPrimaryKeyList(ids, user);
+
+        Map<String,Object> delMap=new HashMap<String,Object>(2);
+        delMap.put("updateBy", ShiroManager.getLoginName());
+        delMap.put("updateDate",new Date());
+        delMap.put("activeFlag", BaseModel.ACTIVE_FLAG_NO);
+        delMap.put("ids",ids);
+        userRoleMapper.updateActiveFlagByUserIds(delMap);
+
         return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
     }
 

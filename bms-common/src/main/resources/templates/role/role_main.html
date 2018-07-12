@@ -1,57 +1,80 @@
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-      type="text/css"/>
-<div class="portlet light common-search-form">
-    <div class="portlet-body">
-        <form class="form-horizontal" id="cpmg_role_searchFormId">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label col-md-4">角色名称:</label>
-                        <div class="col-md-8">
-                            <input type="text" name="roleName" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label col-md-4">角色编码:</label>
-                        <div class="col-md-8">
-                            <input type="text" name="roleCode" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="actions pull-left">
-                        <a id="cpmg_role_searchBtn"
-                           class="btn btn-sm  green btn-outline sbold">
-                            <i class="fa fa-search"></i> 搜索 </a>
-                        <a  onclick="CommonUtils.reset('cpmg_role_searchFormId')" class="btn btn-sm  green btn-outline sbold">
-                            <i class="fa fa-print"></i> 重置 </a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="portlet light portlet-fit">
-    <div class="portlet-title">
-        <div class="actions pull-left">
-            <a id="cpmg_role_addView" class="btn btn-sm  green btn-outline sbold">
-                <i class="fa fa-plus"></i> 增加 </a>
-            <a id="cpmg_role_deleteBtn" class="btn btn-sm  red btn-outline sbold">
-                <i class="fa fa-print"></i> 删除 </a>
-            <a id="cpmg_role_updateViewBtn" class="btn btn-sm  purple btn-outline sbold">
-                <i class="fa fa-print"></i> 修改 </a>
+<div class="container" style="width: 100%;">
+    <div id="bms-role-btn" class="row">
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/role/profile" data-type="add" type="button" class="btn btn-success btn-sm"><i
+                    class="fa fa-plus"></i>&nbsp;新增
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/role/profile" data-type="edit" type="button" class="btn btn-info btn-sm"><i
+                    class="fa fa-edit"></i>&nbsp;修改
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/role/del" data-type="del" type="button" class="btn btn-danger btn-sm"><i
+                    class="fa fa-remove"></i>&nbsp;删除
+            </button>
         </div>
     </div>
-    <div class="portlet-body">
-        <table data-classes="table table-no-bordered"  id="cpmg_role_Table">
+    <form id="bms-role-search-form" class="form-horizontal">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">角色名称:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="roleName" class="form-control"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">角色编码:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="roleCode" class="form-control"></div>
+                </div>
+            </div>
+            <div id="bms-role-search-btn" class="col-lg-2 col-md-2 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="search" class="btn btn-circle green btn-outline sbold btn-sm">
+                        <i class="fa fa-search"></i> 搜索 </a>
+                </div>
+                <div  class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="reset" class="btn btn-circle green btn-outline sbold btn-sm">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <table  id="bms-role-table" data-classes="table table-no-bordered">
+            <thead>
+            <tr>
+                <th data-id-field="id" data-checkbox="true">id</th>
+                <th data-field="roleName">角色名称</th>
+                <th data-field="roleCode">角色编码</th>
+                <th data-field="remarks">说明</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
     </div>
 </div>
 
-<script th:src="@{/assets/auth/role.js}" type="text/javascript"></script>
+<script th:src="@{/assets/common/button-init.js}" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
-        CPMG_ROLE.initRoleMain();
+        // 头部按钮
+        $("#bms-role-btn").buttonInit({
+            "tabTitle":"编辑角色",
+            "bootstrapTable":"bms-role-table"
+        });
+
+        // 查询form表单按钮
+        $("#bms-role-search-btn").formButtonInit({
+            "searchForm":"bms-role-search-form",
+            "searchUrl":"/role/page/list",
+            "bootstrapTable":"bms-role-table",
+            "bootstrapTableInit":true
+        });
     });
 </script>

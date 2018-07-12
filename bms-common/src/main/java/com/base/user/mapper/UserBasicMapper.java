@@ -37,4 +37,6 @@ public interface UserBasicMapper extends BaseMapper<UserBasic> {
     int isExitLoginName(String loginName);
 
     UserVO selectById(String id);
+
+    int countUserByDeptIds(List<String> ids);
 }

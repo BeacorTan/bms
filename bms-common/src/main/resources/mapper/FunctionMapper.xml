@@ -28,7 +28,7 @@
         <result column="FUN_CODE" property="code" jdbcType="VARCHAR"/>
         <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
         <result column="FUN_NAME" property="name" jdbcType="VARCHAR"/>
-        <result column="CHECKED" property="checked" jdbcType="VARCHAR"/>
+        <result column="CHECKED" property="checked" jdbcType="BOOLEAN"/>
     </resultMap>
 
     <select id="isExistsPermissionsById" parameterType="java.lang.String" resultType="java.lang.String">

@@ -59,8 +59,8 @@ public class DeptController {
      * @return
      */
     @RequestMapping(value = "/tree/list", method = RequestMethod.GET)
-    public List<TreeVO> tree() {
-        return depService.queryTree();
+    public List<TreeVO> tree(String roleCode) {
+        return depService.queryTree(roleCode);
     }
 
     /**
