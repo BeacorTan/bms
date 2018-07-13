@@ -37,9 +37,6 @@ public class SchedulerController {
     }
     @RequestMapping(value = "/profile",method = RequestMethod.GET)
     public ModelAndView profile(String id, ModelMap modelMap) throws Exception{
-//        SystemScheduler systemScheduler =  schedulerService.selectByPrimaryKey(id);
-//        modelMap.addAttribute("schedulerInfo",systemScheduler);
-//        ModelAndView modelAndView = new ModelAndView("scheduler/scheduler_update");
         if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("schedulerInfo",schedulerService.selectByPrimaryKey(id));
         }

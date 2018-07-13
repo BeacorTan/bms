@@ -3,9 +3,7 @@
 <mapper namespace="com.base.quarz.mapper.SchedulerMapper">
     <resultMap id="SystemSchedulerResultMap" type="com.base.quarz.model.SystemScheduler">
         <id column="ID" property="id" jdbcType="VARCHAR"/>
-        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
         <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
-        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
         <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
         <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR"/>
         <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR"/>
@@ -31,6 +29,10 @@
             <if test="jobName!=null and jobName!=''">
                 <bind name="jobName" value="'%' + jobName + '%'"/>
                 AND S.JOB_NAME LIKE #{jobName,jdbcType=VARCHAR}
+            </if>
+            <if test="jobClass!=null and jobClass!=''">
+                <bind name="jobClass" value="'%' + jobClass + '%'"/>
+                AND S.JOB_CLASS LIKE #{jobClass,jdbcType=VARCHAR}
             </if>
             <if test="start!=null">
                 AND S.IS_START LIKE #{start,jdbcType=INTEGER}
