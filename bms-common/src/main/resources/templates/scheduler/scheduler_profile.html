@@ -1,0 +1,70 @@
+<div class="portlet-body form">
+    <form id="bms-scheduler-edit-form" class="form-horizontal">
+        <input type="hidden" name="id" th:value="${schedulerInfo==null?'':schedulerInfo.id}">
+        <div class="form-body">
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">任务名称&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:value="${schedulerInfo==null?'':schedulerInfo.jobName}" name="jobName">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">类名&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:value="${schedulerInfo==null?'':schedulerInfo.jobClass}"  name="jobClass" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">cron表达式&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"  th:value="${schedulerInfo==null?'':schedulerInfo.cron}"  name="cron" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">描述&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"th:value="${schedulerInfo==null?'':schedulerInfo.notes}"  name="notes" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div th:attr="id='bms-scheduler-edit-btn'+${tabId}" class="cm-footer-style">
+                <a data-type="submit" data-url="/scheduler/profile" class="btn btn-sm green btn-outline sbold ">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a data-type="reset" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a data-type="close" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            </div>
+        </footer>
+    </form>
+</div>
+
+<script th:inline="javascript">
+
+    jQuery(document).ready(function() {
+
+        var tabId=/*[[${tabId}]]*/;
+        $("#bms-scheduler-edit-btn"+tabId).formButtonInit({
+            "bootstrapTable":"bms-scheduler-table",
+            "tabId":tabId,
+            "editForm":"bms-scheduler-edit-form"
+        });
+    });
+</script>

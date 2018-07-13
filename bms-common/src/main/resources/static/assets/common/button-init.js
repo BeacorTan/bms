@@ -29,6 +29,7 @@
 
         this.$el.find("button").each(function () {
             var $that = $(this);
+
             $that.click(function () {
                 var $this = $(this);
                 var t = $this.attr("data-type");

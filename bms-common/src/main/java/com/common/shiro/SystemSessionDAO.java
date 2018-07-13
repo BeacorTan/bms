@@ -1,8 +1,8 @@
 package com.common.shiro;
 
 import com.common.framework.util.SerializableUtils;
-import com.common.model.SystemSession;
-import com.common.service.SessionService;
+import com.base.session.model.SystemSession;
+import com.base.session.service.SessionService;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;

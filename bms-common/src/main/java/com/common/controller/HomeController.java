@@ -5,7 +5,7 @@ import com.base.function.service.FunctionService;
 import com.base.user.model.UserBasic;
 import com.common.framework.util.HelpUtils;
 import com.common.model.SysFile;
-import com.common.service.SessionService;
+import com.base.session.service.SessionService;
 import com.common.service.SysFileService;
 import com.common.shiro.ShiroManager;
 import org.apache.shiro.authc.AuthenticationException;

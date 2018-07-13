@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">菜单编码</label>
                         <div class="col-md-7 col-sm-7">
-                            <input type="text" class="form-control" name="funCode"
+                            <input th:attr="readonly=${fun!=null}" type="text" class="form-control" name="funCode"
                                    th:value="${fun!=null?fun.funCode:''}"
                                    placeholder="请输入菜单编码">
                         </div>

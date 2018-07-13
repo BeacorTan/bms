@@ -1,4 +1,4 @@
-package com.common.model;
+package com.base.session.model;
 
 import com.common.framework.base.BaseModel;
 

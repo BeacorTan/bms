@@ -1,7 +1,7 @@
-package com.common.mapper;
+package com.base.session.mapper;
 
 import com.common.framework.base.BaseMapper;
-import com.common.model.SystemSession;
+import com.base.session.model.SystemSession;
 
 /**
  * ${DESCRIPTION}

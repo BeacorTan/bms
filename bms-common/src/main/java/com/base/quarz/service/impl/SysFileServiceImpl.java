@@ -1,4 +1,4 @@
-package com.common.service.impl;
+package com.base.quarz.service.impl;
 
 import com.common.mapper.SysFileMapper;
 import com.common.model.SysFile;

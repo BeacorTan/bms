@@ -2,8 +2,8 @@ package com.common.controller;
 
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
-import com.common.model.SystemSession;
-import com.common.service.SessionService;
+import com.base.session.model.SystemSession;
+import com.base.session.service.SessionService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;

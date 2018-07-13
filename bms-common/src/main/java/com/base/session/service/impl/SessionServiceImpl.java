@@ -1,10 +1,10 @@
-package com.common.service.impl;
+package com.base.session.service.impl;
 
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
-import com.common.mapper.SessionMapper;
-import com.common.model.SystemSession;
-import com.common.service.SessionService;
+import com.base.session.mapper.SessionMapper;
+import com.base.session.model.SystemSession;
+import com.base.session.service.SessionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

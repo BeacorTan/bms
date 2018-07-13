@@ -1,7 +1,7 @@
-package com.common.service;
+package com.base.session.service;
 
 import com.common.framework.base.BaseService;
-import com.common.model.SystemSession;
+import com.base.session.model.SystemSession;
 
 
 public interface SessionService extends BaseService<SystemSession> {
