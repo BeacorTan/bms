@@ -1,4 +1,4 @@
-package com.common.controller;
+package com.base.session.controller;
 
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
