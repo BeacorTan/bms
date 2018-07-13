@@ -2,6 +2,7 @@ package com.base.position.controller;
 
 import com.base.position.model.Position;
 import com.base.position.service.PositionService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -46,10 +47,10 @@ public class PositionController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, ModelMap modelMap) {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("position", positionService.queryById(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("position/position_profile", modelMap);
     }
 

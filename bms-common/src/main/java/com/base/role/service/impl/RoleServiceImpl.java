@@ -81,7 +81,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         } else {
             this.addRole(roleVO);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Transactional

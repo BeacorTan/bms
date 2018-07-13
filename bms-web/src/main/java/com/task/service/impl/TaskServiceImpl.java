@@ -34,7 +34,7 @@ public class TaskServiceImpl extends BaseServiceImpl<TaskVO> implements ITaskSer
         }
 
         boolean flag = true;
-        String msg = "编辑成功";
+        String msg = SystemConstant.UPDATE_SUCCESS;
         String id = task.getId();
 
         try {

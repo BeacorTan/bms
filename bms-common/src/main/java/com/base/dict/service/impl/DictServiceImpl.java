@@ -54,7 +54,7 @@ public class DictServiceImpl extends BaseServiceImpl<DictVO> implements IDictSer
             ModelUtil.updateInit(dict);
             dictMapper.updateByPrimaryKeySelective(dict);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
 

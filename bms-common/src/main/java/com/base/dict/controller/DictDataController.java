@@ -2,6 +2,7 @@ package com.base.dict.controller;
 
 import com.base.dict.model.DictDataVO;
 import com.base.dict.service.IDictDataService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -46,10 +47,10 @@ public class DictDataController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, String dictCode, ModelMap modelMap) {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("dictVO", dictDataService.selectById(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("dict/dict_data_profile", modelMap);
     }
 

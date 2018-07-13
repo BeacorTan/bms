@@ -52,7 +52,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
             String m = MessageFormat.format("不能删除以下菜单:{0},请先删除权限", msg.substring(0, msg.length() - 1));
             return ServiceUtil.getResponseJson(m, SystemConstant.RESPONSE_ERROR);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
 
     }
 
@@ -85,7 +85,7 @@ public class FunctionServiceImpl extends BaseServiceImpl<Function> implements Fu
         if (parentLeaf == 1) {
             functionMapper.updateLeafByCode(parentCode, 0);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override

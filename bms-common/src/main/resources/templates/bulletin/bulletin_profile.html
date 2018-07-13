@@ -1,0 +1,63 @@
+<div class="portlet-body form">
+    <div class="form-unit">系统公告信息</div>
+    <form id="bms-bulletin-edit-form" class="form-horizontal">
+        <input type="hidden" name="id" th:value="${systemBulletin!=null?systemBulletin.id:''}"/>
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">公告标题&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input th:value="${systemBulletin!=null?systemBulletin.bulletinTitle:''}" type="text"
+                                   name="bulletinTitle"
+                                   class="form-control" required></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">发布渠道&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input th:value="${systemBulletin!=null?systemBulletin.releaseChannel:''}" type="text"
+                                   name="releaseChannel"
+                                   class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">公告内容&nbsp;:</label>
+                        <div class="col-md-8">
+                            <textarea th:text="${systemBulletin!=null?systemBulletin.bulletinContent:''}" name="bulletinContent" class="form-control">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+    <footer>
+        <div th:attr="id='bms-bulletin-edit-btn'+${tabId}" class="cm-footer-style">
+            <a data-type="submit" data-url="/bulletin/profile" class="btn btn-sm green btn-outline sbold ">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a data-type="reset" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a data-type="close" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+    </footer>
+</div>
+
+
+<script type="text/javascript" th:inline="javascript">
+    jQuery(document).ready(function () {
+        var tabId=/*[[${tabId}]]*/;
+        $("#bms-bulletin-edit-btn"+tabId).formButtonInit({
+            "bootstrapTable":"bms-bulletin-table",
+            "tabId":tabId,
+            "editForm":"bms-bulletin-edit-form"
+        });
+    });
+</script>

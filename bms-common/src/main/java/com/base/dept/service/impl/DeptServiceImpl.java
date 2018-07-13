@@ -49,13 +49,12 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
     public PagedResult<Department> query(Department department, PageBean pageBean) {
         ServiceUtil.startPage(pageBean);
         if (department != null) {
-            if (StringUtils.isBlank(department.getParentCode())) {
-                department.setParentCode("0");
-            }
             if (StringUtils.isNotBlank(department.getDeptCode())
                     || StringUtils.isNotBlank(department.getDeptName())
                     || StringUtils.isNotBlank(department.getDeptType())) {
                 department.setParentCode(null);
+            } else if (StringUtils.isBlank(department.getParentCode())) {
+                department.setParentCode("0");
             }
         }
         return BeanUtil.toPagedResult(depMapper.selectByDepartment(department));
@@ -91,7 +90,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             department.setTreeLeaf("1");
             depMapper.insertSelective(department);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override
@@ -100,7 +99,7 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
             return ServiceUtil.getResponseJson("删除失败，参数为空", SystemConstant.RESPONSE_ERROR);
         }
 
-        if(userBasicMapper.countUserByDeptIds(ids)>0){
+        if (userBasicMapper.countUserByDeptIds(ids) > 0) {
             return ServiceUtil.getResponseJson("该部门下已存在员工，请先调整该部门下的员工至其他部门", SystemConstant.RESPONSE_ERROR);
         }
 
@@ -108,11 +107,11 @@ public class DeptServiceImpl extends BaseServiceImpl<Department> implements Dept
         ModelUtil.deleteInit(department);
         this.updateActiveFlagByPrimaryKeyList(ids, department);
 
-        Map<String,Object> delMap=new HashMap<String,Object>(2);
+        Map<String, Object> delMap = new HashMap<String, Object>(2);
         delMap.put("updateBy", ShiroManager.getLoginName());
-        delMap.put("updateDate",new Date());
+        delMap.put("updateDate", new Date());
         delMap.put("activeFlag", BaseModel.ACTIVE_FLAG_NO);
-        delMap.put("ids",ids);
+        delMap.put("ids", ids);
         roleDataMapper.updateActiveFlagByDeptIds(delMap);
         return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
     }

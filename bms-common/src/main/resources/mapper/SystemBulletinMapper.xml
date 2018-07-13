@@ -3,22 +3,21 @@
 
     <resultMap type="com.base.bulletin.model.SystemBulletin" id="systemBulletinMap">
         <id column="ID" property="id"/>
-        <result column="BULLETIN_TITLE" property="bulletinTitle"/>
-        <result column="RELEASE_CHANNEL" property="releaseChannel"/>
-        <result column="BULLETIN_CONTENT" property="bulletinContent"/>
-        <result column="BEGIN_DATE" property="beginDate"/>
-        <result column="END_DATE" property="endDate"/>
-        <result column="CREATE_BY" property="createBy"/>
-        <result column="CREATE_DATE" property="createDate"/>
-        <result column="UPDATE_BY" property="updateBy"/>
-        <result column="UPDATE_DATE" property="updateDate"/>
+        <result column="BULLETIN_TITLE" property="bulletinTitle" jdbcType="VARCHAR"/>
+        <result column="RELEASE_CHANNEL" property="releaseChannel" jdbcType="VARCHAR"/>
+        <result column="BULLETIN_CONTENT" property="bulletinContent" jdbcType="VARCHAR"/>
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-        <resultMap id="BulletinReadRecordMap" type="com.base.bulletin.model.BulletinReadRecord" extends="systemBulletinMap">
-        </resultMap>
+    <resultMap id="BulletinReadRecordMap" type="com.base.bulletin.model.BulletinReadRecord" extends="systemBulletinMap">
+    </resultMap>
 
     <sql id="querySql">
-        ID,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE,BULLETIN_TITLE,BULLETIN_CONTENT,BEGIN_DATE,END_DATE,RELEASE_CHANNEL
+        ID,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE,BULLETIN_TITLE,BULLETIN_CONTENT,RELEASE_CHANNEL,AUTHOR
     </sql>
 
     <select id="queryLimitThree" resultMap="systemBulletinMap">
@@ -39,35 +38,22 @@
     </select>
 
 
-    <select id="selectListBySystemBulletin" parameterType="com.base.bulletin.model.SystemBulletin"
+    <select id="selectListBySystemBulletin" parameterType="com.base.bulletin.model.SystemBulletinSearchCondition"
             resultMap="systemBulletinMap">
-        select
+        SELECT
         <include refid="querySql"/>
-        From t_system_bulletin bu
-        WHERE
-        bu.ACTIVE_FLAG=1
-        <if test="beginDate != null">
-            and BEGIN_DATE &gt;= #{beginDate,jdbcType=TIMESTAMP}
-        </if>
-
-        <if test="endDate != null">
-            and END_DATE &lt;= #{endDate,jdbcType=TIMESTAMP}
-        </if>
-
-        <if test="bulletinTitle != null and bulletinTitle != '' ">
-            and bu.BULLETIN_TITLE like '%${bulletinTitle}%'
-        </if>
+        FROM T_SYSTEM_BULLETIN BU
+        <trim prefix="where" prefixOverrides="and">
+            <if test="bulletinTitle != null and bulletinTitle != '' ">
+                AND BU.BULLETIN_TITLE like '%${bulletinTitle}%'
+            </if>
+            <if test="beginDate != null ">
+                AND BU.CREATE_DATE &gt;=#{beginDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endDate != null ">
+                AND BU.CREATE_DATE &lt;=#{endDate,jdbcType=TIMESTAMP}
+            </if>
+            AND BU.ACTIVE_FLAG=1
+        </trim>
     </select>
-
-    <select id="selectBulletinByPrimaryKey" parameterType="java.lang.String" resultMap="systemBulletinMap">
-        select
-        <include refid="querySql"/>
-        From t_system_bulletin bu
-        WHERE
-        bu.ACTIVE_FLAG=1
-        <if test="id != null and id !='' ">
-            and bu.id = #{id}
-        </if>
-    </select>
-
 </mapper>

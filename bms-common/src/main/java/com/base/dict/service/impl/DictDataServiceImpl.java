@@ -58,7 +58,7 @@ public class DictDataServiceImpl extends BaseServiceImpl<DictDataVO> implements 
             ModelUtil.updateInit(dictVO);
             dictDataMapper.updateByPrimaryKeySelective(dictVO);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override

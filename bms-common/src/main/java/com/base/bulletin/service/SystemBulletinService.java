@@ -2,6 +2,7 @@ package com.base.bulletin.service;
 
 import com.base.bulletin.model.BulletinReadRecord;
 import com.base.bulletin.model.SystemBulletin;
+import com.base.bulletin.model.SystemBulletinSearchCondition;
 import com.common.framework.base.BaseService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
@@ -16,18 +17,15 @@ import java.util.List;
  */
 public interface SystemBulletinService extends BaseService<SystemBulletin>
 {
-	PagedResult<SystemBulletin> selectSystemBulletinPageList(PageBean pageBean, SystemBulletin systemBulletin);
+	PagedResult<SystemBulletin> selectSystemBulletinPageList(PageBean pageBean, SystemBulletinSearchCondition condition);
 
 	PagedResult<BulletinReadRecord>  readStatusByLoginName(PageBean pageBean);
 
 	List<SystemBulletin> queryLimitThree();
 
-	ResponseJson systemBulletinEditService(SystemBulletin systemBulletin);
-	
-	
-	SystemBulletin selectBulletinByPrimaryKey(String id) throws Exception;
+	ResponseJson editBulletin(SystemBulletin systemBulletin);
+
+	ResponseJson removeByIds(List<String> ids);
 
 	void saveReadLog(String bulletinId);
-
-
 }

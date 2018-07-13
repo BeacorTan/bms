@@ -1,13 +1,9 @@
 package com.base.bulletin.model;
 
-import java.util.Date;
+import com.common.framework.base.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.common.framework.base.BaseModel;
 
 /**
  * 系统公告
@@ -36,22 +32,13 @@ public class SystemBulletin extends BaseModel {
     @Column(length = 200, nullable = false, name = "RELEASE_CHANNEL")
     private String releaseChannel;
 
-    /**
-     * 开始时间
-     */
-    @Column(name = "BEGIN_DATE")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date beginDate;
 
     /**
-     * 结束时间
+     * 发布人
      */
-    @Column(name = "END_DATE")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date endDate;
+    @Column(length = 200, nullable = false, name = "AUTHOR")
+    private String author;
 
-    private String beginDateText;
-    private String endDateText;
 
     public SystemBulletin() {
 
@@ -85,37 +72,11 @@ public class SystemBulletin extends BaseModel {
         this.releaseChannel = releaseChannel;
     }
 
-    public Date getBeginDate() {
-        return beginDate;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
+    public void setAuthor(String author) {
+        this.author = author;
     }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getBeginDateText() {
-        return beginDateText;
-    }
-
-    public void setBeginDateText(String beginDateText) {
-        this.beginDateText = beginDateText;
-    }
-
-    public String getEndDateText() {
-        return endDateText;
-    }
-
-    public void setEndDateText(String endDateText) {
-        this.endDateText = endDateText;
-    }
-
-
 }

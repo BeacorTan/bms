@@ -15,9 +15,19 @@ public final class SystemConstant {
      */
     public static final boolean RESPONSE_ERROR = false;
 
-    public static final String UPDATE_SUCCESS = "修改成功";
+    /**
+     * 新增页面 tab id前缀
+     */
+    public static final String ADD_VIEW_TAB_ID_PREFIX = "add";
 
-    public static final String ADD_SUCCESS = "增加成功";
+    /**
+     * 编辑页面tabid属性名称
+     */
+    public static final String PROFILE_TAB_ID_ATTRIBUTE_NAME = "tabId";
+
+    public static final String UPDATE_SUCCESS = "编辑成功";
+
+    public static final String UPDATE_ERROR = "编辑失败";
 
     //public static final String SESSION_FORCE_LOGOUT_KEY = "session.force.logout";
 

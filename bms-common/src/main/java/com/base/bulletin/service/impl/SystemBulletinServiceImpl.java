@@ -5,6 +5,7 @@ import com.base.bulletin.model.BulletinReadRecord;
 import com.base.bulletin.model.ReadBulletinLog;
 import com.base.bulletin.model.SystemBulletin;
 import com.base.bulletin.mapper.SystemBulletinMapper;
+import com.base.bulletin.model.SystemBulletinSearchCondition;
 import com.base.bulletin.service.SystemBulletinService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
@@ -25,8 +26,6 @@ import java.util.List;
 
 /**
  * 公告Service
- *
- *
  */
 @Service
 public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> implements SystemBulletinService {
@@ -48,10 +47,9 @@ public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> i
     /**
      * 查询列表页面
      */
-    public PagedResult<SystemBulletin> selectSystemBulletinPageList(
-            PageBean pageBean, SystemBulletin systemBulletin) {
+    public PagedResult<SystemBulletin> selectSystemBulletinPageList(PageBean pageBean, SystemBulletinSearchCondition condition) {
         ServiceUtil.startPage(pageBean);
-        return BeanUtil.toPagedResult(systemBulletinMapper.selectListBySystemBulletin(systemBulletin));
+        return BeanUtil.toPagedResult(systemBulletinMapper.selectListBySystemBulletin(condition));
     }
 
     @Override
@@ -80,36 +78,32 @@ public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> i
         return systemBulletinMapper.queryLimitThree();
     }
 
-    public ResponseJson systemBulletinEditService(SystemBulletin systemBulletin) {
-
+    public ResponseJson editBulletin(SystemBulletin systemBulletin) {
         if (systemBulletin == null) {
             return ServiceUtil.getResponseJson("编辑失败", SystemConstant.RESPONSE_ERROR);
         }
-
-        boolean flag = true;
-        String msg = "编辑成功";
         String id = systemBulletin.getId();
-
-        try {
-            if (StringUtils.isEmpty(id)) {
-                ModelUtil.insertInit(systemBulletin);
-                systemBulletinMapper.insertSelective(systemBulletin);
-            } else {
-                ModelUtil.updateInit(systemBulletin);
-                systemBulletinMapper.updateByPrimaryKeySelective(systemBulletin);
-            }
-        } catch (Exception e) {
-            flag = false;
-            msg = e.getMessage();
+        systemBulletin.setAuthor(ShiroManager.getLoginName());
+        if (StringUtils.isEmpty(id)) {
+            ModelUtil.insertInit(systemBulletin);
+            systemBulletinMapper.insertSelective(systemBulletin);
+        } else {
+            ModelUtil.updateInit(systemBulletin);
+            systemBulletinMapper.updateByPrimaryKeySelective(systemBulletin);
         }
-        return ServiceUtil.getResponseJson(msg, flag);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
 
     }
 
-    public SystemBulletin selectBulletinByPrimaryKey(String id)
-            throws Exception {
-        SystemBulletin pojo = systemBulletinMapper.selectBulletinByPrimaryKey(id);
-        return pojo;
+    @Override
+    public ResponseJson removeByIds(List<String> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return ServiceUtil.getResponseJson("删除失败，参数为空", SystemConstant.RESPONSE_ERROR);
+        }
+        SystemBulletin  bulletin=new SystemBulletin();
+        ModelUtil.deleteInit(bulletin);
+        this.updateActiveFlagByPrimaryKeyList(ids,bulletin);
+        return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override
@@ -118,5 +112,4 @@ public class SystemBulletinServiceImpl extends BaseServiceImpl<SystemBulletin> i
         ModelUtil.insertInit(readBulletinLog);
         readBulletinLogMapper.insertSelective(readBulletinLog);
     }
-
 }

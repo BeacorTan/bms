@@ -46,7 +46,7 @@ public class SystemConfigServiceImpl extends BaseServiceImpl<SystemConfig> imple
             ModelUtil.updateInit(sysConfig);
             sysConfigMapper.updateByPrimaryKeySelective(sysConfig);
         }
-        return ServiceUtil.getResponseJson("编辑成功", SystemConstant.RESPONSE_SUCCESS);
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
     @Override

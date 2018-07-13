@@ -2,6 +2,7 @@ package com.base.dept.controller;
 
 import com.base.dept.model.Department;
 import com.base.dept.service.DeptService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -31,10 +32,10 @@ public class DeptController {
 
     @RequestMapping(value = "/profile")
     public ModelAndView profile(String id, ModelMap modelMap) throws Exception {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.addAttribute("dept", depService.selectByPrimaryKey(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("dept/dept_profile");
     }
 
@@ -80,6 +81,4 @@ public class DeptController {
     public ModelAndView depMain() {
         return new ModelAndView("dept/dept_main");
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
 import com.base.user.service.UserBasicService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -73,10 +74,10 @@ public class UserController {
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(String id, ModelMap modelMap) {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("user", userBasicService.selectByPrimaryKey(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("user/user_profile", modelMap);
     }
 

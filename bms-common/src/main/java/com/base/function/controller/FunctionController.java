@@ -2,6 +2,7 @@ package com.base.function.controller;
 
 import com.base.function.model.Function;
 import com.base.function.service.FunctionService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.IConUtils;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
@@ -63,7 +64,7 @@ public class FunctionController {
      * @throws Exception
      */
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
-    public ResponseJson functionEdit(@RequestBody Function function) throws Exception {
+    public ResponseJson functionEdit(@RequestBody Function function)  {
         return functionService.functionEdit(function);
     }
 
@@ -75,11 +76,11 @@ public class FunctionController {
      * @throws Exception
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView profile(String id, ModelMap modelMap) throws Exception {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+    public ModelAndView profile(String id, ModelMap modelMap) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("fun", functionService.selectByPrimaryKey(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("function/function_profile", modelMap);
     }
 

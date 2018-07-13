@@ -2,6 +2,7 @@ package com.base.sys.controller;
 
 import com.base.sys.model.SystemConfig;
 import com.base.sys.service.SystemConfigService;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -51,10 +52,10 @@ public class SystemConfigController {
 
     @RequestMapping("profile")
     public ModelAndView profile(String id, ModelMap modelMap) {
-        if (StringUtils.isNotBlank(id) && !id.startsWith("add")) {
+        if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("sysConfig", sysConfigService.selectByPrimaryKey(id));
         }
-        modelMap.put("tabId", id);
+        modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("config/config_profile");
     }
 

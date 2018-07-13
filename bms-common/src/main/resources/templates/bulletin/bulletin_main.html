@@ -1,0 +1,95 @@
+<div class="container" style="width: 100%;">
+    <div id="bms-bulletin-btn" class="row">
+        <div class="col-md-1 col-xs-2" >
+            <button data-url="/bulletin/profile" data-type="add" type="button" class="btn btn-success btn-sm"><i
+                    class="fa fa-plus"></i>&nbsp;新增
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/bulletin/profile" data-type="edit" type="button" class="btn btn-info btn-sm"><i
+                    class="fa fa-edit"></i>&nbsp;修改
+            </button>
+        </div>
+        <div class="col-md-1 col-xs-2">
+            <button data-url="/bulletin/del" data-type="del" type="button" class="btn btn-danger btn-sm"><i
+                    class="fa fa-remove"></i>&nbsp;删除
+            </button>
+        </div>
+    </div>
+    <form id="bms-bulletin-search-form" class="form-horizontal">
+        <input type="hidden" name="id" th:value="${systemBulletin!=null?systemBulletin.id:''}"/>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label col-md-4">公告标题&nbsp;:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="bulletinTitle" class="form-control"></div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="control-label col-md-4">发布时间&nbsp;:</label>
+                    <div class="col-md-8">
+                        <div class="col-md-5"><input id="bulletin-begin-date" name="beginDate" type="text" class="form-control"></div>
+                        <div class="col-md-1"><label  class="control-label">至</label></div>
+                        <div class="col-md-5"><input id="bulletin-end-date" name="endDate" type="text" class="form-control"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="bms-bulletin-search-btn" class="col-lg-2 col-md-2 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="search" class="btn btn-sm btn-circle green sbold">
+                        <i class="fa fa-search"></i> 搜索 </a>
+                </div>
+                <div  class="col-lg-6 col-md-6 col-sm-6">
+                    <a data-type="reset" class="btn btn-circle green btn-outline sbold btn-sm">
+                        <i class="fa fa-print"></i> 重置 </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <table  id="bms-bulletin-table" data-classes="table table-no-bordered" data-form="bms-bulletin-search-form">
+            <thead>
+            <tr>
+                <th data-id-field="id" data-checkbox="true">id</th>
+                <th data-field="bulletinTitle">公告标题</th>
+                <th data-field="bulletinContent">公告内容</th>
+                <th data-field="createDate">发布时间</th>
+                <th data-field="author">发布人</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        // 头部按钮
+        $("#bms-bulletin-btn").buttonInit({
+            "tabTitle":"编辑公告",
+            "bootstrapTable":"bms-bulletin-table"
+        });
+
+        // 查询form表单按钮
+        $("#bms-bulletin-search-btn").formButtonInit({
+            "searchForm":"bms-bulletin-search-form",
+            "searchUrl":"/bulletin/page/list",
+            "bootstrapTable":"bms-bulletin-table",
+            "bootstrapTableInit":true
+        });
+
+        //时间选择器
+        laydate.render({
+            elem: '#bulletin-begin-date'
+            ,type: 'datetime'
+        });
+        //时间选择器
+        laydate.render({
+            elem: '#bulletin-end-date'
+            ,type: 'datetime'
+        });
+    });
+</script>

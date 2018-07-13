@@ -2,8 +2,8 @@ package com.base.bulletin.mapper;
 
 import com.base.bulletin.model.BulletinReadRecord;
 import com.base.bulletin.model.SystemBulletin;
+import com.base.bulletin.model.SystemBulletinSearchCondition;
 import com.common.framework.base.BaseMapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,13 +13,11 @@ import java.util.List;
  *
  */
 public interface SystemBulletinMapper extends BaseMapper<SystemBulletin> {
-    List<SystemBulletin> selectListBySystemBulletin(SystemBulletin systemBulletin);
+
+    List<SystemBulletin> selectListBySystemBulletin(SystemBulletinSearchCondition condition);
 
     List<BulletinReadRecord> selectBulletinAll();
 
-
     List<SystemBulletin> queryLimitThree();
 
-
-    SystemBulletin selectBulletinByPrimaryKey(@Param("id") String id);
 }
