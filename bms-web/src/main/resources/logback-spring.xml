@@ -78,6 +78,11 @@
     <logger name="log4j.logger.java.sql.Statement" level="DEBUG" />
     <logger name="log4j.logger.java.sql.PreparedStatement" level="DEBUG" />
 
+    <!-- 禁止mongodb conneciton日志输出 -->
+    <logger name="org.mongodb.driver.cluster" level="INFO"></logger>
+    <logger name="org.mongodb.driver.connection" level="INFO"></logger>
+
+
     <logger name="org.springframework" level="INFO"/>
 
     <root level="DEBUG">
