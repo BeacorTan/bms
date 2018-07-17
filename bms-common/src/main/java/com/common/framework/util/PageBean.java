@@ -7,7 +7,9 @@ package com.common.framework.util;
  * @date 2016年09月01日
  */
 public class PageBean {
+
     private Integer pageNumber;
+
     private Integer pageSize;
 
     public Integer getPageNumber() {

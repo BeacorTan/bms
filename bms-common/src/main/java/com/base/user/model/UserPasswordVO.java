@@ -1,7 +1,7 @@
 package com.base.user.model;
 
 
-public class UpdateUserPwdVO extends UserBasic {
+public class UserPasswordVO {
 
     // 确认新密码
     private String confirmPwd;
@@ -11,6 +11,17 @@ public class UpdateUserPwdVO extends UserBasic {
 
     // 当前密码
     private String currentPwd;
+
+    // 用户表id
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getConfirmPwd() {
         return confirmPwd;

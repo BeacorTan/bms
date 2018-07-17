@@ -1,8 +1,8 @@
 package com.base.user.controller;
 
-import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
+import com.base.user.model.UserPasswordVO;
 import com.base.user.service.UserBasicService;
 import com.common.framework.constant.SystemConstant;
 import com.common.framework.util.PageBean;
@@ -93,10 +93,6 @@ public class UserController {
         return userBasicService.editUser(user);
     }
 
-    @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
-    public ResponseJson updatePwd(UpdateUserPwdVO user) {
-        return userBasicService.updatePassword(user);
-    }
 
     /**
      * 验证登录账号是否唯一
@@ -113,5 +109,22 @@ public class UserController {
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public ResponseJson deleteUsers(@RequestBody List<String> idList) {
         return userBasicService.removeUserByKeys(idList);
+    }
+
+    @RequestMapping(value = "/personalInfo", method = RequestMethod.GET)
+    public ModelAndView personalInfoView(String id, ModelMap map) {
+        map.put("user", userBasicService.selectByPrimaryKey(id));
+        map.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
+        return new ModelAndView("user/user_info",map);
+    }
+
+    @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
+    public ResponseJson editPersonalInfo(@RequestBody UserBasic userBasic) {
+        return userBasicService.editUser(userBasic);
+    }
+
+    @RequestMapping(value = "/personalInfo/updatePassword", method = RequestMethod.POST)
+    public ResponseJson updatePassword(@RequestBody UserPasswordVO user) {
+        return userBasicService.updatePassword(user);
     }
 }

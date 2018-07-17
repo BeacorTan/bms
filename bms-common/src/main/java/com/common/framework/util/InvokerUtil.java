@@ -22,10 +22,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
-/**
- * @author YH
- * @create 2017-11-17
- */
 @SuppressWarnings("ALL")
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -33,6 +29,7 @@ import java.nio.charset.Charset;
 public class InvokerUtil {
 
     private static Logger logger = LoggerFactory.getLogger(InvokerUtil.class);
+
     private static InvokerUtil invokerUtil;
     @Autowired
     private static RestTemplate restTemplateStatic;

@@ -1,6 +1,7 @@
 package com.base.user.model;
 
 import com.common.framework.base.BaseModel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -54,12 +55,15 @@ public class UserBasic extends BaseModel implements Serializable {
     @Column(name = "LAST_LOGIN_IP")
     private String lastLoginIP;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "LAST_LOGIN_DATE")
     private Date lastLoginDate;
 
+    // 昵称
     @Column(name = "NICK_NAME")
     private String nickName;
 
+    // 个性签名
     @Column(name = "SIGN")
     private String sign;
 
@@ -72,6 +76,14 @@ public class UserBasic extends BaseModel implements Serializable {
     @Column(name = "SALT", length = 64)
     private String salt;//加密密码的盐
 
+
+    public UserBasic(String id,String password) {
+        this.id = id;
+        this.password=password;
+    }
+
+    public UserBasic() {
+    }
 
     public Integer getActiveFlag() {
         return activeFlag;

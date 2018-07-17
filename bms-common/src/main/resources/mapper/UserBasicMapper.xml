@@ -17,10 +17,15 @@
 
     <resultMap id="UserVOResultMap" type="com.base.user.model.UserVO" extends="BaseResultMap">
         <result column="POSITION_NAME" property="positionName" jdbcType="VARCHAR"/>
+        <result column="LAST_LOGIN_IP" property="lastLoginIP" jdbcType="VARCHAR"/>
+        <result column="LAST_LOGIN_DATE" property="lastLoginDate" jdbcType="TIMESTAMP"/>
+        <result column="SIGN" property="sign" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-       ID, LOGIN_NAME, NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE,SEX
+       /*ID, LOGIN_NAME, NAME, SEX, MOBILE, PHONE, EMAIL, PASSWORD,CREATE_DATE, CREATE_BY,SALT,DEPT_CODE,SEX*/
+       U.ID,U.LOGIN_NAME,U.NAME,U.SEX,U.MOBILE,U.PHONE,U.EMAIL,U.PASSWORD,U.CREATE_DATE,U.CREATE_BY,
+       U.SALT,U.DEPT_CODE,U.SEX,U.EMAIL,U.DEPT_NAME,U.MOBILE,U.PHONE,U.LAST_LOGIN_IP,U.LAST_LOGIN_DATE,U.SIGN,U.POSITION_CODE
     </sql>
 
     <select id="countUserByDeptIds" parameterType="java.lang.String" resultType="int">
@@ -57,6 +62,9 @@
             U.DEPT_NAME,
             U.MOBILE,
             U.PHONE,
+            U.LAST_LOGIN_IP,
+            U.LAST_LOGIN_DATE,
+            U.SIGN,
             U.POSITION_CODE
         FROM
             T_SYS_USER U
@@ -68,9 +76,9 @@
     <select id="selectByLoginName" parameterType="string" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        From T_SYS_USER
-        where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
-        AND ACTIVE_FLAG = 1
+        From T_SYS_USER U
+        where U.LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        AND U.ACTIVE_FLAG = 1
     </select>
 
      <select id="isExitLoginName" parameterType="java.lang.String" resultType="int">
@@ -84,18 +92,18 @@
     <select id="selectListByUser" parameterType="com.base.user.model.UserBasic" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        From T_SYS_USER
+        From T_SYS_USER U.
         <trim prefix="where" prefixOverrides="and|or">
             <if test="loginName != null and loginName.length()>0">
-                and LOGIN_NAME LIKE '%${loginName}%'
+                and U.LOGIN_NAME LIKE '%${loginName}%'
             </if>
             <if test="name != null and name.length()>0">
-                and NAME LIKE '%${name}%'
+                and U.NAME LIKE '%${name}%'
             </if>
             <if test="phone != null and phone.length()>0">
-                and PHONE = #{phone}
+                and U.PHONE = #{phone}
             </if>
-            and ACTIVE_FLAG = 1
+            and U.ACTIVE_FLAG = 1
         </trim>
     </select>
 </mapper>

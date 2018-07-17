@@ -11,6 +11,7 @@ import javax.persistence.Entity;
  */
 @Entity(name = "T_SYS_FILE")
 public class SysFile extends BaseModel {
+
     /**文件相关联的对象的主键 */
     @Column(name="PARENT_ID")
     private String parentId;

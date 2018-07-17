@@ -8,6 +8,7 @@ public class SearchConditionBase {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date beginDate;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date endDate;
 

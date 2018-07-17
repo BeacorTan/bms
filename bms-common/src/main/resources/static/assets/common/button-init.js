@@ -67,6 +67,7 @@
 
     BmsButton.prototype.del = function (reqUrl) {
         var btn = this.$el;
+        var $t = this;
         var rows = btn.bootstrapTable.bootstrapTable('getSelections');
         if (!rows || rows.length == 0) {
             layer.msg("请选择要删除的数据");
@@ -96,7 +97,7 @@
                         data: JSON.stringify(ids),
                         dataType: "json",
                         success: function (res) {
-                            var msg=res["msg"];
+                            var msg = res["msg"];
                             CM_Components.layerMsg(msg);
                             if (res["success"]) {
                                 btn.bootstrapTable.bootstrapTable('refresh');
@@ -131,9 +132,18 @@
         this.bandingEvent();
     }
 
+    BmsFormButton.prototype.tableRefresh = function () {
+        var $that = this;
+        if ($that.options["bootstrapTableInit"]) {
+            $that.$el.bootstrapTable.bootstrapTable('refresh');
+        }
+    }
+
     BmsFormButton.prototype.bandingEvent = function () {
         var options = this.options;
         var $this = this.$el;
+        var $m=this;
+
         this.$el.find("a").each(function () {
             var $that = $(this);
             $that.click(function () {
@@ -152,8 +162,8 @@
                         break;
                     case "submit":
                         var dt = CommonUtils.getFormData(options["editForm"]);
-                        if(options["supplyParams"]){
-                            dt=$.extend(dt,options["supplyParams"].apply($this));
+                        if (options["supplyParams"]) {
+                            dt = $.extend(dt, options["supplyParams"].apply($this));
                         }
                         $.ajax({
                             url: CommonUtils.getContextAll($(this).attr("data-url")),
@@ -165,7 +175,7 @@
                                 layer.msg(msg);
                                 if (res["success"]) {
                                     CommonUtils.closeTab(options["tabId"]);
-                                    $this.bootstrapTable.bootstrapTable('refresh');
+                                    $m.tableRefresh();
                                 } else {
                                     console.error(msg);
                                 }
@@ -182,9 +192,10 @@
     }
 
     BmsFormButton.prototype.init = function () {
-        this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
+
         this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
         if (this.options["bootstrapTableInit"]) {
+            this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
             CM_Components.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
         }
 

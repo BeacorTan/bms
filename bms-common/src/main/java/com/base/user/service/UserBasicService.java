@@ -1,10 +1,11 @@
 package com.base.user.service;
 
 
-import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
+import com.base.user.model.UserPasswordVO;
 import com.base.user.model.UserVO;
+import com.common.framework.base.BaseService;
 import com.common.framework.util.PageBean;
 import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
@@ -17,9 +18,11 @@ import java.util.List;
  *
  * @date 2016年08月30日
  */
-public interface UserBasicService {
+public interface UserBasicService extends BaseService<UserBasic>{
 
     ResponseJson editUser(UserBasicVO user);
+
+    ResponseJson editUser(UserBasic user);
 
     /**
      * 根据用户登录名查找用户
@@ -54,5 +57,5 @@ public interface UserBasicService {
 
     ResponseJson removeUserByKeys(List<String> ids);
 
-    ResponseJson updatePassword(UpdateUserPwdVO user);
+    ResponseJson updatePassword(UserPasswordVO user);
 }

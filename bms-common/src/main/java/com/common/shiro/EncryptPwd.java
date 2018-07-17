@@ -48,9 +48,11 @@ public class EncryptPwd {
     public static void main(String[] args) {
 
         UserBasic userBasic=new UserBasic();
-        userBasic.setPassword("147258");
+        userBasic.setLoginName("000000");
+        userBasic.setPassword("123456");
         EncryptPwd.encryptPassword(userBasic);
         System.out.println(userBasic.getPassword());
+        System.out.println(userBasic.getSalt());
 
     }
 }

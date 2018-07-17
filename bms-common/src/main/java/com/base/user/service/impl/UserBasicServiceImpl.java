@@ -2,9 +2,9 @@ package com.base.user.service.impl;
 
 import com.base.user.mapper.UserBasicMapper;
 import com.base.user.mapper.UserRoleMapper;
-import com.base.user.model.UpdateUserPwdVO;
 import com.base.user.model.UserBasic;
 import com.base.user.model.UserBasicVO;
+import com.base.user.model.UserPasswordVO;
 import com.base.user.model.UserRoleMap;
 import com.base.user.model.UserVO;
 import com.base.user.service.UserBasicService;
@@ -22,6 +22,11 @@ import com.common.shiro.EncryptPwd;
 import com.common.shiro.ShiroManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,12 +42,16 @@ import static com.common.framework.util.ServiceUtil.getResponseJson;
 @Service(value = "userBasicService")
 public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements UserBasicService {
 
+
+    private Logger logger = LoggerFactory.getLogger(UserBasicServiceImpl.class);
+
     @Resource
     private UserBasicMapper userBasicMapper;
 
     @Resource
     private UserRoleMapper userRoleMapper;
 
+    @Transactional
     @Override
     public ResponseJson editUser(UserBasicVO user) {
         if (user == null) {
@@ -54,6 +63,17 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
         } else {
             this.addUser(user);
         }
+        return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
+    }
+
+    @Transactional
+    @Override
+    public ResponseJson editUser(UserBasic user) {
+        if (user == null) {
+            return ServiceUtil.getResponseJson("修改失败", SystemConstant.RESPONSE_ERROR);
+        }
+        ModelUtil.updateInit(user);
+        this.updateByPrimaryKeySelective(user);
         return ServiceUtil.getResponseJson(SystemConstant.UPDATE_SUCCESS, SystemConstant.RESPONSE_SUCCESS);
     }
 
@@ -151,11 +171,11 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
         ModelUtil.deleteInit(userRoleMap);
         this.updateActiveFlagByPrimaryKeyList(ids, user);
 
-        Map<String,Object> delMap=new HashMap<String,Object>(2);
+        Map<String, Object> delMap = new HashMap<String, Object>(2);
         delMap.put("updateBy", ShiroManager.getLoginName());
-        delMap.put("updateDate",new Date());
+        delMap.put("updateDate", new Date());
         delMap.put("activeFlag", BaseModel.ACTIVE_FLAG_NO);
-        delMap.put("ids",ids);
+        delMap.put("ids", ids);
         userRoleMapper.updateActiveFlagByUserIds(delMap);
 
         return ServiceUtil.getResponseJson("删除成功", SystemConstant.RESPONSE_SUCCESS);
@@ -163,9 +183,20 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
 
 
     @Override
-    public ResponseJson updatePassword(UpdateUserPwdVO user) {
+    public ResponseJson updatePassword(UserPasswordVO user) {
 
-        String pwd = user.getCurrentPwd();
+        UsernamePasswordToken token = new UsernamePasswordToken(ShiroManager.getLoginName(), user.getCurrentPwd(), "login");
+        //获取当前的subject
+        Subject currentUser = ShiroManager.getSubject();
+        try {
+            currentUser.login(token);
+        } catch (IncorrectCredentialsException ice) {
+            logger.error("原始密码错误IncorrectCredentialsException：{}", ice);
+            return getResponseJson("修改失败！原密码错误", SystemConstant.RESPONSE_ERROR);
+        } catch (Exception e) {
+            logger.error("原始密码错误Exception：{}", e);
+            return getResponseJson("修改失败！原密码错误", SystemConstant.RESPONSE_ERROR);
+        }
 
 
         String confirmPwd = user.getConfirmPwd();
@@ -175,10 +206,11 @@ public class UserBasicServiceImpl extends BaseServiceImpl<UserBasic> implements 
         if (StringUtils.isEmpty(confirmPwd) || StringUtils.isEmpty(newPwd) || (!newPwd.equals(confirmPwd))) {
             return getResponseJson("修改失败！新密码和确认密码不一致", SystemConstant.RESPONSE_ERROR);
         }
-        user.setPassword(newPwd);
-        EncryptPwd.encryptPassword(user);
-        ModelUtil.updateInit(user);
-        userBasicMapper.updateByPrimaryKeySelective(user);
+        UserBasic userBasic = new UserBasic(user.getUserId(),newPwd);
+        userBasic.setLoginName(ShiroManager.getLoginName());
+        ModelUtil.updateInit(userBasic);
+        EncryptPwd.encryptPassword(userBasic);
+        userBasicMapper.updateByPrimaryKeySelective(userBasic);
         return getResponseJson("密码修改成功", SystemConstant.RESPONSE_SUCCESS);
     }
 

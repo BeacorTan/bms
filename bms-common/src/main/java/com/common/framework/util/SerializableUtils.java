@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
  * @date 2017年03月29日
  */
 public class SerializableUtils {
+
     public static String serialize(Session session) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -25,6 +26,7 @@ public class SerializableUtils {
             throw new RuntimeException("serialize session error", e);
         }
     }
+
     public static Session deserialize(String sessionStr) {
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(sessionStr));

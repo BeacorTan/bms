@@ -1,0 +1,206 @@
+<style>
+    .nav-tabs.pull-right > li {
+        float: right;
+    }
+
+    .user-info-img {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        padding: 3px;
+        border: 3px solid #d2d6de;
+        border-radius: 50% !important;
+        display: block;
+        cursor: pointer;
+    }
+
+    .btn-user-img {
+        width: 255px;
+        margin: 0 auto;
+    }
+
+</style>
+<ul class="nav nav-tabs pull-right" style="width: 100%">
+
+    <li role="presentation"><a href="#home-update-password" aria-controls="profile" role="tab"
+                               data-toggle="tab">修改密码</a>
+    <li role="presentation" class="active"><a href="#home-personal-info" aria-controls="home" role="tab"
+                                              data-toggle="tab">个人信息</a></li>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home-personal-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="">
+                        <img id="user-info-img" class="user-info-img"
+                             src="/bms/assets/layouts/layout2/img/avatar2-4338e34236a3917f23cc6303001643fb.jpg"/>
+                        <h3 class="text-center" th:text="${user.name}">超级管理员</h3>
+                        <div id="user-info-sex" style="width: 255px;margin: 0px auto;" class="text-center">
+                            <label>
+                                <input type="radio" name="type" value="1" th:checked="${user.sex} == 1">
+                                男
+                            </label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="type" value="0" th:checked="${user.sex} == 0">
+                                女
+                            </label>
+                        </div>
+                        <a id="imageBase64Button" class="btn btn-default btn-block btn-user-img">修改头像</a>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <form class="form-horizontal" id="bms-user-info-edit-form">
+                        <input type="hidden" name="id" th:value="${user.id}"/>
+                        <div class="form-body">
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">账号
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="text" disabled class="form-control" name="loginName"
+                                           th:value="${user.loginName}">
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">姓名
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="name" th:value="${user.name}">
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">手机
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="mobile" th:value="${user.mobile}">
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">电话
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="phone" th:value="${user.phone}">
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">邮箱
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="email" name="email" class="form-control" th:value="${user.email}">
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">个性签名
+                                </label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" name="sign" th:text="${user.sign}">></textarea>
+                                    <div class="form-control-focus"></div>
+                                </div>
+                            </div>
+                            <div class="form-group form-md-line-input">
+                                <label class="col-md-3 control-label">上次登录
+                                </label>
+                                <div class="col-md-9">
+                                    <label class="form-control"
+                                           th:text="|时间：${user.lastLoginDate}&nbsp;&nbsp;&nbsp;&nbsp;IP：${user.lastLoginIP}|"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <footer>
+                            <div th:attr="id='bms-user-info-edit-btn'+${tabId}" class="cm-footer-style">
+                                <a data-type="submit" data-url="/user/personalInfo"
+                                   class="btn btn-sm green btn-outline sbold ">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                <a data-type="reset" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                <a data-type="close" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="home-update-password">
+        <div class="form-unit">修改密码</div>
+        <div class="container">
+            <div class="row">
+                <form class="form-horizontal" id="bms-user-password-edit-form">
+                    <input type="hidden" name="userId" th:value="${user.id}">
+                    <div class="form-body">
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label">原密码&nbsp;:
+                            </label>
+                            <div class="col-md-5">
+                                <input type="password" class="form-control" name="currentPwd">
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label">新密码&nbsp;:
+                            </label>
+                            <div class="col-md-5">
+                                <input type="password" class="form-control" name="newPwd">
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label">确认新密码&nbsp;:
+                            </label>
+                            <div class="col-md-5">
+                                <input type="password" class="form-control" name="confirmPwd">
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer>
+                        <div th:attr="id='bms-user-password-edit-btn'+${tabId}" class="cm-footer-style">
+                            <a data-type="submit" data-url="/user/personalInfo/updatePassword"
+                               class="btn btn-sm green btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            <a data-type="reset" class="btn btn-sm purple btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;清空&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            <a data-type="close" class="btn btn-sm red btn-outline sbold">&nbsp;&nbsp;&nbsp;&nbsp;关闭&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        </div>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script th:inline="javascript">
+    jQuery(document).ready(function () {
+        var tabId =/*[[${tabId}]]*/;
+        $("#bms-user-info-edit-btn" + tabId).formButtonInit({
+            "tabId": tabId,
+            "editForm": "bms-user-info-edit-form"
+        });
+        $("#bms-user-password-edit-btn" + tabId).formButtonInit({
+            "tabId": tabId,
+            "editForm": "bms-user-password-edit-form"
+        });
+
+//
+//        $("#").click();
+
+        $('#user-info-sex input').on('change', function () {
+            var val = $(this).val();
+
+            var imgSrc=$('#user-info-img').attr('src');
+            var m="/assets/global/img/user1.jpg";
+            var s="/assets/global/img/user2.jpg";
+            if(imgSrc==m || imgSrc==s){
+                var imgUrl = "/assets/global/img/user{0}.jpg".format(val);
+                $('#user-info-img').attr('src', imgUrl);
+            }
+        });
+    });
+</script>
