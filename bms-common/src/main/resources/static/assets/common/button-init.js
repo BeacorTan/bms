@@ -134,7 +134,7 @@
 
     BmsFormButton.prototype.tableRefresh = function () {
         var $that = this;
-        if ($that.options["bootstrapTableInit"]) {
+        if ($that.$el.bootstrapTable) {
             $that.$el.bootstrapTable.bootstrapTable('refresh');
         }
     }
@@ -194,8 +194,8 @@
     BmsFormButton.prototype.init = function () {
 
         this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
+        this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
         if (this.options["bootstrapTableInit"]) {
-            this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
             CM_Components.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
         }
 

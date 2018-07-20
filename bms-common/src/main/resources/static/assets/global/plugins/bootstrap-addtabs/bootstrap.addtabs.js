@@ -302,6 +302,15 @@
             );
         } else {
             $.get(opts.url, function(data) {
+                // div嵌入模式 如果返回登录页面则直接重定向到登录页面
+                if (data) {
+                    var isLogin = data.indexOf('class="login"');
+                    console.log("isLogin", isLogin);
+                    if (isLogin > 0) {
+                        window.location = CommonUtils.getContextAll("/login");
+                        return;
+                    }
+                }
                 content.append(data);
             });
         }
