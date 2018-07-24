@@ -134,11 +134,11 @@ var CommonUtils = function () {
     var updateTab = function (bootstrapTable, tabId, reqUrl, tabTitle) {
         var rows = bootstrapTable.bootstrapTable('getSelections');
         if (!rows || rows.length == 0) {
-            CM_Components.layerMsg("请选择您要编辑的数据");
+            BmsComponents.layerMsg("请选择您要编辑的数据");
             return;
         }
         if (rows.length > 1) {
-            CM_Components.layerMsg("一次只能修改一行数据");
+            BmsComponents.layerMsg("一次只能修改一行数据");
             return;
         }
         var $reqUrl = reqUrl + "?id=" + rows[0].id;

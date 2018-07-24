@@ -118,7 +118,7 @@
                     data: JSON.stringify(params),
                     dataType: "json",
                     success: function (res) {
-                        CM_Components.layerMsg(res.msg);
+                        BmsComponents.layerMsg(res.msg);
                         $("#bms-dict-table").bootstrapTable('refresh', {
                             query: CommonUtils.getFormData("bms-dict-search-form")
                         });

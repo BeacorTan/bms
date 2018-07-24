@@ -14,7 +14,7 @@
     <link th:href="@{/assets/global/css/components.min.css}" rel="stylesheet" id="style_components" type="text/css"/>
     <link th:href="@{/assets/global/css/plugins.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/assets/global/plugins/zTree/css/metroStyle/metroStyle.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/assets/global/css/cm-custom.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/global/css/bms-custom.css}" rel="stylesheet" type="text/css"/>
     <script th:src="@{/assets/global/plugins/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/assets/global/plugins/layer/layer.js}" type="text/javascript"></script>
 </head>
@@ -46,7 +46,7 @@
 
 <input id="parentWinId" type="hidden" th:value="${id}">
 
-<script th:src="@{/assets/global/scripts/cm-components.js}" type="text/javascript"></script>
+<script th:src="@{/assets/global/scripts/bms-components.js}" type="text/javascript"></script>
 <script th:src="@{/assets/global/scripts/common-utils.js}" type="text/javascript"></script>
 <script th:src="@{/assets/global/plugins/zTree/js/jquery.ztree.all.js}" type="text/javascript"></script>
 <script th:src="@{/assets/global/plugins/zTree/js/jquery.ztree.exhide.js}" type="text/javascript"></script>
@@ -67,7 +67,7 @@
                 $data = res;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                CM_Components.layerMsg("获取部门数据出错,系统错误!!!")
+                BmsComponents.layerMsg("获取部门数据出错,系统错误!!!")
             }
         });
 

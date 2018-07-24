@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="logPath" value="/data/cmmg_logs/"/>
-    <property name="serverName" value="cmmg"/>
+    <property name="logPath" value="/data/bms_logs/"/>
+    <property name="serverName" value="bms"/>
     <contextName>${logPath}</contextName>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

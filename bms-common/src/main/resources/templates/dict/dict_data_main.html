@@ -115,7 +115,7 @@
                     contentType: "application/json",
                     data: JSON.stringify([id]),
                     success: function (result) {
-                        CM_Components.layerMsg("删除成功！");
+                        BmsComponents.layerMsg("删除成功！");
                         $("#bms-dictData-table").bootstrapTable('refresh', {
                             query: CommonUtils.getFormData("bms-dictData-search-form")
                         });

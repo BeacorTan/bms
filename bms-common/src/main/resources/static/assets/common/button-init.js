@@ -98,7 +98,7 @@
                         dataType: "json",
                         success: function (res) {
                             var msg = res["msg"];
-                            CM_Components.layerMsg(msg);
+                            BmsComponents.layerMsg(msg);
                             if (res["success"]) {
                                 btn.bootstrapTable.bootstrapTable('refresh');
                             } else {
@@ -106,7 +106,7 @@
                             }
                         },
                         error: function (response) {
-                            CM_Components.layerMsg(response);
+                            BmsComponents.layerMsg(response);
                         }
                     });
                 }
@@ -196,7 +196,7 @@
         this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
         this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
         if (this.options["bootstrapTableInit"]) {
-            CM_Components.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
+            BmsComponents.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
         }
 
     }

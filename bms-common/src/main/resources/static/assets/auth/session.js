@@ -23,7 +23,7 @@ var CM_Session = function () {
      * 会话主页面初始化用户表格数据
      */
     var initTable=function () {
-        CM_Components.initBootStrapTable($sessionTable,tableAjaxUrl,sessionTableColum);
+        BmsComponents.initBootStrapTable($sessionTable,tableAjaxUrl,sessionTableColum);
     }
 
 

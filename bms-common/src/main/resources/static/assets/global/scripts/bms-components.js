@@ -1,10 +1,12 @@
-// 数据字典
-var CMMG_DICT = {};
+
 
 /**
  * 一些插件的封装和共用方法
  */
-var CM_Components = function () {
+var BmsComponents = function () {
+
+    // 数据字典
+    var DICT = {};
 
     // 字典数据绑定【下拉列表】
     function dictDataBinding(selectIds) {
@@ -12,7 +14,7 @@ var CM_Components = function () {
         function bandingById(id) {
             var sel = $("#" + id);
             var selCode = sel.attr("code");
-            var dict = CMMG_DICT[selCode];
+            var dict = DICT[selCode];
             sel.append("<option value=''>全部</option>");
             if (dict) {
                 for (var i = 0; i < dict.length; i++) {
@@ -28,13 +30,13 @@ var CM_Components = function () {
                     data: JSON.stringify(params),
                     success: function (result) {
                         dict = result;
-                        CMMG_DICT[selCode] = result;
+                        DICT[selCode] = result;
                         for (var i = 0; i < dict.length; i++) {
                             sel.append("<option value='" + dict[i].code + "'>" + dict[i].name + "</option>");
                         }
                     },
                     error: function (xhr, status, error) {
-                        CM_Components.layerMsg("查询失败！");
+                        BmsComponents.layerMsg("查询失败！");
                     }
                 });
             }
@@ -56,7 +58,7 @@ var CM_Components = function () {
 
     // 数据字典查询
     function dictByKey(code, key) {
-        var dict = CMMG_DICT[code];
+        var dict = DICT[code];
         if (dict) {
             for (var i = 0; i < dict.length; i++) {
                 if (dict[i].code === key) {
@@ -73,10 +75,10 @@ var CM_Components = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(params),
                 success: function (result) {
-                    CMMG_DICT[code] = result;
+                    DICT[code] = result;
                 },
                 error: function (xhr, status, error) {
-                    CM_Components.layerMsg("查询失败！");
+                    BmsComponents.layerMsg("查询失败！");
                 }
             });
             return dictByKey(code, key);
@@ -85,7 +87,7 @@ var CM_Components = function () {
     }
 
     function dictByCode(code) {
-        var dict = CMMG_DICT[code];
+        var dict = DICT[code];
         if (dict) {
             return dict;
         } else {
@@ -97,24 +99,17 @@ var CM_Components = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(params),
                 success: function (result) {
-                    CMMG_DICT[code] = result;
+                    DICT[code] = result;
                     dict = result;
                 },
                 error: function (xhr, status, error) {
-                    CM_Components.layerMsg("查询失败！");
+                    BmsComponents.layerMsg("查询失败！");
                 }
             });
         }
         return dict;
     }
 
-
-    var getContextPath = function () {
-        var pathName = document.location.pathname;
-        var index = pathName.substr(1).indexOf("/");
-        var result = pathName.substr(0, index + 1);
-        return result;
-    }
     /**
      * ajax方式获取整个页面的代码
      * @param ajaxUrl
@@ -364,8 +359,8 @@ var CM_Components = function () {
                     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                     parent.layer.close(index);
                     var pTable = parent.$("#" + pTableId);
-                    CM_Components.refreshTable(pTable);//刷新表格
-                    (parent.CM_Components).bootstrapSweetAlert("", responseJson.msg, "success");
+                    BmsComponents.refreshTable(pTable);//刷新表格
+                    (parent.BmsComponents).bootstrapSweetAlert("", responseJson.msg, "success");
                 }
                 if (responseJson.success == false) {//返回false
                     bootstrapSweetAlert("", responseJson.msg, "error");
@@ -385,57 +380,6 @@ var CM_Components = function () {
         });
     }
 
-    var ajaxDeleteTable = function (ajaxUrl, table) {
-        var rows = CM_Components.getTableSelections(table);
-        if (!rows || rows.length == 0) {
-            CM_Components.bootstrapSweetAlert("", "请选择要删除的数据", "error");
-            return;
-        }
-        swal({
-                title: "确定删除?",
-                text: "",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                closeOnConfirm: true,
-                closeOnCancel: false
-            },
-            function (isConfirm) {
-                if (isConfirm) {
-                    var idDataArray = [];
-                    $.each(rows, function (i, obj) {
-                        idDataArray.push(obj.id);
-                    });
-                    ajaxDelete(ajaxUrl, idDataArray, table);
-                } else {
-                    swal("", "已经取消了当前操作", "error");
-                }
-            });
-    }
-
-    var ajaxDelete = function (ajaxUrl, idDataArray, table) {
-        $.ajax({
-            type: 'DELETE',
-            url: ajaxUrl,
-            contentType: "application/json",//加入contentType,后端需要用requestBody接受参数,此时的参数不在request里面了
-            data: JSON.stringify(idDataArray),
-            dataType: "json",
-            success: function (responseJson) {
-                if (responseJson.success == true) {
-                    table.bootstrapTable('refresh');
-                    CM_Components.layerMsg(responseJson.msg);
-                    //CM_Components.bootstrapSweetAlert("", responseJson.msg, "success");
-                } else {
-                    CM_Components.bootstrapSweetAlert("", responseJson.msg, "error");
-                }
-            },
-            error: function (response) {
-                CM_Components.bootstrapSweetAlert("", "系统错误,请联系管理员!!", "error");
-            }
-        });
-    }
 
 
 
@@ -489,12 +433,6 @@ var CM_Components = function () {
         },
         ajaxFormSumbitTable: function (ajaxUrl, formId, pTableId) {
             ajaxFormSumbitTable(ajaxUrl, formId, pTableId);
-        },
-        ajaxDeleteTable: function (ajaxUrl, table) {
-            ajaxDeleteTable(ajaxUrl, table);
-        },
-        getContextPath: function () {
-            return getContextPath();
         },
         getPageData: function (ajaxUrl, data, targetClass) {
             getPageData(ajaxUrl, data, targetClass);

@@ -1,4 +1,4 @@
-<table id="cmmg_system_bulletin_table" data-classes="table table-no-bordered">
+<table id="bms_system_bulletin_table" data-classes="table table-no-bordered">
     <thead>
     <tr>
         <th data-id-field="id" data-visible="false">id</th>
@@ -34,7 +34,7 @@
         CommonUtils.addTab(id, "公告详情", CommonUtils.getContextAll("/bulletin/bulletinDetail?bulletinId=" + id));
     }
 
-    $("#cmmg_system_bulletin_table").bootstrapTable({
+    $("#bms_system_bulletin_table").bootstrapTable({
         method: 'get',
         url: CommonUtils.getContextAll("/bulletin/queryReadList"),
         cache: false,

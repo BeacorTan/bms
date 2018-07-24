@@ -20,9 +20,10 @@ var BmsFunction = function () {
                 icon.addClass("bms-function-icon-hover");
                 var className = icon.find("i").attr("class");
                 iconClick(className);
-                var changeIcon = $("#cmmg_function_icon_ul").find("[isChange=true]");
+                var changeIcon = icon.parent().find("[isChange=true]");
+                console.log(changeIcon);
                 if (changeIcon) {
-                    icon.attr("isChange", "false");
+                    changeIcon.attr("isChange", "false");
                     changeIcon.removeClass("bms-function-icon-hover");
                 }
                 icon.attr("isChange", "true");

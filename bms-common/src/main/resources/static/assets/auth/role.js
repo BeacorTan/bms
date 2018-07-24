@@ -34,7 +34,7 @@ var BmsRole = function () {
                     $.fn.zTree.init($("#"+r["treeId"]), setting, res);
                 },
                 error: function (errorMsg) {
-                    CM_Components.layerMsg(errorMsg);
+                    BmsComponents.layerMsg(errorMsg);
                 }
             });
         });

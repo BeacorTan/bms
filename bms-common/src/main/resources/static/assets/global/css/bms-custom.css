@@ -1,0 +1,136 @@
+.input-group-search {
+    background-color: white;
+    font-weight: bold;
+}
+
+.input-group-search > i {
+    font-weight: bold !important;
+    color: black !important;
+}
+
+.input-group-search:hover {
+    background-color: #e7eaea;
+}
+.form-icon i{
+    margin: 0px 5px;
+    font-weight: bold;
+    color: #3a485;
+}
+
+.home-affair, .home-affair tr {
+    width: 100%;
+}
+
+.home-affair tr > td {
+    width: 50%;
+    padding: 5px;
+    color: #82949a;
+}
+
+.home-affair tr {
+    border-bottom: 1px solid #e7ecf1;
+    height: 45px;
+}
+
+.home-affair tr > td a {
+    margin-left: 15px;
+}
+
+.form-unit {
+    font-size: 15px;
+    font-style: oblique;
+    color: #6379bb;
+    border-bottom: 1px solid #ddd;
+    margin: 8px 10px 25px 10px;
+    padding-bottom: 5px;
+}
+
+.table td > .row-btn:hover {
+    /*元素放大*/
+    transform: scale(1.3, 1.3);
+}
+
+.table a {
+    font-size: 15px;
+    margin: 2px 8px 2px 6px;
+    display: block;
+    float: left;
+}
+
+.table a > .fa-pencil {
+    color: #69aa46;
+}
+
+.form-buttons {
+    padding-bottom: 15px;
+    padding-bop: 5px;
+}
+
+.table a > .fa-trash-o {
+    color: #dd5a43;
+}
+
+.sweet-alert {
+    border-radius: 6px !important;
+}
+
+/*bootstrap-input样式优化开始*/
+.file-drop-zone {
+    border: 1px dashed #36C6D3;
+}
+
+.file-preview {
+    border: 1px solid #eee;
+}
+
+.kv-fileinput-caption {
+    border: 1px solid #eee;
+}
+
+.file-caption-name {
+    color: #32c5d2;
+}
+
+
+.cm-footer-style {
+    right: 70px;
+    bottom: 20px;
+    position: fixed;
+}
+
+.todo-sidebar {
+    float: left;
+    width: 230px;
+    margin-right: 20px;
+}
+
+.todo-content {
+    overflow: hidden;
+}
+
+.todo-text-color {
+    color: #45535b;
+}
+
+/* END TASK BODY */
+/* RESPONSIVE MODE */
+@media (max-width: 991px) {
+    /* 991px */
+    .todo-sidebar {
+        float: none;
+        width: 100%;
+        margin: 0;
+    }
+
+    .todo-sidebar > .portlet {
+        margin-bottom: 20px;
+    }
+
+    .todo-sidebar > .portlet .portlet-title .tools {
+        margin-left: 5px;
+    }
+
+    .todo-content {
+        overflow: visible;
+    }
+}

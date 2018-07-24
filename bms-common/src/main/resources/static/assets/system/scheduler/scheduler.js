@@ -15,7 +15,7 @@ var BmsScheduler = function () {
         //绑定停止定时器事件---------可以和下面的时间绑定合成一个,后续优化
         opt["startBtn"].on("click",function (e) {
 
-            var rows =  CM_Components.getTableSelections($schedulerTable);
+            var rows =  BmsComponents.getTableSelections($schedulerTable);
 
             if(rows.length==0){
                 layer.msg("请选择要操作的定时任务");
@@ -49,7 +49,7 @@ var BmsScheduler = function () {
                 success:function(res){
                     layer.msg(res.msg);
                     if(res.success==true){
-                        CM_Components.refreshTable($schedulerTable);
+                        BmsComponents.refreshTable($schedulerTable);
                     }
                 },
                 error:function (XMLHttpRequest, textStatus) {
