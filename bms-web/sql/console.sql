@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 101.132.33.136
+Source Server         : mysql-me
 Source Server Version : 50633
 Source Host           : 101.132.33.136:3306
 Source Database       : console
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50633
 File Encoding         : 65001
 
-Date: 2018-07-15 09:32:07
+Date: 2018-07-26 17:01:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -81,8 +81,6 @@ CREATE TABLE `t_sys_config` (
 -- ----------------------------
 -- Records of t_sys_config
 -- ----------------------------
-INSERT INTO `t_sys_config` VALUES ('5BAB575BFE1041948E4E5B6216112AD6', 'test1', '测试1', '测试1', '测试1', '000000', '2018-07-12 14:17:54', '000000', '2018-07-12 14:17:54', '1');
-INSERT INTO `t_sys_config` VALUES ('814B855E2CD44BA9BF3F06D75DD5EE9C', 'test2', '测试2', '测试2', '测试2', '000000', '2018-07-12 14:18:06', '000000', '2018-07-12 14:18:07', '1');
 
 -- ----------------------------
 -- Table structure for t_sys_data_dictionary
@@ -105,7 +103,8 @@ CREATE TABLE `t_sys_data_dictionary` (
 -- ----------------------------
 -- Records of t_sys_data_dictionary
 -- ----------------------------
-INSERT INTO `t_sys_data_dictionary` VALUES ('F2E75CBD25B74738BB1496E23A40E7BC', '1', '1-1', '1-1', '1', '000000', '2018-07-12 17:25:38', '000000', '2018-07-12 17:25:38.888000', '1');
+INSERT INTO `t_sys_data_dictionary` VALUES ('031DC73DA7E84D948CF26BDAA2417720', '1', '111', '11', '11111', '000000', '2018-07-26 16:36:30', '000000', '2018-07-26 16:47:18.719000', '1');
+INSERT INTO `t_sys_data_dictionary` VALUES ('F2E75CBD25B74738BB1496E23A40E7BC', '1', '1-1', '1-1', '222', '000000', '2018-07-12 17:25:38', '000000', '2018-07-26 16:47:10.895000', '1');
 
 -- ----------------------------
 -- Table structure for t_sys_dept
@@ -263,6 +262,9 @@ CREATE TABLE `t_sys_position` (
 -- ----------------------------
 -- Records of t_sys_position
 -- ----------------------------
+INSERT INTO `t_sys_position` VALUES ('4F1E98D1C2B7414983F924E760F608D7', 'POST1532425835867', 'qweqe', 'qeqe', '000000', '2018-07-24 17:50:36', '000000', '2018-07-24 17:50:36', '1');
+INSERT INTO `t_sys_position` VALUES ('9E6282F45D764F47893982DEE5BEA83B', 'POST1532588696237', '123123', '123132', '000000', '2018-07-26 15:04:56', '000000', '2018-07-26 15:04:56', '1');
+INSERT INTO `t_sys_position` VALUES ('B723A8DAE8834B50973792FAC13CB41B', 'POST1532423973804', null, null, '000000', '2018-07-24 17:19:34', '000000', '2018-07-24 17:19:34', '1');
 INSERT INTO `t_sys_position` VALUES ('BEB221ADE98C414EBF19E32AEE97DB49', 'POST1527042566471', '经理', '', '000000', '2018-05-23 10:29:26', '000000', '2018-05-23 10:29:26', '1');
 INSERT INTO `t_sys_position` VALUES ('D2FFD424C5FB419EB4E4E35996857936', 'POST1527042559767', '总经理', '', '000000', '2018-05-23 10:29:20', '000000', '2018-05-23 10:29:20', '1');
 
@@ -363,6 +365,7 @@ CREATE TABLE `t_sys_scheduler` (
   `JOB_NAME` varchar(100) DEFAULT NULL COMMENT '任务名称',
   `JOB_CLASS` varchar(100) DEFAULT NULL COMMENT '全额类名',
   `CRON` varchar(100) DEFAULT NULL COMMENT 'cron 表达式',
+  `URL` varchar(255) DEFAULT NULL COMMENT '手动触发url',
   `IS_START` tinyint(1) DEFAULT NULL COMMENT '启动状态 1：启动 0：停止',
   `NOTES` varchar(100) DEFAULT NULL COMMENT '描述',
   `JOB_PARAMS` varchar(1000) DEFAULT NULL COMMENT '任务参数',
@@ -377,7 +380,7 @@ CREATE TABLE `t_sys_scheduler` (
 -- ----------------------------
 -- Records of t_sys_scheduler
 -- ----------------------------
-INSERT INTO `t_sys_scheduler` VALUES ('F2B7AE6EA91944B1913B6EE0F0303D0D', '测试', 'com.common.quartz.jobs.SchedulerTest', '0/10 * * * * ?', '0', null, null, null, '2018-07-13 17:49:46', null, '2018-07-13 14:43:34', '1');
+INSERT INTO `t_sys_scheduler` VALUES ('F2B7AE6EA91944B1913B6EE0F0303D0D', '测试', 'com.common.quartz.jobs.SchedulerTest', '0/10 * * * * ?', null, '0', null, null, null, '2018-07-13 17:49:46', null, '2018-07-13 14:43:34', '1');
 
 -- ----------------------------
 -- Table structure for t_sys_session
@@ -438,7 +441,7 @@ CREATE TABLE `t_sys_user` (
 -- ----------------------------
 -- Records of t_sys_user
 -- ----------------------------
-INSERT INTO `t_sys_user` VALUES ('00000', '000000', '超级管理员', '1', '158212356651', '15821235665', '2429516553@qq.com', 'cc0de7ced8358f24d545a68ca1485d10', '1', '上海公司', 'b80a86ef4c1462a44a47e5701b3afbdd', null, 'POST1527042559767', null, '2018-07-12 11:08:02', null, null, null, null, null, '2018-07-12 11:08:02', '000000', '2018-07-12 11:07:03', '1');
+INSERT INTO `t_sys_user` VALUES ('00000', '000000', '超级管理员', '1', '15821235665', '15821235665', '2429516553@qq.com', 'fe5b1066ddf4f9c4f0f9d17afdf7b25a', '1', '上海公司', 'b230735497f16f70d209cc3666463e30', null, 'POST1527042559767', '11111', '2018-07-12 11:08:02', null, null, '22222', null, null, '2018-07-12 11:08:02', '000000', '2018-07-17 13:37:34', '1');
 
 -- ----------------------------
 -- Table structure for t_sys_user_role
