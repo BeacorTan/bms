@@ -53,7 +53,7 @@ public class ExcelUtil {
     }
 
 
-    public  static <V> List<V> importDataFromExcel(Class<V> cls, MultipartFile file) throws IOException, IllegalAccessException, InstantiationException {
+    public static <V> List<V> importDataFromExcel(Class<V> cls, MultipartFile file) throws IOException, IllegalAccessException, InstantiationException {
         List<V> list = new ArrayList<V>(1000);
         InputStream is = file.getInputStream();
         String excelFileName = file.getOriginalFilename();
@@ -122,6 +122,7 @@ public class ExcelUtil {
      */
     public static List<Object> importDataFromExcel(Object vo, InputStream is, String excelFileName) {
         List<Object> list = new ArrayList<Object>(1000);
+        boolean isString = vo instanceof String;
         try {
             //创建工作簿
             Workbook workbook = createWorkbook(is, excelFileName);
@@ -142,6 +143,16 @@ public class ExcelUtil {
             for (int i = 1; i < rows; i++) {//第一行为标题栏，从第二行开始取数据
                 row = sheet.getRow(i);
                 index = 0;
+                if (isString) {
+                    cell = row.getCell(index);
+                    cell.setCellType(CellType.STRING);
+                    value = null == cell.getStringCellValue() ? "" : cell.getStringCellValue();
+                    vo = value;
+                    if (isHasValues(vo)) {
+                        list.add(vo);
+                    }
+                    continue;
+                }
                 while (index < cells) {
                     cell = row.getCell(index);
                     if (null == cell) {
@@ -149,7 +160,6 @@ public class ExcelUtil {
                     }
                     cell.setCellType(CellType.STRING);
                     value = null == cell.getStringCellValue() ? "" : cell.getStringCellValue();
-
                     field = fields[index];
                     fieldName = field.getName();
                     methodName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
@@ -243,7 +253,7 @@ public class ExcelUtil {
         HSSFCell cell = null;
         int headerSeize = headers.size();
         Iterator<String> h = headers.values().iterator();
-        headers.values();
+        //headers.values();
         HSSFRichTextString text;
         for (int i = 0; i < headerSeize; i++) {
             cell = row.createCell(i);

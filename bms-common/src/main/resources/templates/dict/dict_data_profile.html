@@ -2,7 +2,7 @@
     <div class="form-unit">基本信息</div>
     <form id="bms-dictData-edit-form" class="form-horizontal">
         <input type="hidden" name="id" th:if="${dictVO}!=null" th:value="${dictVO}==null?'':${dictVO.id}"/>
-        <input type="hidden" name="dictCode" th:if="${dictCode}!=null" th:value="${dictCode}"/>
+        <input type="hidden" name="dictCode" th:value="${dictCode}"/>
         <div class="form-body">
             <div class="row">
                 <div class="col-md-6">

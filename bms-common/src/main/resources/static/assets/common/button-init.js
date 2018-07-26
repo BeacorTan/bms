@@ -139,10 +139,44 @@
         }
     }
 
+    BmsFormButton.prototype.init = function () {
+
+        this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
+        this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
+        if (this.options["bootstrapTableInit"]) {
+            BmsComponents.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
+        }
+        // 表单校验
+        this["requiredList"] = [];
+        var obj;
+        var $requiredList = $("#" + this.options["searchForm"]).find("[required]");
+        if (!$requiredList || $requiredList.length == 0) {
+            return;
+        }
+        var t, parentDiv;
+
+
+        for (var i = 0; i < $requiredList.length; i++) {
+            obj = Object.create({});
+            t = $($requiredList[i]);
+            t.focus(function () {
+                var $item = $(this);
+                $item.removeClass("input-required-waring");
+                $("#" + $item.attr("name") + "-error").remove();
+            });
+            // 表单
+            obj["item"] = t;
+            // 表单 父 div
+            parentDiv = t.parent("div");
+            obj["parentDiv"] = parentDiv;
+            this["requiredList"].push(obj);
+        }
+    }
+
     BmsFormButton.prototype.bandingEvent = function () {
         var options = this.options;
         var $this = this.$el;
-        var $m=this;
+        var $m = this;
 
         this.$el.find("a").each(function () {
             var $that = $(this);
@@ -161,6 +195,28 @@
                         CommonUtils.closeTab(options["tabId"]);
                         break;
                     case "submit":
+
+                        var $requiredList = $m["requiredList"];
+                        var $item, flag;
+                        for (var i = 0; i < $requiredList.length; i++) {
+                            $item = $requiredList[i]["item"];
+                            if (!$item.val()) {
+                                var waringId = $item.attr("name") + "-error";
+                                var $waring = $("#"+waringId);
+                                if ($waring.length > 0) {
+                                    return;
+                                }
+                                $waring = $("<label class=\"has-error\" >必填信息</label>");
+                                $waring.attr("id", waringId);
+                                $item.addClass("input-required-waring");
+                                $item.after($waring);
+                                flag = true;
+                            }
+                        }
+                        if (flag) {
+                            return;
+                        }
+
                         var dt = CommonUtils.getFormData(options["editForm"]);
                         if (options["supplyParams"]) {
                             dt = $.extend(dt, options["supplyParams"].apply($this));
@@ -188,16 +244,6 @@
                 }
             });
         });
-
-    }
-
-    BmsFormButton.prototype.init = function () {
-
-        this.options["searchForm"] = this.options["searchForm"] || this.options["editForm"];
-        this.$el.bootstrapTable = $("#" + this.options["bootstrapTable"]);
-        if (this.options["bootstrapTableInit"]) {
-            BmsComponents.initBootStrapTable(this.$el.bootstrapTable, CommonUtils.getContextAll(this.options["searchUrl"]));
-        }
 
     }
 

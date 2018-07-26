@@ -281,7 +281,7 @@
                 if($selectContainerList){
                     $selectContainerList.remove();
                 }
-                console.log("document.click");
+                //console.log("document.click");
                 e.stopPropagation();//阻止事件冒泡
             });
         }

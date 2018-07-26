@@ -44,6 +44,21 @@ public class SystemScheduler extends BaseModel {
     @Column(name = "NOTES")
     private String notes;
 
+
+    /**
+     * 手动触发路径
+     */
+    @Column(name = "URL")
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getJobName() {
         return jobName;
     }

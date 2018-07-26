@@ -15,7 +15,7 @@ import java.util.Map;
 @Component
 public abstract class AbstractMongodbBaseRepositoryImpl<T> implements MongodbBaseRepository<T> {
 
-	@Autowired
+//	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	public MongoTemplate getMongoTemplate() {

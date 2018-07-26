@@ -33,7 +33,11 @@ public class ShiroManager {
      * @return
      */
     public static String getLoginName(){
-        return ((UserBasic)getSubject().getPrincipal()).getLoginName();
+    	UserBasic userInfo = getUserInfo();
+    	if(null != userInfo) {
+    		return userInfo.getLoginName();
+    	}
+        return null;
     }
 
     /**

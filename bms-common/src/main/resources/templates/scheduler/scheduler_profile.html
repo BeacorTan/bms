@@ -1,6 +1,7 @@
 <div class="portlet-body form">
     <form id="bms-scheduler-edit-form" class="form-horizontal">
         <input type="hidden" name="id" th:value="${schedulerInfo==null?'':schedulerInfo.id}">
+        <input type="hidden" name="start" th:value="${schedulerInfo==null?'':schedulerInfo.start}">
         <div class="form-body">
 
             <div class="row">
@@ -19,7 +20,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">类名&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" th:value="${schedulerInfo==null?'':schedulerInfo.jobClass}"  name="jobClass" placeholder="">
+                            <input type="text" class="form-control" th:value="${schedulerInfo==null?'':schedulerInfo.jobClass}"  name="jobClass" >
                         </div>
                     </div>
                 </div>
@@ -30,17 +31,29 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">cron表达式&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control"  th:value="${schedulerInfo==null?'':schedulerInfo.cron}"  name="cron" placeholder="">
+                            <input type="text" class="form-control"  th:value="${schedulerInfo==null?'':schedulerInfo.cron}"  name="cron" >
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" title="手动调用url">URL&nbsp;:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"  th:value="${schedulerInfo==null?'':schedulerInfo.url}"  name="url" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label class="control-label col-md-4">描述&nbsp;:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control"th:value="${schedulerInfo==null?'':schedulerInfo.notes}"  name="notes" placeholder="">
+                            <input type="text" class="form-control"th:value="${schedulerInfo==null?'':schedulerInfo.notes}"  name="notes" >
                         </div>
                     </div>
                 </div>

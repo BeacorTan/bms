@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,10 +46,15 @@ public class DictDataController {
     /**
      * @return
      */
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView profile(String id, String dictCode, ModelMap modelMap) {
+    @RequestMapping(value = "/profile/{dictCode}", method = RequestMethod.GET)
+    public ModelAndView profile(String id, @PathVariable("dictCode") String dictCode, ModelMap modelMap) {
         if (StringUtils.isNotBlank(id) && !id.startsWith(SystemConstant.ADD_VIEW_TAB_ID_PREFIX)) {
             modelMap.put("dictVO", dictDataService.selectById(id));
+        }
+        if ("2".equals(dictCode)) {
+            modelMap.put("dictCode", "");
+        }else{
+            modelMap.put("dictCode", dictCode);
         }
         modelMap.put(SystemConstant.PROFILE_TAB_ID_ATTRIBUTE_NAME, id);
         return new ModelAndView("dict/dict_data_profile", modelMap);

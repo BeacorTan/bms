@@ -9,6 +9,7 @@
         <result column="JOB_CLASS" property="jobClass" jdbcType="VARCHAR"/>
         <result column="CRON" property="cron" jdbcType="VARCHAR"/>
         <result column="IS_START" property="start" jdbcType="INTEGER"/>
+        <result column="URL" property="url" jdbcType="VARCHAR"/>
         <result column="JOB_PARAMS" property="jobParams" jdbcType="CHAR"/>
         <result column="NOTES" property="notes" jdbcType="VARCHAR"/>
     </resultMap>
@@ -16,14 +17,15 @@
 
     <select id="selectByCondition" resultMap="SystemSchedulerResultMap">
         SELECT
-        ID ,
-        JOB_NAME,
-        JOB_CLASS,
-        IS_START,
-        CREATE_DATE,
-        CRON ,
-        UPDATE_DATE,
-        NOTES
+        S.ID ,
+        S.JOB_NAME,
+        S.JOB_CLASS,
+        S.IS_START,
+        S.CREATE_DATE,
+        S.CRON,
+        S.URL,
+        S.UPDATE_DATE,
+        S.NOTES
         FROM T_SYS_SCHEDULER S
         <trim prefix="where" prefixOverrides="and">
             <if test="jobName!=null and jobName!=''">

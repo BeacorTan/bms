@@ -92,7 +92,7 @@
     <select id="selectListByUser" parameterType="com.base.user.model.UserBasic" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        From T_SYS_USER U.
+        From T_SYS_USER U
         <trim prefix="where" prefixOverrides="and|or">
             <if test="loginName != null and loginName.length()>0">
                 and U.LOGIN_NAME LIKE '%${loginName}%'

@@ -2,17 +2,9 @@ package com.task.service.impl;
 
 import com.base.role.model.RoleData;
 import com.base.role.service.RoleDataService;
-import com.base.util.AuthManager;
-import com.common.framework.constant.SystemConstant;
-import com.task.mapper.TaskDistributionMapper;
-import com.task.model.ImportTask;
-import com.task.model.TaskCustomer;
-import com.task.model.TaskDistributionRecordVO;
-import com.task.model.TaskDistributionVO;
-import com.task.model.TaskSearchConditionVO;
-import com.task.service.ITaskDistributionService;
 import com.common.framework.base.BaseMapper;
 import com.common.framework.base.BaseServiceImpl;
+import com.common.framework.constant.SystemConstant;
 import com.common.framework.excel.ExcelUtil;
 import com.common.framework.util.BeanUtil;
 import com.common.framework.util.PageBean;
@@ -20,6 +12,13 @@ import com.common.framework.util.PagedResult;
 import com.common.framework.util.ResponseJson;
 import com.common.framework.util.ServiceUtil;
 import com.common.shiro.ShiroManager;
+import com.task.mapper.TaskDistributionMapper;
+import com.task.model.ImportTask;
+import com.task.model.TaskCustomer;
+import com.task.model.TaskDistributionRecordVO;
+import com.task.model.TaskDistributionVO;
+import com.task.model.TaskSearchConditionVO;
+import com.task.service.ITaskDistributionService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -46,9 +45,6 @@ public class TaskDistributionServiceImpl extends BaseServiceImpl<TaskDistributio
 
     @Resource
     private RoleDataService roleDataService;
-
-    @Autowired
-    private AuthManager authManager;
 
     @Override
     public ResponseJson distribute(MultipartFile file, String taskID) {
@@ -121,15 +117,6 @@ public class TaskDistributionServiceImpl extends BaseServiceImpl<TaskDistributio
         String loginName = ShiroManager.getLoginName();
         List<RoleData> roleDataList = roleDataService.selectByLoginName(loginName);
 
-        try {
-            authManager.setAuth(taskSearchConditionVO);
-        } catch (NoSuchFieldException e) {
-            LOGGER.error("TaskDistributionServiceImpl.queryUser() NoSuchFieldException授权失败：{}", e);
-            return null;
-        } catch (IllegalAccessException e) {
-            LOGGER.error("TaskDistributionServiceImpl.queryUser() IllegalAccessException授权失败：{}", e);
-            return null;
-        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String beginDate = taskSearchConditionVO.getBeginDate();
 
@@ -162,15 +149,6 @@ public class TaskDistributionServiceImpl extends BaseServiceImpl<TaskDistributio
 
     @Override
     public int countTask(TaskSearchConditionVO taskSearchConditionVO) {
-        try {
-            authManager.setAuth(taskSearchConditionVO);
-        } catch (NoSuchFieldException e) {
-            LOGGER.error("TaskDistributionServiceImpl.countTask() NoSuchFieldException授权失败：{}", e);
-            return 0;
-        } catch (IllegalAccessException e) {
-            LOGGER.error("TaskDistributionServiceImpl.countTask() IllegalAccessException授权失败：{}", e);
-            return 0;
-        }
         return taskDistributionMapper.countTask(taskSearchConditionVO);
     }
 

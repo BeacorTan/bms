@@ -1,3 +1,30 @@
+.input-required-waring {
+    border: 1px solid red;
+}
+label.has-error{
+    position: absolute;
+    background: #ff6969;
+    z-index: 1000;
+    border-radius: 5px !important;
+    box-shadow: 0 5px 10px #dedede;
+    padding: 0 5px 1px;
+    font-size: 11px;
+    top: 25px;
+    left: 20px;
+    color: white;
+}
+
+label.has-error:after {
+    border-color: rgba(0,0,0,0) rgba(0,0,0,0) #ff6969;
+    border-style: solid;
+    border-width: 6px;
+    content: "";
+    height: 0;
+    left: 15px;
+    position: absolute;
+    top: -11px;
+}
+
 .input-group-search {
     background-color: white;
     font-weight: bold;

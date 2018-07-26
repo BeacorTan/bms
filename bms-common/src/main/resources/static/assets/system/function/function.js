@@ -21,7 +21,6 @@ var BmsFunction = function () {
                 var className = icon.find("i").attr("class");
                 iconClick(className);
                 var changeIcon = icon.parent().find("[isChange=true]");
-                console.log(changeIcon);
                 if (changeIcon) {
                     changeIcon.attr("isChange", "false");
                     changeIcon.removeClass("bms-function-icon-hover");

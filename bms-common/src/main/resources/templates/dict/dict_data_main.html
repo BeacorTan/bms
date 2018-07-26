@@ -1,12 +1,12 @@
 <div class="container" style="width: 100%;">
     <div id="bms-dictData-btn" class="row">
         <div class="col-md-1 col-xs-2">
-            <button data-url="/dictData/profile" data-type="add" type="button" class="btn btn-success btn-sm"><i
+            <button th:attr="data-url='/dictData/profile/'+${code}" data-type="add" type="button" class="btn btn-success btn-sm"><i
                     class="fa fa-plus"></i>&nbsp;新增
             </button>
         </div>
         <div class="col-md-1 col-xs-2">
-            <button data-url="/dictData/profile" data-type="edit" type="button" class="btn btn-info btn-sm"><i
+            <button data-url="/dictData/profile/2" data-type="edit" type="button" class="btn btn-info btn-sm"><i
                     class="fa fa-edit"></i>&nbsp;修改
             </button>
         </div>
@@ -90,7 +90,7 @@
     }
 
     function openDictDataEditWin(id) {
-        CommonUtils.addTab(id, "编辑字典数据", CommonUtils.getContextAll("/dictData/profile?id=" + id));
+        CommonUtils.addTab(id, "编辑字典数据", CommonUtils.getContextAll("/dictData/profile/2?id=" + id));
     }
 
 

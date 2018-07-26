@@ -6,7 +6,7 @@
 var BmsComponents = function () {
 
     // 数据字典
-    var DICT = {};
+    var Dict = {};
 
     // 字典数据绑定【下拉列表】
     function dictDataBinding(selectIds) {
@@ -14,7 +14,7 @@ var BmsComponents = function () {
         function bandingById(id) {
             var sel = $("#" + id);
             var selCode = sel.attr("code");
-            var dict = DICT[selCode];
+            var dict = Dict[selCode];
             sel.append("<option value=''>全部</option>");
             if (dict) {
                 for (var i = 0; i < dict.length; i++) {
@@ -30,7 +30,7 @@ var BmsComponents = function () {
                     data: JSON.stringify(params),
                     success: function (result) {
                         dict = result;
-                        DICT[selCode] = result;
+                        Dict[selCode] = result;
                         for (var i = 0; i < dict.length; i++) {
                             sel.append("<option value='" + dict[i].code + "'>" + dict[i].name + "</option>");
                         }
@@ -58,7 +58,7 @@ var BmsComponents = function () {
 
     // 数据字典查询
     function dictByKey(code, key) {
-        var dict = DICT[code];
+        var dict = Dict[code];
         if (dict) {
             for (var i = 0; i < dict.length; i++) {
                 if (dict[i].code === key) {
@@ -75,7 +75,7 @@ var BmsComponents = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(params),
                 success: function (result) {
-                    DICT[code] = result;
+                    Dict[code] = result;
                 },
                 error: function (xhr, status, error) {
                     BmsComponents.layerMsg("查询失败！");
@@ -87,7 +87,7 @@ var BmsComponents = function () {
     }
 
     function dictByCode(code) {
-        var dict = DICT[code];
+        var dict = Dict[code];
         if (dict) {
             return dict;
         } else {
@@ -99,7 +99,7 @@ var BmsComponents = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(params),
                 success: function (result) {
-                    DICT[code] = result;
+                    Dict[code] = result;
                     dict = result;
                 },
                 error: function (xhr, status, error) {

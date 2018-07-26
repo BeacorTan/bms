@@ -1812,18 +1812,17 @@
                         isLeaf = treeIcon;
                     }
                     var treeStyle = item["treeLevel"] * 18;
-                    var v=[];
+                    var v = [];
 
-                    treeStyle = sprintf("style='left:%s'",(treeStyle + "px;"));
+                    treeStyle = sprintf("style='left:%s'", (treeStyle + "px;"));
 
-                    v.push(sprintf("<div class='grid-tree' %s>",treeStyle));
+                    v.push(sprintf("<div class='grid-tree' %s>", treeStyle));
 
-                    v.push(sprintf("<div class='grid-tree-icon %s'></div>",isLeaf));
-                    v.push(sprintf("<div class='grid-tree-name'>%s</div>",value));
+                    v.push(sprintf("<div class='grid-tree-icon %s'></div>", isLeaf));
+                    v.push(sprintf("<div class='grid-tree-name'>%s</div>", value));
                     v.push("</div>");
-                    value=v.join("");
+                    value = v.join("");
                 }
-
 
 
                 // handle td's id and class
@@ -1945,18 +1944,18 @@
                     // 隐藏
                     var children = that.data[index]["children"];
                     if (children && children.length > 0) {
-                        var c,ch;
+                        var c, ch;
                         children.forEach(function (t) {
-                            c=$("#"+t);
-                            ch= that.data[c.data("index")]["children"];
+                            c = $("#" + t);
+                            ch = that.data[c.data("index")]["children"];
                             if (ch && ch.length > 0) {
                                 c.find("  > td > div > div.grid-tree-icon").removeClass("grid-tree-icon-open");
                                 c.find("  > td > div > div.grid-tree-icon").addClass("grid-tree-icon-merge");
                                 ch.forEach(function (t1) {
-                                    $("#"+t1).hide();
+                                    $("#" + t1).hide();
                                 });
                             }
-                            $("#"+t).hide();
+                            $("#" + t).hide();
                         });
                     }
                 } else {
@@ -1967,7 +1966,7 @@
                     if (children && children.length > 0) {
                         children.forEach(function (t) {
                             // that.showRow({"index": t, "uniqueId": ""});
-                            $("#"+t).show();
+                            $("#" + t).show();
                         });
                         $that.addClass("grid-tree-icon-open");
                         return;
@@ -2021,6 +2020,29 @@
                 var tabId=tabUrl.substring(tabUrl.indexOf("=")+1);
                 CommonUtils.addTab(tabId,$(this).attr("title"),tabUrl);
                 e.stopPropagation();//阻止事件冒泡
+            });
+
+            // 绑定操作按钮事件单击事件
+            this.$body.find('> tr > td>span').off('click').on('click', function (e) {
+                //console.log($(this).attr("data-url"));
+                var dataUrl=$(this).attr("data-url");
+                if(!dataUrl){
+                    console.error("为配置url");
+                    return;
+                }
+                var reqUrl = CommonUtils.getContextAll(dataUrl);
+                $.ajax({
+                    url: reqUrl,
+                    type: "GET",
+                    success: function (res) {
+                        var msg = res["msg"];
+                        layer.msg(msg);
+                        if (!res["success"]) {
+                            console.error(msg);
+                        }
+                    }
+                });
+
             });
         }
 
