@@ -48,11 +48,14 @@
     </form>
     <div class="row">
 
-        <script>
+        <script th:inline="javascript">
             function functionTreeFormatter(val, record, index) {
                 var a = "<a data-href='{0}'></a>".format("/bms/function/profile?id=" + record["id"]);
                 var v = [];
-                v.push("<a  title='编辑菜单' data-href='{0}'>{1}</a>".format("/bms/function/profile?id=" + record["id"]).format(record["funCode"], record["funName"]));
+             /*  javascript 权限控制示例 */
+            <shiro:hasPermission name="function:btn:add">
+                    v.push("<a  title='编辑菜单' data-href='{0}'>{1}</a>".format("/bms/function/profile?id=" + record["id"]).format(record["funCode"], record["funName"]));
+            </shiro:hasPermission>
                 return v.join("");
             }
 

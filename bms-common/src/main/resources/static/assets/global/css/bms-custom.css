@@ -25,6 +25,43 @@ label.has-error:after {
     top: -11px;
 }
 
+
+
+
+
+.label-text-align{
+    text-align: left;
+}
+.borrower-info{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.borrower-append-row {
+    background: rgba(38, 185, 154, 0.07);
+    border-top: 1px solid rgba(38, 185, 154, 0.11);
+    border-bottom: 1px solid rgba(38, 185, 154, 0.11);
+}
+
+.borrower-append-row > td label {
+    font-weight: bold;
+}
+
+.complete {
+    color: limegreen;
+}
+
+.no-complete {
+    color: red;
+}
+
+.borrower-append-row > td p {
+    margin: 0px;
+}
+
+.borrower-label-left {
+    margin-left: 8px;
+}
 .input-group-search {
     background-color: white;
     font-weight: bold;
