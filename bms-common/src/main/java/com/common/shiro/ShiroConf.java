@@ -142,7 +142,7 @@ public class ShiroConf {
      */
     @Bean
     public ShiroDialect shiroDialect() {
-        return new ShiroDialect();
+        return new ShiroXDialect();
     }
 
 
