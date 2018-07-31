@@ -4,12 +4,12 @@
  * Version : 2.0
  *
  * Mail: hbbcs@sina.com
- * 
+ *
  * Created by joe on 2016-2-4.Update 2017-03-14
  */
 
 
-(function($) {
+(function ($) {
 
     var settings = {
         content: '', //直接指定所有页面TABS内容
@@ -26,13 +26,13 @@
             'closeLeftLabel': '关闭左侧标签',
             'closeRightLabel': '关闭右侧标签'
         },
-        callback: function() { //关闭后回调函数
+        callback: function () { //关闭后回调函数
         }
     };
 
     var target;
 
-    _click = function(obj) {
+    _click = function (obj) {
         var a_obj, a_target;
         if (typeof obj.data('addtab') == 'object') {
             a_obj = obj.data('addtab');
@@ -54,7 +54,7 @@
         });
     };
 
-    _createMenu = function(right, icon, text) {
+    _createMenu = function (right, icon, text) {
         return $('<a>', {
             'href': 'javascript:void(0);',
             'class': "list-group-item",
@@ -66,18 +66,18 @@
         ).append(text);
     }
 
-    _pop = function(id, e, mouse) {
+    _pop = function (id, e, mouse) {
         $('body').find('#popMenu').remove();
         var refresh = e.attr('id') ? _createMenu('refresh', 'glyphicon-refresh', settings.local.refreshLabel) : '';
         var remove = e.attr('id') ? _createMenu('remove', 'glyphicon-remove', settings.local.closeThisLabel) : '';
         var left = e.prev('li').attr('id') ? _createMenu('remove-left', 'glyphicon-chevron-left', settings.local.closeLeftLabel) : '';
         var right = e.next('li').attr('id') ? _createMenu('remove-right', 'glyphicon-chevron-right', settings.local.closeRightLabel) : '';
         var popHtml = $('<ul>', {
-                'aria-controls': id,
-                'class': 'rightMenu list-group',
-                id: 'popMenu',
-                'aria-url': e.attr('aria-url')
-            }).append(refresh)
+            'aria-controls': id,
+            'class': 'rightMenu list-group',
+            id: 'popMenu',
+            'aria-url': e.attr('aria-url')
+        }).append(refresh)
             .append(remove)
             .append(_createMenu('remove-circle', 'glyphicon-remove-circle', settings.local.closeOtherLabel))
             .append(left)
@@ -89,7 +89,7 @@
         });
         popHtml.appendTo($('body')).fadeIn('slow');
         //刷新页面
-        $('body').on('click', 'ul.rightMenu a[data-right=refresh]', function() {
+        $('body').on('click', 'ul.rightMenu a[data-right=refresh]', function () {
             var id = $(this).parent('ul').attr("aria-controls").substring(4);
             var url = $(this).parent('ul').attr('aria-url');
             $.addtabs.add({
@@ -100,7 +100,7 @@
         });
 
         //关闭自身
-        $('body').on('click', 'ul.rightMenu a[data-right=remove]', function() {
+        $('body').on('click', 'ul.rightMenu a[data-right=remove]', function () {
             var id = $(this).parent("ul").attr("aria-controls");
             if (id.substring(0, 4) != 'tab_') return;
             $.addtabs.close({
@@ -110,9 +110,9 @@
         });
 
         //关闭其他
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-circle]', function() {
+        $('body').on('click', 'ul.rightMenu a[data-right=remove-circle]', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
-            target.find('li').each(function() {
+            target.find('li').each(function () {
                 var id = $(this).attr('id');
                 if (id && id != 'tab_' + tab_id) {
                     $.addtabs.close({
@@ -124,9 +124,9 @@
         });
 
         //关闭左侧
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-left]', function() {
+        $('body').on('click', 'ul.rightMenu a[data-right=remove-left]', function () {
             var tab_id = $(this).parent('ul').attr("aria-controls");
-            $('#tab_' + tab_id).prevUntil().each(function() {
+            $('#tab_' + tab_id).prevUntil().each(function () {
                 var id = $(this).attr('id');
                 if (id && id != 'tab_' + tab_id) {
                     $.addtabs.close({
@@ -138,10 +138,10 @@
         });
 
         //关闭右侧
-        $('body').on('click', 'ul.rightMenu a[data-right=remove-right]', function() {
+        $('body').on('click', 'ul.rightMenu a[data-right=remove-right]', function () {
 
             var tab_id = $(this).parent('ul').attr("aria-controls");
-            $('#tab_' + tab_id).nextUntil().each(function() {
+            $('#tab_' + tab_id).nextUntil().each(function () {
                 var id = $(this).attr('id');
                 console.log(id);
                 if (id && id != 'tab_' + tab_id) {
@@ -152,21 +152,21 @@
             });
             $.addtabs.drop();
         });
-        popHtml.mouseleave(function() {
+        popHtml.mouseleave(function () {
             $(this).fadeOut('slow');
         });
-        $('body').click(function() {
+        $('body').click(function () {
             popHtml.fadeOut('slow');
         })
     };
 
-    _listen = function() {
-        $(settings.monitor).on('click', '[data-addtab]', function() {
+    _listen = function () {
+        $(settings.monitor).on('click', '[data-addtab]', function () {
             _click($(this));
             $.addtabs.drop();
         });
 
-        $('body').on('click', '.close-tab', function() {
+        $('body').on('click', '.close-tab', function () {
             var id = $(this).prev("a").attr("aria-controls");
             $.addtabs.close({
                 'id': id
@@ -174,17 +174,17 @@
             $.addtabs.drop();
         });
 
-        $('body').on('mouseover', 'li[role=presentation]', function() {
+        $('body').on('mouseover', 'li[role=presentation]', function () {
             $(this).find('.close-tab').show();
         });
 
-        $('body').on('mouseleave', 'li[role=presentation]', function() {
+        $('body').on('mouseleave', 'li[role=presentation]', function () {
             $(this).find('.close-tab').hide();
         });
 
         if (settings.contextmenu) {
             //obj上禁用右键菜单
-            $('body').on('contextmenu', 'li[role=presentation]', function(e) {
+            $('body').on('contextmenu', 'li[role=presentation]', function (e) {
                 var id = $(this).children('a').attr('aria-controls');
                 _pop(id, $(this), e);
                 return false;
@@ -192,25 +192,25 @@
         }
 
         var el;
-        $('body').on('dragstart.h5s', '.nav-tabs li', function(e) {
+        $('body').on('dragstart.h5s', '.nav-tabs li', function (e) {
             el = $(this);
-        }).on('dragover.h5s dragenter.h5s drop.h5s', '.nav-tabs li', function(e) {
+        }).on('dragover.h5s dragenter.h5s drop.h5s', '.nav-tabs li', function (e) {
             if (el == $(this)) return;
             $('.dragBack').removeClass('dragBack');
             $(this).addClass('dragBack');
             el.insertAfter($(this))
-        }).on('dragend.h5s', '.nav-tabs li', function() {
+        }).on('dragend.h5s', '.nav-tabs li', function () {
             $('.dragBack').removeClass('dragBack');
         });
 
     };
 
-    $.addtabs = function(options) {
+    $.addtabs = function (options) {
         $.addtabs.set(options);
         _listen();
     };
 
-    $.addtabs.set = function() {
+    $.addtabs.set = function () {
         if (arguments[0]) {
             if (typeof arguments[0] == 'object') {
                 settings = $.extend(settings, arguments[0] || {});
@@ -225,7 +225,7 @@
         }
     }
 
-    $.addtabs.add = function(opts) {
+    $.addtabs.add = function (opts) {
         var a_target;
         opts.id = opts.id ? opts.id : Math.random().toString(36).substring(3, 35);
         if (typeof opts.target == 'object') {
@@ -255,8 +255,8 @@
                     'aria-controls': id,
                     'role': 'tab',
                     'data-toggle': 'tab',
-                    'class':'cm-addtabas-custom'
-                }).html("<strong style='color:#aaa;' class='cm-addtabs-vertical-line'>|</strong>"+opts.title)
+                    'class': 'cm-addtabas-custom'
+                }).html("<strong style='color:#aaa;' class='cm-addtabs-vertical-line'>|</strong>" + opts.title)
             );
 
             //是否允许关闭
@@ -264,7 +264,7 @@
                 title.append(
                     $('<i>', {
                         'class': 'close-tab fa fa-times-circle',
-                        'style':'display:none'
+                        'style': 'display:none'
                     })
                 );
             }
@@ -287,6 +287,12 @@
             content.html('');
         }
 
+        // 由于druid是第三方库提供，所以如果请求中包含druid，则使用iframe嵌入，反正静态资源不能加载问题
+        if (opts.url.match("druid")) {
+            settings.iframe = true;
+            opts.ajax = false;
+        }
+
         //是否指定TAB内容
         if (opts.content) {
             content.append(opts.content);
@@ -294,14 +300,15 @@
             content.append(
                 $('<iframe>', {
                     'class': 'iframeClass',
-                    'height': settings.iframeHeight,
+                    //'height': settings.iframeHeight,
+                    'height': (window.innerHeight - 100),
                     'frameborder': "no",
                     'border': "0",
                     'src': opts.url
                 })
             );
         } else {
-            $.get(opts.url, function(data) {
+            $.get(opts.url, function (data) {
                 // div嵌入模式 如果返回登录页面则直接重定向到登录页面
                 if (data) {
                     var isLogin = data.indexOf('class="login"');
@@ -320,7 +327,7 @@
         tab_content.find('#' + id).addClass('active');
     };
 
-    $.addtabs.close = function(opts) {
+    $.addtabs.close = function (opts) {
         //如果关闭的是当前激活的TAB，激活他的前一个TAB
         if ($("#tab_" + opts.id).hasClass('active')) {
             if ($('#tab_' + opts.id).parents('li.tabdrop').length > 0 && !$('#tab_' + opts.id).parents('li.tabdrop').hasClass('hide')) {
@@ -337,11 +344,11 @@
         settings.callback();
     };
 
-    $.addtabs.closeAll = function(target) {
+    $.addtabs.closeAll = function (target) {
         if (typeof target == 'string') {
             target = $('body').find(target);
         }
-        $.each(target.find('li[id]'), function() {
+        $.each(target.find('li[id]'), function () {
             var id = $(this).children('a').attr('aria-controls');
             $("#tab_" + id).remove();
             $("#" + id).remove();
@@ -352,7 +359,7 @@
         $.addtabs.drop();
     };
 
-    $.addtabs.drop = function() {
+    $.addtabs.drop = function () {
         //创建下拉标签
         var dropdown = $('<li>', {
             'class': 'dropdown pull-right hide tabdrop tab-drop'
@@ -377,7 +384,7 @@
         )
 
 
-        $('body').find('.nav-tabs').each(function() {
+        $('body').find('.nav-tabs').each(function () {
             var element = $(this);
             //检测是否已增加
             if (element.find('.tabdrop').length < 1) {
@@ -395,7 +402,7 @@
             element.append(dropdown.find('li'))
                 .find('>li')
                 .not('.tabdrop')
-                .each(function() {
+                .each(function () {
                     if (this.offsetTop > 0 || element.width() - $(this).position().left - $(this).width() < 83) {
                         dropdown.find('ul').prepend($(this));
                         collection++;
@@ -419,6 +426,6 @@
 
 })(jQuery);
 
-$(function() {
+$(function () {
     $.addtabs();
 })

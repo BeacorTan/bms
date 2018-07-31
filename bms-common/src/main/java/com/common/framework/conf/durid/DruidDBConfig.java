@@ -106,16 +106,22 @@ public class DruidDBConfig {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
         reg.addUrlMappings("/druid/*");
-        reg.addInitParameter("allow", "127.0.0.1"); //白名单
-        reg.addInitParameter("deny",""); //黑名单
-        reg.addInitParameter("loginUsername", "admin");
-        reg.addInitParameter("loginPassword", "admin");
+//        reg.addInitParameter("allow", "127.0.0.1"); //白名单
+//        reg.addInitParameter("deny",""); //黑名单
+//        reg.addInitParameter("loginUsername", "admin");
+//        reg.addInitParameter("loginPassword", "admin");
         return reg;
     }
 
     @Bean public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
+
+//        filterRegistrationBean.addInitParameter("exclusions", "*.css,*.js,*.png,"
+//                + "*.jpg,*.gif,*.jpeg,*.bmp,*.ico,*.swf,*.psd,*.htc,*.htm,*.html,"
+//                + "*.crx,*.xpi,*.exe,*.ipa,*.apk,*.otf,*.eot,*.svg,*.ttf,*.woff,"
+//                + "/druid/*");
+//        filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return filterRegistrationBean;
