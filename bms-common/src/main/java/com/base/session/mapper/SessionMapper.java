@@ -8,6 +8,6 @@ import com.base.session.model.SystemSession;
  */
 public interface SessionMapper extends BaseMapper<SystemSession> {
 
-    int selectOnlineCount() throws Exception;
+    int selectOnlineCount();
 
 }

@@ -22,6 +22,7 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConf {
+
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
@@ -34,10 +35,14 @@ public class ShiroConf {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
+        // anon 过滤，不需要权限验证
+        filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/assets/**", "anon");
         // 配置记住我或认证通过可以访问的地址
         // filterChainDefinitionMap.put("/index", "user");
@@ -50,6 +55,7 @@ public class ShiroConf {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -151,8 +157,8 @@ public class ShiroConf {
      * @see DefaultWebSessionManager
      */
     @Bean(name = "sessionManager")
-    public DefaultWebSessionManager defaultWebSessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+    public BmsWebSessionManager defaultWebSessionManager() {
+        BmsWebSessionManager sessionManager = new BmsWebSessionManager();
         sessionManager.setCacheManager(cacheManager());
         sessionManager.setGlobalSessionTimeout(1800000);//超时时间
         sessionManager.setSessionValidationSchedulerEnabled(true);//定时清除无效的session
@@ -169,6 +175,7 @@ public class ShiroConf {
         systemSessionDAO.setCacheManager(cacheManager());
         return systemSessionDAO;
     }
+
 
     @Bean
     public EhCacheManager cacheManager() {

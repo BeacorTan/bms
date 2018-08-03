@@ -25,7 +25,12 @@ public class SessionServiceImpl extends BaseServiceImpl<SystemSession> implement
     }
 
     @Override
-    public int selectOnlineCount() throws Exception {
+    public int selectOnlineCount(){
         return sessionMapper.selectOnlineCount();
+    }
+
+    @Override
+    public SystemSession selectOne(SystemSession session) {
+        return sessionMapper.selectOne(session);
     }
 }

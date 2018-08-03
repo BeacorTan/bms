@@ -5,5 +5,9 @@ import com.base.session.model.SystemSession;
 
 
 public interface SessionService extends BaseService<SystemSession> {
-    int selectOnlineCount() throws Exception;
+
+    int selectOnlineCount();
+
+    SystemSession selectOne(SystemSession session);
+
 }

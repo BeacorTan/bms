@@ -1,29 +1,49 @@
 package com.common.shiro;
 
-import com.common.framework.util.SerializableUtils;
 import com.base.session.model.SystemSession;
 import com.base.session.service.SessionService;
+import com.common.framework.base.BaseModel;
+import com.common.framework.util.SerializableUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class SystemSessionDAO extends CachingSessionDAO {
+
+    private Logger LOGGER = LoggerFactory.getLogger(CachingSessionDAO.class);
 
     @Resource
     private SessionService sessionService;
 
+
     @Override
     protected void doUpdate(Session session) {
-        if(session instanceof ValidatingSession && !((ValidatingSession)session).isValid()) {
+
+//        if (SessionContext.isBefore()) {
+//            if (LOGGER.isInfoEnabled()) {
+//                LOGGER.info("================================== SystemSessionDAO update ======================================");
+//            }
+//            return;
+//        }
+//        SessionContext.setSessionContext(session);
+
+        if (session == null || session.getId() == null) {
+            return;
+        }
+
+        if (session instanceof ValidatingSession && !((ValidatingSession) session).isValid()) {
             return; //如果会话过期/停止 没必要再更新了
         }
-        boolean isGuest = session.getAttribute("loginName") == null;//是否是游客
-        if(isGuest){//是游客,还没有登录,那就不更新
+
+        Object loginName = session.getAttribute("loginName");
+        //是否是游客,是游客,还没有登录,那就不更新
+        if (loginName == null) {
             return;
         }
         SystemSession sessionModel = new SystemSession();
@@ -32,26 +52,28 @@ public class SystemSessionDAO extends CachingSessionDAO {
         sessionModel.setSessionValue(SerializableUtils.serialize(session));
         sessionModel.setUpdateDate(new Date());
         sessionModel.setId(session.getId().toString());
-        sessionModel.setLoginName(session.getAttribute("loginName").toString());
+        sessionModel.setLoginName(loginName.toString());
         sessionModel.setLastAccessTime(session.getLastAccessTime());
-        try {
-            sessionService.updateByPrimaryKeySelective(sessionModel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        sessionService.updateByPrimaryKeySelective(sessionModel);
     }
 
     @Override
     protected void doDelete(Session session) {
-        try {
-            sessionService.deleteByPrimaryKey(session.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SystemSession systemSession = new SystemSession();
+        systemSession.setId(session.getId().toString());
+        systemSession.setUpdateDate(new Date());
+        systemSession.setActiveFlag(BaseModel.ACTIVE_FLAG_NO);
+        sessionService.updateByPrimaryKeySelective(systemSession);
     }
 
+    /**
+     * 只要第一次访问了项目就有了一次会话,就会产生一session,但此时为无效session,游客身份
+     *
+     * @param session
+     * @return
+     */
     @Override
-    protected Serializable doCreate(Session session) {//只要第一次访问了项目就有了一次会话,就会产生一session,但此时为无效session,游客身份
+    protected Serializable doCreate(Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
         SystemSession sessionModel = new SystemSession();
@@ -60,29 +82,27 @@ public class SystemSessionDAO extends CachingSessionDAO {
         sessionModel.setSessionValue(SerializableUtils.serialize(session));
         sessionModel.setCreateBy("sessionManager");
         sessionModel.setCreateDate(new Date());
-        sessionModel.setActiveFlag(1);
+        sessionModel.setActiveFlag(BaseModel.ACTIVE_FLAG_YES);
         sessionModel.setId(sessionId.toString());
-        sessionModel.setLoginName("guest");//游客身份,还没有登录
-        try {
-            sessionService.insertSelective(sessionModel);
-            return session.getId();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        //游客身份,还没有登录
+        sessionModel.setLoginName("guest");
+        sessionService.insertSelective(sessionModel);
+        super.cache(session, session.getId());
+        return session.getId();
     }
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        SystemSession session = new SystemSession();
-        session.setSessionId(sessionId.toString());
-        try {
-            List<SystemSession> sessionList = sessionService.select(session);
-            if(sessionList.size() == 0) return null;
-            return SerializableUtils.deserialize(sessionList.get(0).getSessionValue());
-        } catch (Exception e) {
-            e.printStackTrace();
+        SystemSession systemSession = new SystemSession();
+        systemSession.setSessionId(sessionId.toString());
+        systemSession.setActiveFlag(BaseModel.ACTIVE_FLAG_YES);
+        systemSession = sessionService.selectOne(systemSession);
+        if (systemSession == null) {
+            return null;
         }
-        return null;
+        Session session = SerializableUtils.deserialize(systemSession.getSessionValue());
+        super.cache(session, session.getId());
+        return session;
     }
+
 }
