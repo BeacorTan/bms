@@ -7,3 +7,5 @@ bms-web/bms-web.iml
 bms-web/target/
 bms.iml
 application-prd.properties
+#bms-common/src/main/resources/static/assets/global/plugins/data-grid/js/
+#bms-web/src/main/resources/templates/
