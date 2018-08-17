@@ -27,7 +27,7 @@
         var $t = this;
         var options = this.options;
 
-        this.$el.find("button").each(function () {
+        this.$el.find("button[data-type]").each(function () {
             var $that = $(this);
 
             $that.click(function () {
@@ -178,7 +178,7 @@
         var $this = this.$el;
         var $m = this;
 
-        this.$el.find("a").each(function () {
+        this.$el.find("a[data-type]").each(function () {
             var $that = $(this);
             $that.click(function () {
                 var t = $(this).attr("data-type");
