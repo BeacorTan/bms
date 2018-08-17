@@ -82,10 +82,10 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         }
     }
 
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
-    }
+//    @Bean
+//    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+//        return new SqlSessionTemplate(sqlSessionFactory);
+//    }
 
     @Bean
     @Override

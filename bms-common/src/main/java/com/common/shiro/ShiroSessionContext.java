@@ -18,7 +18,7 @@ public final class ShiroSessionContext {
         Integer count = UPDATE_SESSION_COUNT.get();
         if (count == null) {
             UPDATE_SESSION_COUNT.set(0);
-            return false;
+            return true;
         }
         if (count > 2) {
             UPDATE_SESSION_COUNT.set(0);
