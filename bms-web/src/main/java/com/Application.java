@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 // 扫描servlet容器
 //@ServletComponentScan
 @ComponentScan(value = "com.**.*")
-@MapperScan("com.**.mapper")
+//@MapperScan("com.**.mapper")
 // （exclude = {MongoAutoConfiguration.class,MongoDataAutoConfiguration.class}）禁用应用启动自动创建mongodb数据库连接
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class,MongoDataAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
