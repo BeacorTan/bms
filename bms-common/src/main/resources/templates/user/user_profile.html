@@ -19,7 +19,7 @@
                             class="required">*</span></label>
                     <div class="col-md-8 col-sm-8">
                         <input type="text" class="form-control" name="name"
-                               th:value="${user}==null?'':${user.name}">
+                               th:value="${user}==null?'':${user.name}" required>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                             <input th:value="${user}==null?'':${user.deptName}" type="text" class="form-control"
                                    name="deptName" placeholder="请输入部门名称">
                             <input th:value="${user}==null?'':${user.deptCode}" type="hidden" class="form-control"
-                                   name="deptCode">
+                                   name="deptCode" required>
                             <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                         <div class="form-control select-container" arrow="down" data-url="/position/page/list"
                              data-code="positionCode" data-value="positionName">
                             <span class="item-name" th:text="${user}==null?'':${user.positionName}"></span>
-                            <input th:value="${user}==null?'':${user.positionCode}"  type="text" name="positionCode" hidden="hidden"/>
+                            <input th:value="${user}==null?'':${user.positionCode}"  type="text" name="positionCode" hidden="hidden" required/>
                             <span class="select-container-arrow"><i class="fa fa-sort-desc"></i></span>
                         </div>
                     </div>

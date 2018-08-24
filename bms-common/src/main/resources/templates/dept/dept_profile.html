@@ -10,7 +10,7 @@
                         <div class="col-md-7 col-sm-7">
                             <div class="input-group" id="bms-parent-dept">
                                 <input type="text" th:value="${dept!=null?dept.parentName:''}" class="form-control"
-                                       name="parentName" placeholder="请输入部门名称">
+                                       name="parentName" placeholder="请输入部门名称" >
                                 <input type="hidden" th:value="${dept!=null?dept.parentCode:''}" class="form-control"
                                        name="parentCode">
                                 <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
@@ -28,7 +28,7 @@
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="deptName"
                                    th:value="${dept!=null?dept.deptName:''}"
-                                   placeholder="请输入部门名称">
+                                   placeholder="请输入部门名称" required>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="deptCode"
                                    th:value="${dept!=null?dept.deptCode:''}"
-                                   placeholder="请输入部门编码">
+                                   placeholder="请输入部门编码" required>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3">部门类型</label>
                         <div class="col-md-7 col-sm-7">
-                            <select class="form-control" name="deptType">
+                            <select class="form-control" name="deptType" required>
                                 <option value="company">公司</option>
                                 <option value="dept">部门</option>
                                 <option value="group">组</option>

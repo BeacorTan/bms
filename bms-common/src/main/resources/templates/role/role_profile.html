@@ -17,10 +17,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-xs-4 control-label"><span class="required">*</span>角色名称&nbsp;：</label>
+                        <label class="col-xs-4 control-label">角色名称<span class="required">*</span>：</label>
                         <div class="col-md-8 col-sm-8">
                             <input type="text" class="form-control" name="roleName"
-                                   th:value="${role}!=null ? ${role.roleName} : ''">
+                                   th:value="${role}!=null ? ${role.roleName} : ''" required>
                         </div>
                     </div>
                 </div>

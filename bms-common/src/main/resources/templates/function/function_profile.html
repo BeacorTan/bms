@@ -6,10 +6,10 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">上级菜单</label>
+                        <label class="control-label col-md-3 col-sm-3">上级菜单<span class="required">*</span>：</label>
                         <div class="col-md-7 col-sm-7">
                             <div class="input-group" id="bms-parent-function">
-                                <input name="parentName" th:value="${fun!=null?fun.parentName:''}" type="text" class="form-control" placeholder="请选择上级菜单">
+                                <input name="parentName" th:value="${fun!=null?fun.parentName:''}" type="text" class="form-control" placeholder="请选择上级菜单" required>
                                 <input name="parentCode" th:value="${fun!=null?fun.parentCode:''}" type="hidden" class="form-control" >
                                 <span class="input-group-addon input-group-search"><i class="fa fa-search"></i></span>
                             </div>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">菜单类型</label>
+                        <label class="control-label col-md-3 col-sm-3">菜单类型<span class="required">*</span>：</label>
                         <div class="radio col-md-2 col-sm-4">
                             <label>
                                 <input type="radio" name="type"  value="1" th:checked="${fun!=null?fun.type:''} == 1">
@@ -37,10 +37,10 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">菜单名称</label>
+                        <label class="control-label col-md-3 col-sm-3">菜单名称<span class="required">*</span>：</label>
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="funName"
-                                   th:value="${fun!=null?fun.funName:''}"
+                                   th:value="${fun!=null?fun.funName:''}" required
                                    placeholder="请输入菜单名称">
                         </div>
                     </div>
@@ -48,17 +48,17 @@
 
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">菜单编码</label>
+                        <label class="control-label col-md-3 col-sm-3">菜单编码<span class="required">*</span>：</label>
                         <div class="col-md-7 col-sm-7">
                             <input th:attr="readonly=${fun!=null}" type="text" class="form-control" name="funCode"
-                                   th:value="${fun!=null?fun.funCode:''}"
+                                   th:value="${fun!=null?fun.funCode:''}" required
                                    placeholder="请输入菜单编码">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">链接</label>
+                        <label class="control-label col-md-3 col-sm-3">链接：</label>
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="url"
                                    th:value="${fun!=null?fun.url:''}"
@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">菜单图标</label>
+                        <label class="control-label col-md-3 col-sm-3">菜单图标：</label>
                         <div class="col-md-7 col-sm-7">
                             <label id="function_icon_input" class="control-label form-control form-icon" style="text-align: left;">
                                 <i class="icon-anchor" th:attr="class=${fun!=null?fun.icon:''}"></i>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">字体颜色</label>
+                        <label class="control-label col-md-3 col-sm-3">字体颜色：</label>
                         <div class="col-md-7 col-sm-7">
                             <input type="text" class="form-control" name="funColor"
                                    th:value="${fun!=null?fun.funColor:''}">
@@ -91,7 +91,7 @@
 
                 <div class="col-md-6 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3">排序</label>
+                        <label class="control-label col-md-3 col-sm-3">排序：</label>
                         <div class="col-md-7 col-sm-7">
                             <input name="treeSort" type="number" class="form-control"
                                    th:value="${fun!=null?fun.treeSort:''}">
@@ -104,7 +104,7 @@
 
                 <div class="col-md-12 col-sm-12">
                     <div class="form-group">
-                        <label class="control-label col-md-1 col-sm-1">备注</label>
+                        <label class="control-label col-md-1 col-sm-1">备注：</label>
                         <div class="col-md-8 col-sm-8">
                             <textarea name="description" class="form-control" rows="2"
                                       th:text="${fun!=null?fun.description:''}"
